@@ -18,6 +18,23 @@ const filtrosIniciales = {
   desde: '', hasta: '', mes: '', sede: '', categoria: '', estado: '',
 }
 
+async function registrarActividad(accion, detalle, correoForzado = null) {
+  try {
+    const email = correoForzado || (await supabase.auth.getUser()).data?.user?.email
+    if (!email) return
+    const { error } = await supabase.from('auditoria').insert({
+      usuario_email: email,
+      accion,
+      detalle,
+    })
+    if (error) {
+      console.warn('Advertencia al insertar en auditoría:', error.message)
+    }
+  } catch (e) {
+    console.warn('Error registrando auditoría:', e)
+  }
+}
+
 export default function App() {
   const [usuario, setUsuario] = useState(null)
   const [filas, setFilas] = useState(null)
@@ -30,25 +47,18 @@ export default function App() {
 
   const esDesarrollador = usuario?.email?.toLowerCase() === CORREO_DESARROLLADOR
 
-  async function registrarActividad(accion, detalle, correoForzado = null) {
-    try {
-      const email = correoForzado || usuario?.email || (await supabase.auth.getUser()).data?.user?.email
-      if (!email) return
-      await supabase.from('auditoria').insert({
-        usuario_email: email,
-        accion,
-        detalle,
-      })
-    } catch (e) {
-      console.warn('Error registrando auditoría:', e)
-    }
-  }
-
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         setUsuario(session.user)
         setCargando(true)
+
+        // Registrar inicio/reanudación de sesión si aún no se registró en esta pestaña
+        if (!sessionStorage.getItem('voltium_sesion_registrada')) {
+          sessionStorage.setItem('voltium_sesion_registrada', '1')
+          registrarActividad('Inicio de sesión', 'Sesión activa en el navegador', session.user.email)
+        }
+
         supabase
           .from('requerimientos')
           .select('id,fecha,sede,categoria,descripcion,razon_social,monto_bruto,retencion,total_a_pagar,estado')
@@ -82,21 +92,28 @@ export default function App() {
   async function entrar(evento) {
     evento.preventDefault()
     const datos = new FormData(evento.currentTarget)
+    const correoIngresado = datos.get('correo')?.trim() || ''
+    const claveIngresada = datos.get('clave')
     setCargando(true)
     setMensaje('')
 
     try {
       const sesion = await supabase.auth.signInWithPassword({
-        email: datos.get('correo').trim(),
-        password: datos.get('clave'),
+        email: correoIngresado,
+        password: claveIngresada,
       })
-      if (sesion.error) throw sesion.error
+      if (sesion.error) {
+        // Registrar intento fallido de acceso ("quienes intentan y no logran entrar")
+        await registrarActividad('Acceso denegado', `Intento fallido de inicio de sesión (${sesion.error.message})`, correoIngresado)
+        throw sesion.error
+      }
 
       const user = sesion.data?.user
       setUsuario(user)
+      sessionStorage.setItem('voltium_sesion_registrada', '1')
 
-      // Registrar inicio de sesión en auditoría
-      registrarActividad('Inicio de sesión', 'Ingreso exitoso a la plataforma', user?.email)
+      // Registrar inicio de sesión exitoso
+      await registrarActividad('Inicio de sesión', 'Ingreso exitoso a la plataforma', user?.email || correoIngresado)
 
       const consulta = await supabase
         .from('requerimientos')
@@ -114,6 +131,10 @@ export default function App() {
   }
 
   async function salir() {
+    sessionStorage.removeItem('voltium_sesion_registrada')
+    if (usuario?.email) {
+      await registrarActividad('Cierre de sesión', 'El usuario cerró sesión voluntariamente', usuario.email)
+    }
     const { error } = await supabase.auth.signOut()
     if (error) {
       setMensaje(error.message)

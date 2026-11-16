@@ -77,28 +77,56 @@ export default function Auditoria() {
   // Métricas
   const totalEventos = logs.length
   const totalUsuarios = usuariosUnicos.length
-  const totalLogins = logs.filter(l => l.accion === 'Inicio de sesión').length
+  const totalLogins = logs.filter(l => ['Inicio de sesión', 'Reconexión'].includes(l.accion)).length
   const totalCambios = logs.filter(l => ['Creación', 'Modificación', 'Cambio de estado', 'Eliminación'].includes(l.accion)).length
 
   function obtenerClaseBadge(accion) {
     switch (accion) {
-      case 'Inicio de sesión': return 'ad-badge-login'
-      case 'Creación': return 'ad-badge-creacion'
-      case 'Modificación': return 'ad-badge-modificacion'
-      case 'Cambio de estado': return 'ad-badge-estado'
-      case 'Eliminación': return 'ad-badge-eliminacion'
-      default: return 'ad-badge-otro'
+      case 'Inicio de sesión':
+      case 'Reconexión':
+        return 'ad-badge-login'
+      case 'Acceso denegado':
+        return 'ad-badge-eliminacion'
+      case 'Cierre de sesión':
+        return 'ad-badge-otro'
+      case 'Creación':
+        return 'ad-badge-creacion'
+      case 'Modificación':
+        return 'ad-badge-modificacion'
+      case 'Cambio de estado':
+        return 'ad-badge-estado'
+      case 'Eliminación':
+        return 'ad-badge-eliminacion'
+      default:
+        return 'ad-badge-otro'
     }
   }
 
   function obtenerIconoAccion(accion) {
     switch (accion) {
       case 'Inicio de sesión':
+      case 'Reconexión':
         return (
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
             <polyline points="10 17 15 12 10 7" />
             <line x1="15" y1="12" x2="3" y2="12" />
+          </svg>
+        )
+      case 'Acceso denegado':
+        return (
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="15" y1="9" x2="9" y2="15" />
+            <line x1="9" y1="9" x2="15" y2="15" />
+          </svg>
+        )
+      case 'Cierre de sesión':
+        return (
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
           </svg>
         )
       case 'Creación':
