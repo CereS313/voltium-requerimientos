@@ -92,7 +92,7 @@ export default function DashboardAnalitico({ filas, soles }) {
       <header className="da-header">
         <div className="da-header-info">
           <h2 className="da-title">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#2563eb' }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#2563eb', flexShrink: 0 }}>
               <path d="M3 3v18h18" />
               <path d="m19 9-5 5-4-4-3 3" />
             </svg>
@@ -133,10 +133,10 @@ export default function DashboardAnalitico({ filas, soles }) {
             <button
               type="button"
               onClick={() => { setFiltroSede(''); setFiltroMes('') }}
-              className="vt-btn-action vt-btn-edit"
+              className="vt-btn-clear"
               style={{ height: '38px', padding: '0 12px' }}
             >
-              Limpiar filtros
+              Limpiar
             </button>
           )}
         </div>
@@ -260,7 +260,7 @@ export default function DashboardAnalitico({ filas, soles }) {
 
           <div className="da-donut-wrap">
             <div className="da-donut-svg-box">
-              <svg width="180" height="180" viewBox="0 0 180 180">
+              <svg width="170" height="170" viewBox="0 0 180 180">
                 {/* Círculo base de fondo */}
                 <circle cx="90" cy="90" r="64" fill="transparent" stroke="#f1f5f9" strokeWidth="22" />
 
@@ -459,17 +459,19 @@ export default function DashboardAnalitico({ filas, soles }) {
             </div>
           </div>
 
-          <div className="da-monthly-chart">
-            {evolucionMensual.map(item => {
-              const heightPct = Math.max(12, (item.monto / maxMesMonto) * 100)
-              return (
-                <div key={item.mes} className="da-col-group">
-                  <span className="da-col-val">{soles.format(item.monto)}</span>
-                  <div className="da-col-bar" style={{ height: `${heightPct}%` }} title={`${item.mes}: ${soles.format(item.monto)}`} />
-                  <span className="da-col-lbl">{item.mes}</span>
-                </div>
-              )
-            })}
+          <div className="da-monthly-chart-wrap">
+            <div className="da-monthly-chart">
+              {evolucionMensual.map(item => {
+                const heightPct = Math.max(14, (item.monto / maxMesMonto) * 100)
+                return (
+                  <div key={item.mes} className="da-col-group">
+                    <span className="da-col-val">{soles.format(item.monto)}</span>
+                    <div className="da-col-bar" style={{ height: `${heightPct}%` }} title={`${item.mes}: ${soles.format(item.monto)}`} />
+                    <span className="da-col-lbl">{item.mes}</span>
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </div>
       </section>
@@ -489,7 +491,8 @@ export default function DashboardAnalitico({ filas, soles }) {
           </div>
         </div>
 
-        <div style={{ overflowX: 'auto' }}>
+        {/* Tabla Desktop */}
+        <div className="da-top-desktop-table">
           <table className="da-top-table">
             <thead>
               <tr>
@@ -524,6 +527,27 @@ export default function DashboardAnalitico({ filas, soles }) {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Tarjetas Mobile para Top 5 (Zero Descuadre en Celulares) */}
+        <div className="da-top-mobile-cards">
+          {topRequerimientos.map((r, i) => (
+            <div key={r.id} className="da-top-mobile-card">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span className="vt-sede-badge">#{i + 1} {r.sede}</span>
+                <span className={`vt-status-select vt-status-${r.estado.toLowerCase()}`}>
+                  ● {r.estado}
+                </span>
+              </div>
+              <div style={{ fontSize: '0.88rem', color: '#1e293b' }}>
+                {r.descripcion}
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '6px', borderTop: '1px dashed #e2e8f0' }}>
+                <span className="vt-date-badge">{r.fecha?.split('-').reverse().join('/')}</span>
+                <strong style={{ fontSize: '1rem', color: '#0f172a' }}>{soles.format(r.total_a_pagar)}</strong>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </div>

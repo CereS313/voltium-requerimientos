@@ -27,17 +27,27 @@
   --vt-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
 }
 
+/* Force light color scheme on dashboard and modals regardless of OS dark mode */
+.vt-dashboard,
+.vt-modal-overlay,
+.vt-modal-card,
+.da-container {
+  color-scheme: light !important;
+}
+
 /* Page Wrapper */
 .vt-dashboard {
   min-height: 100vh;
   min-height: 100dvh;
   width: 100%;
+  max-width: 100vw;
   background-color: var(--vt-bg);
   color: var(--vt-text-main);
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 /* Top Navbar */
@@ -51,6 +61,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03);
 }
 
@@ -69,6 +80,7 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 10px rgba(15, 23, 42, 0.2);
+  flex-shrink: 0;
 }
 
 .vt-nav-titles {
@@ -117,12 +129,50 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .vt-btn-logout:hover {
   background: #fee2e2;
   border-color: #fca5a5;
   color: #b91c1c;
+}
+
+/* Tab Switcher (Navbar) */
+.vt-tab-group {
+  display: inline-flex;
+  align-items: center;
+  background: #f1f5f9;
+  padding: 3px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.vt-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #64748b;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.vt-tab-btn:hover {
+  color: #0f172a;
+}
+
+.vt-tab-active {
+  background: #ffffff;
+  color: #2563eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 /* Main Container */
@@ -274,6 +324,7 @@
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .vt-btn-primary:hover {
@@ -285,7 +336,7 @@
 /* Filters Grid */
 .vt-filters-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 0.75rem;
   align-items: flex-end;
   background: #f8fafc;
@@ -315,8 +366,9 @@
   padding: 0 10px;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
-  background: #ffffff;
-  color: var(--vt-text-main);
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  color-scheme: light !important;
   font-size: 0.88rem;
   font-family: inherit;
   outline: none;
@@ -379,6 +431,8 @@
   overflow-x: auto;
   border-radius: var(--vt-radius-sm);
   border: 1px solid var(--vt-border);
+  background: #ffffff;
+  position: relative;
 }
 
 .vt-table {
@@ -393,16 +447,16 @@
   background: #f8fafc;
   color: #475569;
   font-weight: 700;
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  padding: 12px 16px;
+  padding: 11px 12px;
   border-bottom: 1px solid var(--vt-border);
   white-space: nowrap;
 }
 
 .vt-table td {
-  padding: 14px 16px;
+  padding: 11px 12px;
   border-bottom: 1px solid #f1f5f9;
   color: #1e293b;
   vertical-align: middle;
@@ -416,12 +470,38 @@
   background: #f8fafc;
 }
 
+/* Sticky Acciones Column (Guarantees Eliminar button is NEVER cut off) */
+.vt-table th:last-child,
+.vt-table td:last-child {
+  position: sticky;
+  right: 0;
+  background: #ffffff;
+  z-index: 2;
+  box-shadow: -4px 0 8px -3px rgba(0, 0, 0, 0.08);
+}
+
+.vt-table th:last-child {
+  background: #f8fafc;
+  z-index: 3;
+}
+
+.vt-table tr:hover td:last-child {
+  background: #f8fafc;
+}
+
+.vt-desc-cell {
+  max-width: 280px;
+  min-width: 140px;
+  word-break: break-word;
+  line-height: 1.35;
+}
+
 .vt-date-badge {
   font-weight: 600;
   color: #475569;
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   background: #f1f5f9;
-  padding: 4px 8px;
+  padding: 3px 7px;
   border-radius: 6px;
   display: inline-block;
   white-space: nowrap;
@@ -434,11 +514,11 @@
 
 .vt-cat-pill {
   display: inline-block;
-  padding: 3px 8px;
+  padding: 2px 7px;
   background: #e2e8f0;
   color: #334155;
   border-radius: 6px;
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   font-weight: 600;
   white-space: nowrap;
 }
@@ -453,8 +533,8 @@
 /* Status Selector / Pill */
 .vt-status-select {
   height: 32px;
-  padding: 0 10px;
-  font-size: 0.8rem;
+  padding: 0 8px;
+  font-size: 0.78rem;
   font-weight: 700;
   border-radius: 9999px;
   border: 1px solid transparent;
@@ -462,6 +542,7 @@
   outline: none;
   font-family: inherit;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .vt-status-pendiente {
@@ -484,7 +565,7 @@
 
 /* Action Buttons (Editar / Eliminar) */
 .vt-actions-cell {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
   white-space: nowrap;
@@ -493,37 +574,39 @@
 .vt-btn-action {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 5px 10px;
-  border-radius: 6px;
+  justify-content: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border-radius: 7px;
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   border: 1px solid transparent;
   transition: all 0.15s ease;
   font-family: inherit;
+  white-space: nowrap;
 }
 
 .vt-btn-edit {
-  background: #eff6ff;
-  color: #2563eb;
-  border-color: #bfdbfe;
+  background-color: #eff6ff !important;
+  color: #1d4ed8 !important;
+  border: 1px solid #93c5fd !important;
 }
 
 .vt-btn-edit:hover {
-  background: #dbeafe;
-  color: #1d4ed8;
+  background-color: #dbeafe !important;
+  color: #1e40af !important;
 }
 
 .vt-btn-delete {
-  background: #fef2f2;
-  color: #dc2626;
-  border-color: #fecaca;
+  background-color: #fef2f2 !important;
+  color: #b91c1c !important;
+  border: 1px solid #fca5a5 !important;
 }
 
 .vt-btn-delete:hover {
-  background: #fee2e2;
-  color: #b91c1c;
+  background-color: #fee2e2 !important;
+  color: #991b1b !important;
 }
 
 /* ==========================================================================
@@ -532,18 +615,18 @@
 .vt-mobile-cards {
   display: none;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.9rem;
 }
 
 .vt-card-item {
   background: #ffffff;
   border: 1px solid var(--vt-border);
   border-radius: var(--vt-radius);
-  padding: 1.1rem;
+  padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.65rem;
   text-align: left;
 }
 
@@ -555,19 +638,20 @@
 }
 
 .vt-card-item-desc {
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 500;
   color: #1e293b;
-  line-height: 1.4;
+  line-height: 1.35;
 }
 
 .vt-card-item-bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 0.75rem;
+  padding-top: 0.65rem;
   border-top: 1px dashed #e2e8f0;
-  gap: 12px;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .vt-card-total-box {
@@ -576,7 +660,7 @@
 }
 
 .vt-card-total-label {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   text-transform: uppercase;
   font-weight: 700;
   color: #64748b;
@@ -599,12 +683,12 @@
 }
 
 /* ==========================================================================
-   Modal / Form Drawer for Nuevo Requerimiento
+   Modal / Form Drawer for Nuevo Requerimiento (Light & Crisp Inputs)
    ========================================================================== */
 .vt-modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(15, 23, 42, 0.5);
+  background-color: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(4px);
   z-index: 100;
   display: flex;
@@ -616,7 +700,8 @@
 }
 
 .vt-modal-card {
-  background: #ffffff;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
   border-radius: var(--vt-radius);
   width: 100%;
   max-width: 580px;
@@ -627,6 +712,7 @@
   display: flex;
   flex-direction: column;
   animation: vt-slide-up 0.25s ease-out;
+  box-sizing: border-box;
 }
 
 .vt-modal-header {
@@ -640,7 +726,7 @@
 .vt-modal-title {
   margin: 0;
   font-size: 1.2rem;
-  font-weight: 700;
+  font-weight: 800;
   color: #0f172a;
 }
 
@@ -689,29 +775,47 @@
 .vt-form-field label {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #334155;
+  color: #1e293b;
 }
 
+/* Inputs, Textarea, Select - Forced Bright White & Crystal Clear Text */
 .vt-form-field input,
 .vt-form-field textarea,
 .vt-form-field select {
-  padding: 9px 12px;
-  border: 1px solid #cbd5e1;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1 !important;
   border-radius: 8px;
   font-family: inherit;
-  font-size: 0.92rem;
-  color: #0f172a;
+  font-size: 0.95rem;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  color-scheme: light !important;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   box-sizing: border-box;
   width: 100%;
 }
 
+.vt-form-field input::placeholder,
+.vt-form-field textarea::placeholder {
+  color: #94a3b8 !important;
+  -webkit-text-fill-color: #94a3b8 !important;
+}
+
 .vt-form-field input:focus,
 .vt-form-field textarea:focus,
 .vt-form-field select:focus {
-  border-color: var(--vt-primary);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  background-color: #ffffff !important;
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18) !important;
+}
+
+.vt-form-field input:-webkit-autofill,
+.vt-form-field input:-webkit-autofill:hover,
+.vt-form-field input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #0f172a !important;
 }
 
 .vt-preview-box {
@@ -772,11 +876,31 @@
 @media (max-width: 768px) {
   .vt-navbar {
     padding: 0.75rem 1rem;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .vt-nav-brand {
+    flex: 1;
+  }
+
+  .vt-tab-group {
+    order: 3;
+    width: 100%;
+    display: flex;
+  }
+
+  .vt-tab-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 10px;
+    font-size: 0.82rem;
   }
 
   .vt-main {
     padding: 1rem;
     gap: 1rem;
+    max-width: 100vw;
   }
 
   .vt-kpis {
@@ -797,15 +921,19 @@
   }
 
   .vt-table-wrap {
-    display: none; /* Hide wide table on mobile */
+    display: none; /* Hide desktop table on phone */
   }
 
   .vt-mobile-cards {
-    display: flex; /* Show responsive card list on mobile */
+    display: flex; /* Show responsive card list on phone */
   }
 
   .vt-form-grid {
     grid-template-columns: 1fr;
+  }
+
+  .vt-modal-body {
+    padding: 1rem;
   }
 }
 
@@ -813,7 +941,7 @@
   .vt-filters-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .vt-nav-subtitle {
     display: none;
   }

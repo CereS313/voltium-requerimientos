@@ -423,13 +423,13 @@ export default function App() {
             <table className="vt-table">
               <thead>
                 <tr>
-                  <th>Fecha</th>
-                  <th>Sede</th>
-                  <th>Categoría</th>
+                  <th style={{ width: '100px' }}>Fecha</th>
+                  <th style={{ width: '110px' }}>Sede</th>
+                  <th style={{ width: '120px' }}>Categoría</th>
                   <th>Descripción</th>
-                  <th>Total a pagar</th>
-                  <th>Estado</th>
-                  <th>Acciones</th>
+                  <th style={{ width: '130px', textAlign: 'right' }}>Total a pagar</th>
+                  <th style={{ width: '135px' }}>Estado</th>
+                  <th style={{ width: '160px', textAlign: 'center' }}>Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -446,8 +446,8 @@ export default function App() {
                     <td>
                       <span className="vt-cat-pill">{fila.categoria}</span>
                     </td>
-                    <td>{fila.descripcion}</td>
-                    <td>
+                    <td className="vt-desc-cell">{fila.descripcion}</td>
+                    <td style={{ textAlign: 'right' }}>
                       <span className="vt-monto-text">
                         {soles.format(fila.total_a_pagar)}
                       </span>
@@ -465,7 +465,7 @@ export default function App() {
                         <option value="Pagado">● Pagado</option>
                       </select>
                     </td>
-                    <td>
+                    <td style={{ textAlign: 'center' }}>
                       <div className="vt-actions-cell">
                         <button
                           type="button"
@@ -473,7 +473,7 @@ export default function App() {
                           className="vt-btn-action vt-btn-edit"
                           title="Editar requerimiento"
                         >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
                           </svg>
                           <span>Editar</span>
@@ -484,7 +484,7 @@ export default function App() {
                           className="vt-btn-action vt-btn-delete"
                           title="Eliminar requerimiento"
                         >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M3 6h18" />
                             <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
                             <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
@@ -503,46 +503,53 @@ export default function App() {
           <div className="vt-mobile-cards">
             {visibles.map(fila => (
               <div key={fila.id} className="vt-card-item">
+                {/* Fila 1: Sede y Estado */}
                 <div className="vt-card-item-top">
                   <span className="vt-sede-badge">{fila.sede}</span>
-                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-                    <span className="vt-cat-pill">{fila.categoria}</span>
-                    <span className="vt-date-badge">
-                      {fila.fecha.split('-').reverse().join('/')}
-                    </span>
-                  </div>
+                  <select
+                    aria-label={`Estado de ${fila.descripcion}`}
+                    value={fila.estado}
+                    disabled={actualizandoEstado}
+                    onChange={evento => cambiarEstado(fila, evento.target.value)}
+                    className={`vt-status-select vt-status-${fila.estado.toLowerCase()}`}
+                  >
+                    <option value="Pendiente">● Pendiente</option>
+                    <option value="Programado">● Programado</option>
+                    <option value="Pagado">● Pagado</option>
+                  </select>
                 </div>
 
+                {/* Fila 2: Fecha y Categoría */}
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <span className="vt-date-badge">
+                    {fila.fecha.split('-').reverse().join('/')}
+                  </span>
+                  <span className="vt-cat-pill">{fila.categoria}</span>
+                </div>
+
+                {/* Fila 3: Descripción */}
                 <div className="vt-card-item-desc">
                   {fila.descripcion}
                 </div>
 
+                {/* Fila 4: Total a pagar y Botones Editar / Eliminar */}
                 <div className="vt-card-item-bottom">
                   <div className="vt-card-total-box">
                     <span className="vt-card-total-label">Total a pagar</span>
                     <span className="vt-monto-text">{soles.format(fila.total_a_pagar)}</span>
                   </div>
 
-                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-                    <select
-                      aria-label={`Estado de ${fila.descripcion}`}
-                      value={fila.estado}
-                      disabled={actualizandoEstado}
-                      onChange={evento => cambiarEstado(fila, evento.target.value)}
-                      className={`vt-status-select vt-status-${fila.estado.toLowerCase()}`}
-                    >
-                      <option value="Pendiente">● Pendiente</option>
-                      <option value="Programado">● Programado</option>
-                      <option value="Pagado">● Pagado</option>
-                    </select>
-
+                  <div className="vt-actions-cell">
                     <button
                       type="button"
                       onClick={() => setFilaAEditar(fila)}
                       className="vt-btn-action vt-btn-edit"
                       title="Editar requerimiento"
                     >
-                      Editar
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                      </svg>
+                      <span>Editar</span>
                     </button>
 
                     <button
@@ -551,7 +558,12 @@ export default function App() {
                       className="vt-btn-action vt-btn-delete"
                       title="Eliminar requerimiento"
                     >
-                      Eliminar
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                        <path d="M3 6h18" />
+                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                      </svg>
+                      <span>Eliminar</span>
                     </button>
                   </div>
                 </div>
