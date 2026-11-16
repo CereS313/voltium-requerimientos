@@ -1,10 +1,13 @@
 ﻿import NuevoRequerimiento from './NuevoRequerimiento.jsx'
 import Login from './Login.jsx'
 import DashboardAnalitico from './DashboardAnalitico.jsx'
+import Auditoria from './Auditoria.jsx'
 import GatitoAnimado from './GatitoAnimado.jsx'
 import { useState, useEffect } from 'react'
 import { supabase } from './supabase.js'
 import './Dashboard.css'
+
+const CORREO_DESARROLLADOR = 'grounnd131@gmail.com'
 
 const soles = new Intl.NumberFormat('es-PE', {
   style: 'currency',
@@ -16,17 +19,35 @@ const filtrosIniciales = {
 }
 
 export default function App() {
+  const [usuario, setUsuario] = useState(null)
   const [filas, setFilas] = useState(null)
   const [filtros, setFiltros] = useState(filtrosIniciales)
   const [mensaje, setMensaje] = useState('')
   const [cargando, setCargando] = useState(false)
   const [actualizandoEstado, setActualizandoEstado] = useState(false)
   const [filaAEditar, setFilaAEditar] = useState(null)
-  const [vistaActual, setVistaActual] = useState('tabla') // 'tabla' | 'dashboard'
+  const [vistaActual, setVistaActual] = useState('tabla') // 'tabla' | 'dashboard' | 'auditoria'
+
+  const esDesarrollador = usuario?.email?.toLowerCase() === CORREO_DESARROLLADOR
+
+  async function registrarActividad(accion, detalle, correoForzado = null) {
+    try {
+      const email = correoForzado || usuario?.email || (await supabase.auth.getUser()).data?.user?.email
+      if (!email) return
+      await supabase.from('auditoria').insert({
+        usuario_email: email,
+        accion,
+        detalle,
+      })
+    } catch (e) {
+      console.warn('Error registrando auditoría:', e)
+    }
+  }
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
+        setUsuario(session.user)
         setCargando(true)
         supabase
           .from('requerimientos')
@@ -34,7 +55,7 @@ export default function App() {
           .is('eliminado_en', null)
           .order('fecha', { ascending: false })
           .then(consulta => {
-            if (consulta.data?.length) {
+            if (consulta.data) {
               setFilas(consulta.data)
             }
           })
@@ -61,6 +82,12 @@ export default function App() {
       })
       if (sesion.error) throw sesion.error
 
+      const user = sesion.data?.user
+      setUsuario(user)
+
+      // Registrar inicio de sesión en auditoría
+      registrarActividad('Inicio de sesión', 'Ingreso exitoso a la plataforma', user?.email)
+
       const consulta = await supabase
         .from('requerimientos')
         .select('id,fecha,sede,categoria,descripcion,razon_social,monto_bruto,retencion,total_a_pagar,estado')
@@ -68,11 +95,7 @@ export default function App() {
         .order('fecha', { ascending: false })
 
       if (consulta.error) throw consulta.error
-      if (!consulta.data.length) {
-        setMensaje('La cuenta inició sesión, pero no tiene requerimientos visibles.')
-        return
-      }
-      setFilas(consulta.data)
+      setFilas(consulta.data || [])
     } catch (error) {
       setMensaje(error.message)
     } finally {
@@ -86,6 +109,7 @@ export default function App() {
       setMensaje(error.message)
       return
     }
+    setUsuario(null)
     setFilas(null)
     setFiltros(filtrosIniciales)
     setMensaje('')
@@ -114,6 +138,10 @@ export default function App() {
         item.id === data.id ? { ...item, estado: data.estado } : item,
       ))
       setMensaje(`Estado actualizado a ${data.estado}.`)
+      registrarActividad(
+        'Cambio de estado',
+        `Cambió estado de #${fila.id} («${fila.descripcion}») de «${fila.estado}» a «${data.estado}»`,
+      )
     } catch (error) {
       setMensaje(`No se pudo cambiar el estado: ${error.message}`)
     } finally {
@@ -142,6 +170,10 @@ export default function App() {
 
     setFilas(actual => actual.filter(item => item.id !== fila.id))
     setMensaje('Registro retirado del presupuesto.')
+    registrarActividad(
+      'Eliminación',
+      `Eliminó requerimiento #${fila.id}: «${fila.descripcion}» en sede ${fila.sede}`,
+    )
   }
 
   async function guardarEdicion(id, cambios) {
@@ -160,6 +192,10 @@ export default function App() {
       .map(item => item.id === id ? data : item)
       .sort((a, b) => b.fecha.localeCompare(a.fecha)))
     setMensaje('Cambios guardados.')
+    registrarActividad(
+      'Modificación',
+      `Editó requerimiento #${id}: «${data.descripcion}» (Sede: ${data.sede}, Total: ${soles.format(data.total_a_pagar)})`,
+    )
   }
 
   function cambiar(evento) {
@@ -246,6 +282,22 @@ export default function App() {
             </svg>
             <span>Dashboard</span>
           </button>
+
+          {esDesarrollador && (
+            <button
+              type="button"
+              role="tab"
+              aria-selected={vistaActual === 'auditoria'}
+              onClick={() => setVistaActual('auditoria')}
+              className={`vt-tab-btn ${vistaActual === 'auditoria' ? 'vt-tab-active' : ''}`}
+              title="Bitácora exclusiva del Desarrollador"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              <span>Auditoría</span>
+            </button>
+          )}
         </div>
 
         <div className="vt-nav-actions">
@@ -263,9 +315,11 @@ export default function App() {
         </div>
       </header>
 
-      {/* Renderizado Condicional: Pestaña Dashboard vs Pestaña Tabla */}
+      {/* Renderizado Condicional: Dashboard vs Auditoría vs Pestaña Tabla */}
       {vistaActual === 'dashboard' ? (
         <DashboardAnalitico filas={filas} soles={soles} />
+      ) : vistaActual === 'auditoria' && esDesarrollador ? (
+        <Auditoria />
       ) : (
         <main className="vt-main">
           {/* Tarjetas de Resumen KPI */}
@@ -344,6 +398,10 @@ export default function App() {
                   setFilas(actual => [nuevo, ...actual].sort((a, b) => b.fecha.localeCompare(a.fecha)))
                   setFiltros(filtrosIniciales)
                   setMensaje('Requerimiento registrado con éxito.')
+                  registrarActividad(
+                    'Creación',
+                    `Registró requerimiento #${nuevo.id}: «${nuevo.descripcion}» (Sede: ${nuevo.sede}, Total: ${soles.format(nuevo.total_a_pagar)})`,
+                  )
                 }}
               />
             </div>
