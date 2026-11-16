@@ -245,6 +245,55 @@ export default function App() {
         </div>
 
         <div className="vt-nav-actions">
+          {/* Gatito durmiendo animado */}
+          <div className="vt-sleeping-cat" title="¡Shhh! Gatito de Voltium durmiendo plácidamente... zZz" aria-label="Gatito durmiendo">
+            <span className="cat-zzz cat-z1">z</span>
+            <span className="cat-zzz cat-z2">z</span>
+            <span className="cat-zzz cat-z3">Z</span>
+            <svg width="46" height="34" viewBox="0 0 54 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="cat-body-grad" x1="12" y1="14" x2="48" y2="37" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#f59e0b" />
+                  <stop offset="1" stopColor="#d97706" />
+                </linearGradient>
+              </defs>
+              {/* Cola que se mueve */}
+              <path
+                className="cat-tail"
+                d="M42 27 C46 25, 51 20, 48 14 C46 11, 42 12, 43 16 C44 20, 41 24, 37 27"
+                stroke="#d97706"
+                strokeWidth="4"
+                strokeLinecap="round"
+              />
+              {/* Cuerpo que respira */}
+              <g className="cat-body-group">
+                <path
+                  d="M12 28 C12 18, 22 14, 34 14 C44 14, 48 20, 48 28 C48 34, 40 37, 28 37 C16 37, 12 34, 12 28 Z"
+                  fill="url(#cat-body-grad)"
+                />
+                {/* Pancita suave */}
+                <path d="M20 31 C24 27, 32 27, 36 31 C32 34, 24 34, 20 31 Z" fill="#fef3c7" opacity="0.9" />
+                {/* Orejas con interior rosa */}
+                <path d="M9 19 L11 9 L17 17 Z" fill="#d97706" />
+                <path d="M11 17 L12 11 L15 16 Z" fill="#fbcfe8" />
+                <path d="M17 16 L22 8 L25 17 Z" fill="#d97706" />
+                <path d="M18 15 L21 11 L23 16 Z" fill="#fbcfe8" />
+                {/* Cabeza */}
+                <circle cx="17" cy="23" r="8.5" fill="url(#cat-body-grad)" />
+                {/* Ojos cerrados durmiendo */}
+                <path d="M11.5 23.5 Q13 25.5 14.5 23.5" stroke="#78350f" strokeWidth="1.3" strokeLinecap="round" fill="none" />
+                <path d="M17.5 23.5 Q19 25.5 20.5 23.5" stroke="#78350f" strokeWidth="1.3" strokeLinecap="round" fill="none" />
+                {/* Nariz rosa */}
+                <polygon points="15.5,25.5 16.5,25.5 16,26.2" fill="#f43f5e" />
+                {/* Bigotes */}
+                <path d="M8 24 L5 23.5 M8 26 L5 27" stroke="#b45309" strokeWidth="0.8" strokeLinecap="round" />
+                <path d="M22 24 L25 23.5 M22 26 L25 27" stroke="#b45309" strokeWidth="0.8" strokeLinecap="round" />
+                {/* Patita recogida */}
+                <path d="M21 33 C22 31.5, 24.5 31.5, 25.5 33" stroke="#b45309" strokeWidth="1.1" strokeLinecap="round" fill="none" />
+              </g>
+            </svg>
+          </div>
+
           <button onClick={salir} className="vt-btn-logout" title="Cerrar sesión">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />

@@ -116,6 +116,94 @@
   gap: 12px;
 }
 
+/* ==========================================================================
+   Sleeping Animated Cat (Beside Cerrar Sesión)
+   ========================================================================== */
+.vt-sleeping-cat {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  height: 38px;
+  width: 48px;
+  transition: transform 0.25s ease;
+}
+
+.vt-sleeping-cat:hover {
+  transform: scale(1.1);
+}
+
+/* Cat Breathing Body */
+.cat-body-group {
+  transform-origin: 26px 26px;
+  animation: cat-breathe 2.8s ease-in-out infinite alternate;
+}
+
+@keyframes cat-breathe {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03, 1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Cat Tail Sway */
+.cat-tail {
+  transform-origin: 40px 26px;
+  animation: cat-tail-sway 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes cat-tail-sway {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(-10deg); }
+  100% { transform: rotate(8deg); }
+}
+
+/* Floating Animated Zzz */
+.cat-zzz {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-weight: 800;
+  color: #6366f1;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.cat-z1 {
+  font-size: 0.62rem;
+  animation: cat-float-z1 2.8s ease-in-out infinite;
+}
+
+.cat-z2 {
+  font-size: 0.74rem;
+  animation: cat-float-z2 2.8s ease-in-out infinite 0.7s;
+}
+
+.cat-z3 {
+  font-size: 0.88rem;
+  animation: cat-float-z3 2.8s ease-in-out infinite 1.4s;
+}
+
+@keyframes cat-float-z1 {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.6); }
+  35% { opacity: 0.9; }
+  100% { opacity: 0; transform: translate(-6px, -16px) scale(0.9); }
+}
+
+@keyframes cat-float-z2 {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.7); }
+  35% { opacity: 0.95; }
+  100% { opacity: 0; transform: translate(-12px, -23px) scale(1.05); }
+}
+
+@keyframes cat-float-z3 {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.8); }
+  35% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-17px, -30px) scale(1.2); }
+}
+
 .vt-btn-logout {
   display: inline-flex;
   align-items: center;
