@@ -1,5 +1,6 @@
 ﻿import NuevoRequerimiento from './NuevoRequerimiento.jsx'
-import { useState } from 'react'
+import Login from './Login.jsx'
+import { useState, useEffect } from 'react'
 import { supabase } from './supabase.js'
 
 const soles = new Intl.NumberFormat('es-PE', {
@@ -16,6 +17,29 @@ export default function App() {
   const [filtros, setFiltros] = useState(filtrosIniciales)
   const [mensaje, setMensaje] = useState('')
   const [cargando, setCargando] = useState(false)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        setCargando(true)
+        supabase
+          .from('requerimientos')
+          .select('id,fecha,sede,categoria,descripcion,total_a_pagar,estado')
+          .order('fecha', { ascending: false })
+          .then(consulta => {
+            if (consulta.data?.length) {
+              setFilas(consulta.data)
+            }
+          })
+          .catch(err => {
+            setMensaje(err.message)
+          })
+          .finally(() => {
+            setCargando(false)
+          })
+      }
+    })
+  }, [])
 
   async function entrar(evento) {
     evento.preventDefault()
@@ -97,17 +121,7 @@ export default function App() {
   }
 
   if (!filas) {
-    return (
-      <main>
-        <h1>Voltium Requerimientos</h1>
-        <form onSubmit={entrar}>
-          <p><label>Correo <input name="correo" type="email" autoComplete="username" required /></label></p>
-          <p><label>Contraseña <input name="clave" type="password" autoComplete="current-password" required /></label></p>
-          <button disabled={cargando}>{cargando ? 'Ingresando…' : 'Iniciar sesión'}</button>
-        </form>
-        <p role="status">{mensaje}</p>
-      </main>
-    )
+    return <Login onSubmit={entrar} cargando={cargando} mensaje={mensaje} />
   }
 
   const visibles = filas.filter(fila =>

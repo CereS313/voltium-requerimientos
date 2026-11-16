@@ -1,0 +1,505 @@
+/* ==========================================================================
+   Voltium Login - Modern Dark Glassmorphic Design
+   ========================================================================== */
+
+.vl-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: #090d16;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.3) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(109, 40, 217, 0.25) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(14, 165, 233, 0.2) 0px, transparent 50%);
+  overflow: hidden;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #f1f5f9;
+}
+
+/* Ambient Animated Glowing Orbs */
+.vl-bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  opacity: 0.45;
+  will-change: transform;
+}
+
+.vl-orb-1 {
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, #38bdf8 0%, #2563eb 60%, transparent 80%);
+  top: -120px;
+  left: -120px;
+  animation: vl-float-1 18s ease-in-out infinite alternate;
+}
+
+.vl-orb-2 {
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, #8b5cf6 0%, #6d28d9 60%, transparent 80%);
+  bottom: -100px;
+  right: -100px;
+  animation: vl-float-2 15s ease-in-out infinite alternate;
+}
+
+.vl-orb-3 {
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, #06b6d4 0%, #0284c7 60%, transparent 80%);
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  opacity: 0.2;
+}
+
+@keyframes vl-float-1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, 40px) scale(1.08); }
+  100% { transform: translate(-30px, 70px) scale(0.95); }
+}
+
+@keyframes vl-float-2 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-50px, -40px) scale(1.1); }
+  100% { transform: translate(30px, -60px) scale(0.92); }
+}
+
+/* Subtle Tech Grid Pattern Overlay */
+.vl-grid-pattern {
+  position: absolute;
+  inset: 0;
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  pointer-events: none;
+}
+
+/* Central Login Wrapper */
+.vl-container {
+  width: 100%;
+  max-width: 440px;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Brand Header */
+.vl-brand {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vl-logo-wrapper {
+  position: relative;
+  width: 68px;
+  height: 68px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vl-logo-glow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #00f2fe, #4facfe, #892cdc);
+  filter: blur(16px);
+  opacity: 0.6;
+  border-radius: 20px;
+  animation: vl-pulse-glow 4s ease-in-out infinite alternate;
+}
+
+@keyframes vl-pulse-glow {
+  0% { opacity: 0.45; filter: blur(14px); }
+  100% { opacity: 0.8; filter: blur(22px); }
+}
+
+.vl-logo-box {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #1e293b, #0f172a);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.vl-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #38bdf8;
+  margin-bottom: 0.65rem;
+}
+
+.vl-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #38bdf8;
+  box-shadow: 0 0 8px #38bdf8;
+}
+
+.vl-title {
+  font-size: 1.95rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ffffff 40%, #cbd5e1 75%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.vl-title span {
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.vl-subtitle {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  margin: 0.4rem 0 0;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* Card Container */
+.vl-card {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 2.25rem;
+  box-shadow: 
+    0 20px 40px -15px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: border-color 0.3s ease;
+}
+
+.vl-card-header {
+  margin-bottom: 1.6rem;
+  text-align: left;
+}
+
+.vl-card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0 0 0.3rem 0;
+  letter-spacing: -0.01em;
+}
+
+.vl-card-desc {
+  font-size: 0.84rem;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Form Groups & Inputs */
+.vl-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  text-align: left;
+}
+
+.vl-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.vl-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  letter-spacing: 0.01em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vl-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.vl-input-icon {
+  position: absolute;
+  left: 14px;
+  color: #64748b;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.vl-input {
+  width: 100%;
+  height: 48px;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 12px;
+  padding: 0 14px 0 44px;
+  color: #f8fafc;
+  font-size: 0.95rem;
+  font-family: inherit;
+  box-sizing: border-box;
+  outline: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.vl-input::placeholder {
+  color: #475569;
+}
+
+.vl-input:hover:not(:disabled) {
+  border-color: rgba(148, 163, 184, 0.4);
+  background: rgba(30, 41, 59, 0.85);
+}
+
+.vl-input:focus {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2), 0 0 16px rgba(56, 189, 248, 0.15);
+}
+
+.vl-input-wrap:focus-within .vl-input-icon {
+  color: #38bdf8;
+}
+
+/* Password eye toggle */
+.vl-eye-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.vl-eye-btn:hover {
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Remember me toggle */
+.vl-options-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: -0.2rem;
+}
+
+.vl-checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.82rem;
+  color: #94a3b8;
+  transition: color 0.2s ease;
+}
+
+.vl-checkbox-label:hover {
+  color: #cbd5e1;
+}
+
+.vl-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 17px;
+  height: 17px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 5px;
+  background: rgba(30, 41, 59, 0.7);
+  cursor: pointer;
+  outline: none;
+  display: grid;
+  place-content: center;
+  transition: all 0.2s ease;
+}
+
+.vl-checkbox:checked {
+  background: linear-gradient(135deg, #0ea5e9, #6366f1);
+  border-color: #6366f1;
+}
+
+.vl-checkbox:checked::before {
+  content: "";
+  width: 9px;
+  height: 5px;
+  border-left: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  transform: rotate(-45deg) translate(1px, -1px);
+}
+
+.vl-checkbox:focus-visible {
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.35);
+}
+
+/* Error / Status Alert */
+.vl-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 0.85rem 1rem;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  color: #fca5a5;
+  font-size: 0.84rem;
+  line-height: 1.4;
+  animation: vl-fade-in 0.3s ease-out;
+}
+
+.vl-alert-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: #ef4444;
+}
+
+@keyframes vl-fade-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Submit Action Button */
+.vl-btn-submit {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%);
+  border: none;
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.45);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  margin-top: 0.4rem;
+}
+
+.vl-btn-submit::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.75s ease;
+}
+
+.vl-btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.55);
+}
+
+.vl-btn-submit:hover:not(:disabled)::after {
+  left: 140%;
+}
+
+.vl-btn-submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.vl-btn-submit:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+  filter: grayscale(0.2);
+}
+
+/* Loading Spinner */
+.vl-spinner {
+  animation: vl-spin 1s linear infinite;
+}
+
+@keyframes vl-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Card Footer */
+.vl-card-footer {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.vl-secure-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 6px #10b981;
+}
+
+/* Outer Footer Copyright */
+.vl-footer {
+  text-align: center;
+  font-size: 0.78rem;
+  color: #475569;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  .vl-card {
+    padding: 1.75rem 1.25rem;
+    border-radius: 20px;
+  }
+  .vl-title {
+    font-size: 1.65rem;
+  }
+}
