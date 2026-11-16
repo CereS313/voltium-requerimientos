@@ -482,6 +482,50 @@
   border-color: #bbf7d0;
 }
 
+/* Action Buttons (Editar / Eliminar) */
+.vt-actions-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.vt-btn-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.vt-btn-edit {
+  background: #eff6ff;
+  color: #2563eb;
+  border-color: #bfdbfe;
+}
+
+.vt-btn-edit:hover {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.vt-btn-delete {
+  background: #fef2f2;
+  color: #dc2626;
+  border-color: #fecaca;
+}
+
+.vt-btn-delete:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
 /* ==========================================================================
    Mobile Cards View (Hidden on desktop, shown on mobile)
    ========================================================================== */

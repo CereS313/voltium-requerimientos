@@ -19,6 +19,7 @@ export default function App() {
   const [mensaje, setMensaje] = useState('')
   const [cargando, setCargando] = useState(false)
   const [actualizandoEstado, setActualizandoEstado] = useState(false)
+  const [filaAEditar, setFilaAEditar] = useState(null)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -26,7 +27,8 @@ export default function App() {
         setCargando(true)
         supabase
           .from('requerimientos')
-          .select('id,fecha,sede,categoria,descripcion,total_a_pagar,estado')
+          .select('id,fecha,sede,categoria,descripcion,razon_social,monto_bruto,retencion,total_a_pagar,estado')
+          .is('eliminado_en', null)
           .order('fecha', { ascending: false })
           .then(consulta => {
             if (consulta.data?.length) {
@@ -58,7 +60,8 @@ export default function App() {
 
       const consulta = await supabase
         .from('requerimientos')
-        .select('id,fecha,sede,categoria,descripcion,total_a_pagar,estado')
+        .select('id,fecha,sede,categoria,descripcion,razon_social,monto_bruto,retencion,total_a_pagar,estado')
+        .is('eliminado_en', null)
         .order('fecha', { ascending: false })
 
       if (consulta.error) throw consulta.error
@@ -113,6 +116,47 @@ export default function App() {
     } finally {
       setActualizandoEstado(false)
     }
+  }
+
+  async function eliminarRequerimiento(fila) {
+    const confirmar = window.confirm(
+      `¿Eliminar «${fila.descripcion}» del presupuesto?`,
+    )
+    if (!confirmar) return
+
+    const { data, error } = await supabase
+      .from('requerimientos')
+      .update({ eliminado_en: new Date().toISOString() })
+      .eq('id', fila.id)
+      .is('eliminado_en', null)
+      .select('id')
+      .maybeSingle()
+
+    if (error || !data) {
+      setMensaje(error ? `No se pudo eliminar: ${error.message}` : 'El registro ya no está disponible.')
+      return
+    }
+
+    setFilas(actual => actual.filter(item => item.id !== fila.id))
+    setMensaje('Registro retirado del presupuesto.')
+  }
+
+  async function guardarEdicion(id, cambios) {
+    const { data, error } = await supabase
+      .from('requerimientos')
+      .update(cambios)
+      .eq('id', id)
+      .is('eliminado_en', null)
+      .select('id,fecha,sede,categoria,descripcion,razon_social,monto_bruto,retencion,total_a_pagar,estado')
+      .maybeSingle()
+
+    if (error) throw error
+    if (!data) throw new Error('El registro ya no está disponible.')
+
+    setFilas(actual => actual
+      .map(item => item.id === id ? data : item)
+      .sort((a, b) => b.fecha.localeCompare(a.fecha)))
+    setMensaje('Cambios guardados.')
   }
 
   function cambiar(evento) {
@@ -348,6 +392,7 @@ export default function App() {
                 <th>Descripción</th>
                 <th>Total a pagar</th>
                 <th>Estado</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -383,6 +428,34 @@ export default function App() {
                       <option value="Pagado">● Pagado</option>
                     </select>
                   </td>
+                  <td>
+                    <div className="vt-actions-cell">
+                      <button
+                        type="button"
+                        onClick={() => setFilaAEditar(fila)}
+                        className="vt-btn-action vt-btn-edit"
+                        title="Editar requerimiento"
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                        </svg>
+                        <span>Editar</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => eliminarRequerimiento(fila)}
+                        className="vt-btn-action vt-btn-delete"
+                        title="Eliminar requerimiento"
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M3 6h18" />
+                          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                        </svg>
+                        <span>Eliminar</span>
+                      </button>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -413,17 +486,37 @@ export default function App() {
                   <span className="vt-monto-text">{soles.format(fila.total_a_pagar)}</span>
                 </div>
 
-                <select
-                  aria-label={`Estado de ${fila.descripcion}`}
-                  value={fila.estado}
-                  disabled={actualizandoEstado}
-                  onChange={evento => cambiarEstado(fila, evento.target.value)}
-                  className={`vt-status-select vt-status-${fila.estado.toLowerCase()}`}
-                >
-                  <option value="Pendiente">● Pendiente</option>
-                  <option value="Programado">● Programado</option>
-                  <option value="Pagado">● Pagado</option>
-                </select>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+                  <select
+                    aria-label={`Estado de ${fila.descripcion}`}
+                    value={fila.estado}
+                    disabled={actualizandoEstado}
+                    onChange={evento => cambiarEstado(fila, evento.target.value)}
+                    className={`vt-status-select vt-status-${fila.estado.toLowerCase()}`}
+                  >
+                    <option value="Pendiente">● Pendiente</option>
+                    <option value="Programado">● Programado</option>
+                    <option value="Pagado">● Pagado</option>
+                  </select>
+
+                  <button
+                    type="button"
+                    onClick={() => setFilaAEditar(fila)}
+                    className="vt-btn-action vt-btn-edit"
+                    title="Editar requerimiento"
+                  >
+                    Editar
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => eliminarRequerimiento(fila)}
+                    className="vt-btn-action vt-btn-delete"
+                    title="Eliminar requerimiento"
+                  >
+                    Eliminar
+                  </button>
+                </div>
               </div>
             </div>
           ))}
@@ -440,6 +533,16 @@ export default function App() {
             <p style={{ margin: 0, fontWeight: 600 }}>No se encontraron requerimientos</p>
             <small style={{ color: '#94a3b8' }}>Prueba ajustando los filtros de búsqueda o registra un nuevo requerimiento.</small>
           </div>
+        )}
+
+        {/* Modal de Edición */}
+        {filaAEditar && (
+          <NuevoRequerimiento
+            key={filaAEditar.id}
+            edicion={filaAEditar}
+            alGuardarEdicion={guardarEdicion}
+            onCerrar={() => setFilaAEditar(null)}
+          />
         )}
       </main>
     </div>

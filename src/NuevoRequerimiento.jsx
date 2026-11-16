@@ -4,14 +4,15 @@ import { supabase } from './supabase.js'
 const fechaHoy = new Date().toISOString().split('T')[0]
 const soles = new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN' })
 
-export default function NuevoRequerimiento({ alGuardar }) {
-  const [abierto, setAbierto] = useState(false)
+export default function NuevoRequerimiento({ alGuardar, edicion = null, alGuardarEdicion, onCerrar }) {
+  const [abierto, setAbierto] = useState(Boolean(edicion))
   const [guardando, setGuardando] = useState(false)
   const [mensaje, setMensaje] = useState('')
-  const [montoBruto, setMontoBruto] = useState('')
-  const [retencion, setRetencion] = useState('0')
+  const [montoBruto, setMontoBruto] = useState(edicion ? String(edicion.monto_bruto ?? '') : '')
+  const [retencion, setRetencion] = useState(edicion ? String(edicion.retencion ?? '0') : '0')
 
   const totalCalculado = Math.max(0, (Number(montoBruto) || 0) - (Number(retencion) || 0))
+  const esModoEdicion = Boolean(edicion)
 
   function abrirModal() {
     setMensaje('')
@@ -24,6 +25,7 @@ export default function NuevoRequerimiento({ alGuardar }) {
     if (guardando) return
     setAbierto(false)
     setMensaje('')
+    if (onCerrar) onCerrar()
   }
 
   async function guardar(evento) {
@@ -44,17 +46,22 @@ export default function NuevoRequerimiento({ alGuardar }) {
     setGuardando(true)
     setMensaje('')
     try {
-      const { data, error } = await supabase
-        .from('requerimientos')
-        .insert(registro)
-        .select('id,fecha,sede,categoria,descripcion,total_a_pagar,estado')
-        .single()
+      if (esModoEdicion) {
+        await alGuardarEdicion(edicion.id, registro)
+        cerrarModal()
+      } else {
+        const { data, error } = await supabase
+          .from('requerimientos')
+          .insert(registro)
+          .select('id,fecha,sede,categoria,descripcion,razon_social,monto_bruto,retencion,total_a_pagar,estado')
+          .single()
 
-      if (error) throw error
+        if (error) throw error
 
-      alGuardar(data)
-      formulario.reset()
-      setAbierto(false)
+        alGuardar(data)
+        formulario.reset()
+        setAbierto(false)
+      }
     } catch (error) {
       setMensaje(`No se pudo guardar: ${error.message}`)
     } finally {
@@ -64,19 +71,23 @@ export default function NuevoRequerimiento({ alGuardar }) {
 
   return (
     <>
-      <button type="button" onClick={abrirModal} className="vt-btn-primary">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <line x1="12" y1="5" x2="12" y2="19" />
-          <line x1="5" y1="12" x2="19" y2="12" />
-        </svg>
-        <span>Nuevo requerimiento</span>
-      </button>
+      {!esModoEdicion && (
+        <button type="button" onClick={abrirModal} className="vt-btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+          <span>Nuevo requerimiento</span>
+        </button>
+      )}
 
       {abierto && (
         <div className="vt-modal-overlay" onClick={cerrarModal} role="dialog" aria-modal="true">
           <div className="vt-modal-card" onClick={e => e.stopPropagation()}>
             <div className="vt-modal-header">
-              <h2 className="vt-modal-title">Registrar Requerimiento</h2>
+              <h2 className="vt-modal-title">
+                {esModoEdicion ? 'Editar Requerimiento' : 'Registrar Requerimiento'}
+              </h2>
               <button type="button" onClick={cerrarModal} className="vt-btn-close" aria-label="Cerrar modal">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="6" x2="6" y2="18" />
@@ -106,7 +117,7 @@ export default function NuevoRequerimiento({ alGuardar }) {
                       name="fecha"
                       type="date"
                       required
-                      defaultValue={fechaHoy}
+                      defaultValue={edicion ? edicion.fecha : fechaHoy}
                       disabled={guardando}
                     />
                   </div>
@@ -117,6 +128,7 @@ export default function NuevoRequerimiento({ alGuardar }) {
                       id="req-sede"
                       name="sede"
                       placeholder="Ej. Lima Central, Trujillo..."
+                      defaultValue={edicion ? edicion.sede : ''}
                       required
                       disabled={guardando}
                     />
@@ -128,6 +140,7 @@ export default function NuevoRequerimiento({ alGuardar }) {
                       id="req-cat"
                       name="categoria"
                       placeholder="Ej. Servicios, Mantenimiento..."
+                      defaultValue={edicion ? edicion.categoria : ''}
                       required
                       disabled={guardando}
                     />
@@ -139,6 +152,7 @@ export default function NuevoRequerimiento({ alGuardar }) {
                       id="req-razon"
                       name="razon_social"
                       placeholder="Nombre del proveedor o empresa"
+                      defaultValue={edicion?.razon_social || ''}
                       disabled={guardando}
                     />
                   </div>
@@ -149,7 +163,8 @@ export default function NuevoRequerimiento({ alGuardar }) {
                       id="req-desc"
                       name="descripcion"
                       rows="3"
-                      placeholder="Detalle detallado del requerimiento..."
+                      placeholder="Detalle del requerimiento..."
+                      defaultValue={edicion ? edicion.descripcion : ''}
                       required
                       disabled={guardando}
                     />
@@ -200,7 +215,7 @@ export default function NuevoRequerimiento({ alGuardar }) {
                   Cancelar
                 </button>
                 <button type="submit" disabled={guardando} className="vt-btn-primary">
-                  {guardando ? 'Guardando…' : 'Guardar requerimiento'}
+                  {guardando ? 'Guardando…' : esModoEdicion ? 'Guardar cambios' : 'Guardar requerimiento'}
                 </button>
               </div>
             </form>
