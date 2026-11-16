@@ -945,6 +945,10 @@
   width: 100%;
 }
 
+.vt-form-field select {
+  cursor: pointer;
+}
+
 .vt-form-field input::placeholder,
 .vt-form-field textarea::placeholder {
   color: #94a3b8 !important;

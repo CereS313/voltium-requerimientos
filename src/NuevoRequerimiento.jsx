@@ -4,12 +4,42 @@ import { supabase } from './supabase.js'
 const fechaHoy = new Date().toISOString().split('T')[0]
 const soles = new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN' })
 
-export default function NuevoRequerimiento({ alGuardar, edicion = null, alGuardarEdicion, onCerrar }) {
+const SEDES_POR_DEFECTO = ['Lima Central', 'Trujillo']
+const CATEGORIAS_POR_DEFECTO = ['Servicios', 'Mantenimiento']
+
+export default function NuevoRequerimiento({
+  alGuardar,
+  edicion = null,
+  alGuardarEdicion,
+  onCerrar,
+  sedes = [],
+  categorias = [],
+}) {
   const [abierto, setAbierto] = useState(Boolean(edicion))
   const [guardando, setGuardando] = useState(false)
   const [mensaje, setMensaje] = useState('')
   const [montoBruto, setMontoBruto] = useState(edicion ? String(edicion.monto_bruto ?? '') : '')
   const [retencion, setRetencion] = useState(edicion ? String(edicion.retencion ?? '0') : '0')
+  const [sedeSeleccionada, setSedeSeleccionada] = useState(edicion?.sede || '')
+  const [nuevaSede, setNuevaSede] = useState('')
+  const [catSeleccionada, setCatSeleccionada] = useState(edicion?.categoria || '')
+  const [nuevaCat, setNuevaCat] = useState('')
+
+  const listaSedes = [...new Set([
+    ...sedes,
+    ...(edicion?.sede ? [edicion.sede] : []),
+  ])].filter(Boolean)
+  const listaSedesFinal = listaSedes.length > 0
+    ? listaSedes.sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }))
+    : SEDES_POR_DEFECTO
+
+  const listaCategorias = [...new Set([
+    ...categorias,
+    ...(edicion?.categoria ? [edicion.categoria] : []),
+  ])].filter(Boolean)
+  const listaCategoriasFinal = listaCategorias.length > 0
+    ? listaCategorias.sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }))
+    : CATEGORIAS_POR_DEFECTO
 
   const totalCalculado = Math.max(0, (Number(montoBruto) || 0) - (Number(retencion) || 0))
   const esModoEdicion = Boolean(edicion)
@@ -18,6 +48,10 @@ export default function NuevoRequerimiento({ alGuardar, edicion = null, alGuarda
     setMensaje('')
     setMontoBruto('')
     setRetencion('0')
+    setSedeSeleccionada('')
+    setNuevaSede('')
+    setCatSeleccionada('')
+    setNuevaCat('')
     setAbierto(true)
   }
 
@@ -35,6 +69,23 @@ export default function NuevoRequerimiento({ alGuardar, edicion = null, alGuarda
     const registro = Object.fromEntries(
       [...datos.entries()].map(([campo, valor]) => [campo, valor.trim()]),
     )
+
+    const sedeFinal = (sedeSeleccionada === '__otra__' ? nuevaSede : sedeSeleccionada).trim()
+    if (!sedeFinal) {
+      setMensaje('Por favor seleccione o ingrese una sede.')
+      return
+    }
+    registro.sede = sedeFinal
+    delete registro.nueva_sede
+
+    const catFinal = (catSeleccionada === '__otra__' ? nuevaCat : catSeleccionada).trim()
+    if (!catFinal) {
+      setMensaje('Por favor seleccione o ingrese una categoría.')
+      return
+    }
+    registro.categoria = catFinal
+    delete registro.nueva_categoria
+
     registro.razon_social = registro.razon_social || null
     registro.retencion = registro.retencion || '0'
 
@@ -60,6 +111,10 @@ export default function NuevoRequerimiento({ alGuardar, edicion = null, alGuarda
 
         alGuardar(data)
         formulario.reset()
+        setSedeSeleccionada('')
+        setNuevaSede('')
+        setCatSeleccionada('')
+        setNuevaCat('')
         setAbierto(false)
       }
     } catch (error) {
@@ -124,26 +179,64 @@ export default function NuevoRequerimiento({ alGuardar, edicion = null, alGuarda
 
                   <div className="vt-form-field">
                     <label htmlFor="req-sede">Sede *</label>
-                    <input
+                    <select
                       id="req-sede"
                       name="sede"
-                      placeholder="Ej. Lima Central, Trujillo..."
-                      defaultValue={edicion ? edicion.sede : ''}
+                      value={sedeSeleccionada}
+                      onChange={e => setSedeSeleccionada(e.target.value)}
                       required
                       disabled={guardando}
-                    />
+                    >
+                      <option value="">-- Seleccionar sede --</option>
+                      {listaSedesFinal.map(item => (
+                        <option key={item} value={item}>{item}</option>
+                      ))}
+                      <option value="__otra__">+ Otra sede (ingresar nueva)...</option>
+                    </select>
+                    {sedeSeleccionada === '__otra__' && (
+                      <input
+                        type="text"
+                        name="nueva_sede"
+                        placeholder="Escribe el nombre de la nueva sede"
+                        value={nuevaSede}
+                        onChange={e => setNuevaSede(e.target.value)}
+                        required
+                        disabled={guardando}
+                        autoFocus
+                        style={{ marginTop: '6px' }}
+                      />
+                    )}
                   </div>
 
                   <div className="vt-form-field">
                     <label htmlFor="req-cat">Categoría *</label>
-                    <input
+                    <select
                       id="req-cat"
                       name="categoria"
-                      placeholder="Ej. Servicios, Mantenimiento..."
-                      defaultValue={edicion ? edicion.categoria : ''}
+                      value={catSeleccionada}
+                      onChange={e => setCatSeleccionada(e.target.value)}
                       required
                       disabled={guardando}
-                    />
+                    >
+                      <option value="">-- Seleccionar categoría --</option>
+                      {listaCategoriasFinal.map(item => (
+                        <option key={item} value={item}>{item}</option>
+                      ))}
+                      <option value="__otra__">+ Otra categoría (ingresar nueva)...</option>
+                    </select>
+                    {catSeleccionada === '__otra__' && (
+                      <input
+                        type="text"
+                        name="nueva_categoria"
+                        placeholder="Escribe el nombre de la nueva categoría"
+                        value={nuevaCat}
+                        onChange={e => setNuevaCat(e.target.value)}
+                        required
+                        disabled={guardando}
+                        autoFocus
+                        style={{ marginTop: '6px' }}
+                      />
+                    )}
                   </div>
 
                   <div className="vt-form-field">

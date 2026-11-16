@@ -188,6 +188,9 @@ export default function App() {
   const conteoProgramado = visibles.filter(f => f.estado === 'Programado').length
   const conteoPagado = visibles.filter(f => f.estado === 'Pagado').length
 
+  const sedesDisponibles = [...new Set(filas.map(f => f.sede).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }))
+  const categoriasDisponibles = [...new Set(filas.map(f => f.categoria).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }))
+
   return (
     <div className="vt-dashboard">
       {/* Barra de Navegación Superior */}
@@ -334,11 +337,15 @@ export default function App() {
                 <span>Listado de Requerimientos</span>
               </h2>
 
-              <NuevoRequerimiento alGuardar={nuevo => {
-                setFilas(actual => [nuevo, ...actual].sort((a, b) => b.fecha.localeCompare(a.fecha)))
-                setFiltros(filtrosIniciales)
-                setMensaje('Requerimiento registrado con éxito.')
-              }} />
+              <NuevoRequerimiento
+                sedes={sedesDisponibles}
+                categorias={categoriasDisponibles}
+                alGuardar={nuevo => {
+                  setFilas(actual => [nuevo, ...actual].sort((a, b) => b.fecha.localeCompare(a.fecha)))
+                  setFiltros(filtrosIniciales)
+                  setMensaje('Requerimiento registrado con éxito.')
+                }}
+              />
             </div>
 
             {/* Mensajes de Estado */}
@@ -595,6 +602,8 @@ export default function App() {
         <NuevoRequerimiento
           key={filaAEditar.id}
           edicion={filaAEditar}
+          sedes={sedesDisponibles}
+          categorias={categoriasDisponibles}
           alGuardarEdicion={guardarEdicion}
           onCerrar={() => setFilaAEditar(null)}
         />
