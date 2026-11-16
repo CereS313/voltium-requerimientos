@@ -67,6 +67,16 @@ export default function App() {
           })
       }
     })
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUsuario(session.user)
+      }
+    })
+
+    return () => {
+      subscription?.unsubscribe()
+    }
   }, [])
 
   async function entrar(evento) {
@@ -301,6 +311,22 @@ export default function App() {
         </div>
 
         <div className="vt-nav-actions">
+          {/* Indicador elegante de usuario autenticado */}
+          {usuario?.email && (
+            <div className="vt-user-profile" title={`Sesión activa: ${usuario.email}`}>
+              <div className={`vt-user-avatar ${esDesarrollador ? 'dev' : ''}`}>
+                {usuario.email.charAt(0).toUpperCase()}
+                <span className="vt-user-status-dot" />
+              </div>
+              <div className="vt-user-info">
+                <span className="vt-user-email">{usuario.email}</span>
+                <span className={`vt-user-role ${esDesarrollador ? 'dev' : ''}`}>
+                  {esDesarrollador ? 'Desarrollador' : 'Colaborador'}
+                </span>
+              </div>
+            </div>
+          )}
+
           {/* Gatito durmiendo animado e interactivo */}
           <GatitoAnimado />
 

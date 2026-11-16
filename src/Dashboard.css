@@ -286,6 +286,90 @@
   color: #b91c1c;
 }
 
+/* ==========================================================================
+   User Profile Badge in Navbar
+   ========================================================================== */
+.vt-user-profile {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 12px 4px 6px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+  user-select: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.vt-user-profile:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.vt-user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0284c7, #2563eb);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+  box-shadow: 0 2px 5px rgba(37, 99, 235, 0.25);
+}
+
+.vt-user-avatar.dev {
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  box-shadow: 0 2px 5px rgba(124, 58, 237, 0.25);
+}
+
+.vt-user-status-dot {
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  border: 2px solid #ffffff;
+}
+
+.vt-user-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  text-align: left;
+}
+
+.vt-user-email {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #0f172a;
+  max-width: 175px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vt-user-role {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.vt-user-role.dev {
+  color: #7c3aed;
+  font-weight: 700;
+}
+
 /* Tab Switcher (Navbar) */
 .vt-tab-group {
   display: inline-flex;
@@ -1032,6 +1116,10 @@
     gap: 0.6rem;
   }
 
+  .vt-user-email {
+    max-width: 110px;
+  }
+
   .vt-nav-brand {
     flex: 1;
   }
@@ -1096,5 +1184,13 @@
 
   .vt-nav-subtitle {
     display: none;
+  }
+
+  .vt-user-info {
+    display: none;
+  }
+
+  .vt-user-profile {
+    padding: 3px;
   }
 }
