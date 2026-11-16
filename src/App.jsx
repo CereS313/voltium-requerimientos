@@ -2,6 +2,7 @@
 import Login from './Login.jsx'
 import { useState, useEffect } from 'react'
 import { supabase } from './supabase.js'
+import './Dashboard.css'
 
 const soles = new Intl.NumberFormat('es-PE', {
   style: 'currency',
@@ -17,6 +18,7 @@ export default function App() {
   const [filtros, setFiltros] = useState(filtrosIniciales)
   const [mensaje, setMensaje] = useState('')
   const [cargando, setCargando] = useState(false)
+  const [actualizandoEstado, setActualizandoEstado] = useState(false)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -83,8 +85,6 @@ export default function App() {
     setMensaje('')
   }
 
-  const [actualizandoEstado, setActualizandoEstado] = useState(false)
-
   async function cambiarEstado(fila, estado) {
     if (estado === fila.estado || actualizandoEstado) return
     setActualizandoEstado(true)
@@ -132,73 +132,316 @@ export default function App() {
     (!filtros.categoria || fila.categoria === filtros.categoria) &&
     (!filtros.estado || fila.estado === filtros.estado),
   )
+
   const totalCentimos = visibles.reduce(
     (suma, fila) => suma + Math.round(Number(fila.total_a_pagar) * 100), 0,
   )
 
+  const conteoPendiente = visibles.filter(f => f.estado === 'Pendiente').length
+  const conteoProgramado = visibles.filter(f => f.estado === 'Programado').length
+  const conteoPagado = visibles.filter(f => f.estado === 'Pagado').length
+
   return (
-    <main style={{ width: 'min(96%, 1200px)', margin: '2rem auto' }}>
-      <button onClick={salir}>Cerrar sesión</button>
-      <h1>Presupuesto Voltium</h1>
-      <NuevoRequerimiento alGuardar={nuevo => {
-        setFilas(actual => [nuevo, ...actual].sort((a, b) => b.fecha.localeCompare(a.fecha)))
-        setFiltros(filtrosIniciales)
-      }} />
-      <p role="status">{mensaje}</p>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center' }}>
-        <label>Desde <input type="date" name="desde" value={filtros.desde} onChange={cambiar} /></label>
-        <label>Hasta <input type="date" name="hasta" value={filtros.hasta} onChange={cambiar} /></label>
-        <label>Mes <input type="month" name="mes" value={filtros.mes} onChange={cambiar} /></label>
-        {Object.entries({ sede: 'Sede', categoria: 'Categoría', estado: 'Estado' }).map(([campo, titulo]) => (
-          <label key={campo}>
-            {titulo}{' '}
-            <select name={campo} value={filtros[campo]} onChange={cambiar}>
-              <option value="">Todos</option>
-              {[...new Set(filas.map(fila => fila[campo]))].sort().map(valor => (
-                <option key={valor} value={valor}>{valor}</option>
-              ))}
-            </select>
-          </label>
-        ))}
-        <button onClick={() => setFiltros(filtrosIniciales)}>Limpiar filtros</button>
-      </div>
-      <p><strong>{visibles.length} registros · Total a pagar {soles.format(totalCentimos / 100)}</strong></p>
-      {!visibles.length && <p>No hay requerimientos con esos filtros.</p>}
-      <div style={{ overflowX: 'auto' }}>
-        <table cellPadding="10" style={{ width: '100%', textAlign: 'left' }}>
-          <thead>
-            <tr>
-              <th>Fecha</th><th>Sede</th><th>Categoría</th>
-              <th>Descripción</th><th>Total a pagar</th><th>Estado</th>
-            </tr>
-          </thead>
-          <tbody>
-            {visibles.map(fila => (
-              <tr key={fila.id}>
-                <td>{fila.fecha.split('-').reverse().join('/')}</td>
-                <td>{fila.sede}</td>
-                <td>{fila.categoria}</td>
-                <td>{fila.descripcion}</td>
-                <td>{soles.format(fila.total_a_pagar)}</td>
-                <td>
-                  <select
-                    aria-label={`Estado de ${fila.descripcion}`}
-                    value={fila.estado}
-                    disabled={actualizandoEstado}
-                    onChange={evento => cambiarEstado(fila, evento.target.value)}
-                  >
-                    <option value="Pendiente">Pendiente</option>
-                    <option value="Programado">Programado</option>
-                    <option value="Pagado">Pagado</option>
-                  </select>
-                </td>
-              </tr>
+    <div className="vt-dashboard">
+      {/* Barra de Navegación Superior */}
+      <header className="vt-navbar">
+        <div className="vt-nav-brand">
+          <div className="vt-nav-logo">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M13 2L3 14H12L11 22L21 10H12L13 2Z"
+                fill="#38bdf8"
+                stroke="#ffffff"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+          <div className="vt-nav-titles">
+            <h1 className="vt-nav-title">
+              Voltium <span>Presupuesto</span>
+            </h1>
+            <p className="vt-nav-subtitle">Control y Gestión de Requerimientos</p>
+          </div>
+        </div>
+
+        <div className="vt-nav-actions">
+          <button onClick={salir} className="vt-btn-logout" title="Cerrar sesión">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+            <span>Cerrar sesión</span>
+          </button>
+        </div>
+      </header>
+
+      {/* Contenido Principal */}
+      <main className="vt-main">
+        {/* Tarjetas de Resumen KPI */}
+        <section className="vt-kpis">
+          <div className="vt-kpi-card">
+            <div className="vt-kpi-info">
+              <span className="vt-kpi-label">Total a Pagar</span>
+              <span className="vt-kpi-value">{soles.format(totalCentimos / 100)}</span>
+              <span className="vt-kpi-badge">{visibles.length} requerimientos filtrados</span>
+            </div>
+            <div className="vt-kpi-icon vt-icon-blue">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23" />
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+              </svg>
+            </div>
+          </div>
+
+          <div className="vt-kpi-card">
+            <div className="vt-kpi-info">
+              <span className="vt-kpi-label">Registros Visibles</span>
+              <span className="vt-kpi-value">{visibles.length} <small style={{ fontSize: '0.95rem', color: '#64748b', fontWeight: 500 }}>de {filas.length}</small></span>
+              <span className="vt-kpi-badge">En base a los filtros activos</span>
+            </div>
+            <div className="vt-kpi-icon vt-icon-green">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+            </div>
+          </div>
+
+          <div className="vt-kpi-card">
+            <div className="vt-kpi-info">
+              <span className="vt-kpi-label">Estado de Pagos</span>
+              <div className="vt-status-breakdown">
+                <span className="vt-pill-mini vt-status-pendiente">
+                  ● {conteoPendiente} Pendientes
+                </span>
+                <span className="vt-pill-mini vt-status-programado">
+                  ● {conteoProgramado} Programados
+                </span>
+                <span className="vt-pill-mini vt-status-pagado">
+                  ● {conteoPagado} Pagados
+                </span>
+              </div>
+            </div>
+            <div className="vt-kpi-icon vt-icon-amber">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        {/* Tarjeta de Gestión y Filtros */}
+        <section className="vt-card">
+          <div className="vt-toolbar">
+            <h2 className="vt-toolbar-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect width="18" height="18" x="3" y="3" rx="2" />
+                <path d="M3 9h18" />
+                <path d="M9 21V9" />
+              </svg>
+              <span>Listado de Requerimientos</span>
+            </h2>
+
+            <NuevoRequerimiento alGuardar={nuevo => {
+              setFilas(actual => [nuevo, ...actual].sort((a, b) => b.fecha.localeCompare(a.fecha)))
+              setFiltros(filtrosIniciales)
+              setMensaje('Requerimiento registrado con éxito.')
+            }} />
+          </div>
+
+          {/* Mensajes de Estado */}
+          {mensaje && (
+            <div className="vt-status-msg" role="status">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              <span>{mensaje}</span>
+            </div>
+          )}
+
+          {/* Barra de Filtros */}
+          <div className="vt-filters-grid">
+            <div className="vt-filter-group">
+              <label className="vt-filter-label">Desde</label>
+              <input
+                type="date"
+                name="desde"
+                value={filtros.desde}
+                onChange={cambiar}
+                className="vt-filter-input"
+              />
+            </div>
+
+            <div className="vt-filter-group">
+              <label className="vt-filter-label">Hasta</label>
+              <input
+                type="date"
+                name="hasta"
+                value={filtros.hasta}
+                onChange={cambiar}
+                className="vt-filter-input"
+              />
+            </div>
+
+            <div className="vt-filter-group">
+              <label className="vt-filter-label">Mes</label>
+              <input
+                type="month"
+                name="mes"
+                value={filtros.mes}
+                onChange={cambiar}
+                className="vt-filter-input"
+              />
+            </div>
+
+            {Object.entries({ sede: 'Sede', categoria: 'Categoría', estado: 'Estado' }).map(([campo, titulo]) => (
+              <div key={campo} className="vt-filter-group">
+                <label className="vt-filter-label">{titulo}</label>
+                <select
+                  name={campo}
+                  value={filtros[campo]}
+                  onChange={cambiar}
+                  className="vt-filter-select"
+                >
+                  <option value="">Todos</option>
+                  {[...new Set(filas.map(fila => fila[campo]))].sort().map(valor => (
+                    <option key={valor} value={valor}>{valor}</option>
+                  ))}
+                </select>
+              </div>
             ))}
-          </tbody>
-        </table>
-      </div>
-    </main>
+
+            <div className="vt-filter-group" style={{ justifyContent: 'flex-end' }}>
+              <button
+                type="button"
+                onClick={() => setFiltros(filtrosIniciales)}
+                className="vt-btn-clear"
+                title="Restablecer filtros"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                  <path d="M3 3v5h5" />
+                </svg>
+                <span>Limpiar</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* Vista Tabular (Escritorio y Tablets) */}
+        <div className="vt-table-wrap">
+          <table className="vt-table">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Sede</th>
+                <th>Categoría</th>
+                <th>Descripción</th>
+                <th>Total a pagar</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              {visibles.map(fila => (
+                <tr key={fila.id}>
+                  <td>
+                    <span className="vt-date-badge">
+                      {fila.fecha.split('-').reverse().join('/')}
+                    </span>
+                  </td>
+                  <td>
+                    <span className="vt-sede-badge">{fila.sede}</span>
+                  </td>
+                  <td>
+                    <span className="vt-cat-pill">{fila.categoria}</span>
+                  </td>
+                  <td>{fila.descripcion}</td>
+                  <td>
+                    <span className="vt-monto-text">
+                      {soles.format(fila.total_a_pagar)}
+                    </span>
+                  </td>
+                  <td>
+                    <select
+                      aria-label={`Estado de ${fila.descripcion}`}
+                      value={fila.estado}
+                      disabled={actualizandoEstado}
+                      onChange={evento => cambiarEstado(fila, evento.target.value)}
+                      className={`vt-status-select vt-status-${fila.estado.toLowerCase()}`}
+                    >
+                      <option value="Pendiente">● Pendiente</option>
+                      <option value="Programado">● Programado</option>
+                      <option value="Pagado">● Pagado</option>
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Vista Móvil (Tarjetas Responsivas para Celulares) */}
+        <div className="vt-mobile-cards">
+          {visibles.map(fila => (
+            <div key={fila.id} className="vt-card-item">
+              <div className="vt-card-item-top">
+                <span className="vt-sede-badge">{fila.sede}</span>
+                <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                  <span className="vt-cat-pill">{fila.categoria}</span>
+                  <span className="vt-date-badge">
+                    {fila.fecha.split('-').reverse().join('/')}
+                  </span>
+                </div>
+              </div>
+
+              <div className="vt-card-item-desc">
+                {fila.descripcion}
+              </div>
+
+              <div className="vt-card-item-bottom">
+                <div className="vt-card-total-box">
+                  <span className="vt-card-total-label">Total a pagar</span>
+                  <span className="vt-monto-text">{soles.format(fila.total_a_pagar)}</span>
+                </div>
+
+                <select
+                  aria-label={`Estado de ${fila.descripcion}`}
+                  value={fila.estado}
+                  disabled={actualizandoEstado}
+                  onChange={evento => cambiarEstado(fila, evento.target.value)}
+                  className={`vt-status-select vt-status-${fila.estado.toLowerCase()}`}
+                >
+                  <option value="Pendiente">● Pendiente</option>
+                  <option value="Programado">● Programado</option>
+                  <option value="Pagado">● Pagado</option>
+                </select>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Estado Vacío */}
+        {!visibles.length && (
+          <div className="vt-empty">
+            <svg className="vt-empty-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <circle cx="12" cy="12" r="10" />
+              <path d="m15 9-6 6" />
+              <path d="m9 9 6 6" />
+            </svg>
+            <p style={{ margin: 0, fontWeight: 600 }}>No se encontraron requerimientos</p>
+            <small style={{ color: '#94a3b8' }}>Prueba ajustando los filtros de búsqueda o registra un nuevo requerimiento.</small>
+          </div>
+        )}
+      </main>
+    </div>
   )
 }
-
-
