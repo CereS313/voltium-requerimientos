@@ -43,8 +43,14 @@ export default function Sidebar({
           <div className="vt-sb-brand">
             <div
               className="vt-sb-brand-main"
-              onClick={() => cambiarModulo('requerimientos')}
-              title="Consorcio Voltium"
+              onClick={() => {
+                if (colapsado) {
+                  setColapsado(false)
+                } else {
+                  cambiarModulo('requerimientos')
+                }
+              }}
+              title={colapsado ? 'Clic para expandir menú lateral' : 'Consorcio Voltium'}
             >
               <div className="vt-sb-logo-wrap">
                 <img
@@ -70,20 +76,20 @@ export default function Sidebar({
               title={colapsado ? 'Expandir menú lateral' : 'Contraer menú lateral'}
             >
               <svg
-                width="14"
-                height="14"
+                width="15"
+                height="15"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                style={{
-                  transform: colapsado ? 'rotate(180deg)' : 'rotate(0deg)',
-                  transition: 'transform 0.25s ease',
-                }}
               >
-                <polyline points="15 18 9 12 15 6" />
+                {colapsado ? (
+                  <polyline points="9 18 15 12 9 6" />
+                ) : (
+                  <polyline points="15 18 9 12 15 6" />
+                )}
               </svg>
             </button>
           </div>

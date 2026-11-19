@@ -334,9 +334,15 @@ export default function App() {
               <div className="vt-nav-brand">
                 <button
                   type="button"
-                  onClick={() => setMenuMovilAbierto(true)}
+                  onClick={() => {
+                    if (window.innerWidth <= 900) {
+                      setMenuMovilAbierto(prev => !prev)
+                    } else {
+                      setColapsado(prev => !prev)
+                    }
+                  }}
                   className="vt-hamburger-btn"
-                  title="Abrir menú lateral"
+                  title={colapsado ? 'Expandir menú lateral' : 'Contraer menú lateral'}
                   style={{ marginRight: '6px' }}
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
@@ -395,9 +401,15 @@ export default function App() {
               <div className="vt-nav-brand">
                 <button
                   type="button"
-                  onClick={() => setMenuMovilAbierto(true)}
+                  onClick={() => {
+                    if (window.innerWidth <= 900) {
+                      setMenuMovilAbierto(prev => !prev)
+                    } else {
+                      setColapsado(prev => !prev)
+                    }
+                  }}
                   className="vt-hamburger-btn"
-                  title="Abrir menú lateral"
+                  title={colapsado ? 'Expandir menú lateral' : 'Contraer menú lateral'}
                   style={{ marginRight: '6px' }}
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">

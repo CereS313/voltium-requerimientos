@@ -422,16 +422,35 @@
 }
 
 .vt-sidebar-collapsed .vt-sidebar-inner {
-  padding: 0.85rem 0.5rem;
+  padding: 0.85rem 0.4rem;
   align-items: center;
 }
 
 .vt-sidebar-collapsed .vt-sb-brand {
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
   justify-content: center;
+  padding-bottom: 0.75rem;
 }
 
+/* El botón de toggle NUNCA se oculta: en modo colapsado se destaca para volver a abrir */
 .vt-sidebar-collapsed .vt-sb-toggle-btn {
-  display: none;
+  display: flex !important;
+  width: 32px;
+  height: 32px;
+  background: rgba(245, 158, 11, 0.2);
+  border: 1.5px solid rgba(245, 158, 11, 0.5);
+  color: #fbbf24;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.vt-sidebar-collapsed .vt-sb-toggle-btn:hover {
+  background: rgba(245, 158, 11, 0.35);
+  border-color: #fbbf24;
+  transform: scale(1.12);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
 }
 
 .vt-sidebar-collapsed .vt-sb-item {
