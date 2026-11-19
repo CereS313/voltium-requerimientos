@@ -76,7 +76,7 @@ export default function NuevoRequerimiento({
       setMensaje('Por favor seleccione o ingrese una sede.')
       return
     }
-    registro.sede = sedeFinal
+    registro.sede = sedeSeleccionada === '__otra__' ? sedeFinal.toUpperCase() : sedeFinal
     delete registro.nueva_sede
 
     const catFinal = (catSeleccionada === '__otra__' ? nuevaCat : catSeleccionada).trim()
@@ -84,10 +84,14 @@ export default function NuevoRequerimiento({
       setMensaje('Por favor seleccione o ingrese una categoría.')
       return
     }
-    registro.categoria = catFinal
+    registro.categoria = catSeleccionada === '__otra__' ? catFinal.toUpperCase() : catFinal
     delete registro.nueva_categoria
 
-    registro.razon_social = registro.razon_social || null
+    // Normalizar a mayúsculas descripción y razón social
+    if (registro.descripcion) {
+      registro.descripcion = registro.descripcion.toUpperCase().trim()
+    }
+    registro.razon_social = registro.razon_social ? registro.razon_social.toUpperCase().trim() : null
     registro.retencion = registro.retencion || '0'
 
     if (Number(registro.retencion) > Number(registro.monto_bruto)) {
