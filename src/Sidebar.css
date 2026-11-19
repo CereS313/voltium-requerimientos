@@ -1,7 +1,12 @@
 /* ==========================================================================
-   Consorcio Voltium - Sidebar Navegación Lateral "Command Center"
-   Efectos visuales sofisticados con degradados profundos, neón sutil y acentos dorados
+   Consorcio Voltium - Sidebar Fijo Lateral "Command Center"
+   Permanente en pantalla, no se mueve al hacer scroll
    ========================================================================== */
+
+:root {
+  --sb-width-expanded: 240px;
+  --sb-width-collapsed: 72px;
+}
 
 .vt-shell {
   display: flex;
@@ -9,76 +14,67 @@
   min-height: 100dvh;
   width: 100%;
   max-width: 100vw;
-  background-color: #050a17;
-  color: #f1f5f9;
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  overflow-x: hidden;
+  background-color: #f1f5fa;
   position: relative;
+  overflow-x: hidden;
 }
 
 /* ==========================================================================
-   SIDEBAR LATERAL
+   SIDEBAR LATERAL FIJO (FIXED)
    ========================================================================== */
 
 .vt-sidebar {
-  width: 275px;
-  min-width: 275px;
+  position: fixed !important;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--sb-width-expanded);
   height: 100vh;
   height: 100dvh;
-  position: sticky;
-  top: 0;
-  left: 0;
-  z-index: 100;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   background: linear-gradient(180deg, #060b18 0%, #0a1329 45%, #050914 100%);
   border-right: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.45);
-  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s ease;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.35);
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s ease;
   user-select: none;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-/* Resplandor ambiental de fondo en el sidebar */
 .vt-sidebar::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 240px;
-  background: radial-gradient(circle at 50% -20%, rgba(245, 158, 11, 0.18) 0%, rgba(14, 165, 233, 0.08) 60%, transparent 100%);
+  height: 200px;
+  background: radial-gradient(circle at 50% -20%, rgba(245, 158, 11, 0.18) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
 
 .vt-sidebar-collapsed {
-  width: 82px;
-  min-width: 82px;
+  width: var(--sb-width-collapsed) !important;
 }
 
-/* Scrollbar sutil para el sidebar */
 .vt-sidebar::-webkit-scrollbar {
   width: 4px;
 }
-.vt-sidebar::-webkit-scrollbar-track {
-  background: transparent;
-}
 .vt-sidebar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
 }
 
-/* Contenedor principal de contenidos dentro del sidebar */
 .vt-sidebar-inner {
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 1.25rem 1rem;
+  padding: 1rem 0.85rem;
 }
 
 /* Header de Marca en el Sidebar */
@@ -86,65 +82,60 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 1.25rem;
-  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  position: relative;
 }
 
 .vt-sb-brand-main {
   display: flex;
   align-items: center;
-  gap: 12px;
-  text-decoration: none;
+  gap: 10px;
   cursor: pointer;
   overflow: hidden;
 }
 
 .vt-sb-logo-wrap {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
   background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(14, 165, 233, 0.15) 100%);
   border: 1px solid rgba(245, 158, 11, 0.35);
-  box-shadow: 0 0 18px rgba(245, 158, 11, 0.25), inset 0 0 10px rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.2s ease;
 }
 
 .vt-sb-brand-main:hover .vt-sb-logo-wrap {
   transform: scale(1.05);
-  box-shadow: 0 0 24px rgba(245, 158, 11, 0.45);
 }
 
 .vt-sb-logo-img {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
 }
 
 .vt-sb-titles {
   display: flex;
   flex-direction: column;
   white-space: nowrap;
-  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .vt-sb-title-corp {
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 800;
   color: #fbbf24;
-  letter-spacing: 1.8px;
+  letter-spacing: 1.6px;
   text-transform: uppercase;
   line-height: 1;
 }
 
 .vt-sb-title-name {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 900;
   background: linear-gradient(135deg, #ffffff 30%, #e2e8f0 100%);
   -webkit-background-clip: text;
@@ -154,20 +145,18 @@
 }
 
 .vt-sb-tagline {
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   color: #64748b;
   font-weight: 600;
-  margin-top: 1px;
 }
 
-/* Botón colapsar / expandir */
 .vt-sb-toggle-btn {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   color: #94a3b8;
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -177,82 +166,46 @@
 }
 
 .vt-sb-toggle-btn:hover {
-  background: rgba(245, 158, 11, 0.15);
+  background: rgba(245, 158, 11, 0.2);
   border-color: rgba(245, 158, 11, 0.4);
   color: #fbbf24;
-  transform: scale(1.08);
 }
 
-/* Indicador de sistema en vivo */
-.vt-sb-status-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  background: rgba(16, 185, 129, 0.08);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  border-radius: 8px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: #34d399;
-  margin-bottom: 1.25rem;
-  letter-spacing: 0.5px;
-}
-
-.vt-sb-pulse-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #10b981;
-  box-shadow: 0 0 8px #10b981;
-  animation: vtPulseDot 2s infinite ease-in-out;
-}
-
-@keyframes vtPulseDot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
-}
-
-/* Navegación por Grupos */
+/* Navegación */
 .vt-sb-nav {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.2rem;
   flex: 1;
 }
 
 .vt-sb-group {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
 }
 
 .vt-sb-group-label {
-  font-size: 0.65rem;
+  font-size: 0.64rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 1.2px;
   color: #475569;
-  padding: 0 10px 4px;
-  transition: opacity 0.2s ease;
+  padding: 0 8px 4px;
 }
 
-/* Items de Navegación */
 .vt-sb-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: 10px;
+  gap: 10px;
+  padding: 10px 10px;
+  border-radius: 9px;
   background: transparent;
   border: 1px solid transparent;
   color: #94a3b8;
-  font-size: 0.88rem;
-  font-weight: 600;
-  text-decoration: none;
   cursor: pointer;
-  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease;
   position: relative;
   text-align: left;
   width: 100%;
@@ -261,22 +214,22 @@
 .vt-sb-item-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   min-width: 0;
 }
 
 .vt-sb-item-icon {
   width: 34px;
   height: 34px;
-  border-radius: 9px;
+  border-radius: 8px;
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.07);
   color: #94a3b8;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: all 0.22s ease;
+  transition: all 0.2s ease;
 }
 
 .vt-sb-item-text {
@@ -288,38 +241,32 @@
 }
 
 .vt-sb-item-name {
-  font-size: 0.88rem;
-  line-height: 1.25;
+  font-size: 0.86rem;
   font-weight: 700;
-}
-
-.vt-sb-item-desc {
-  font-size: 0.7rem;
-  color: #64748b;
-  font-weight: 500;
   line-height: 1.2;
 }
 
-/* Hover de Item */
+.vt-sb-item-desc {
+  font-size: 0.68rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
 .vt-sb-item:hover:not(.vt-sb-item-active) {
   background: rgba(255, 255, 255, 0.04);
-  color: #f8fafc;
-  transform: translateX(3px);
-  border-color: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+  transform: translateX(2px);
 }
 
 .vt-sb-item:hover:not(.vt-sb-item-active) .vt-sb-item-icon {
-  background: rgba(245, 158, 11, 0.1);
-  border-color: rgba(245, 158, 11, 0.25);
   color: #fbbf24;
+  background: rgba(245, 158, 11, 0.1);
 }
 
-/* Item Activo con Efecto Neón y Degradado */
 .vt-sb-item-active {
   background: linear-gradient(90deg, rgba(245, 158, 11, 0.18) 0%, rgba(245, 158, 11, 0.03) 100%) !important;
   color: #ffffff !important;
   border-color: rgba(245, 158, 11, 0.35) !important;
-  box-shadow: 0 4px 18px rgba(245, 158, 11, 0.15), inset 0 0 12px rgba(245, 158, 11, 0.06);
 }
 
 .vt-sb-item-active::before {
@@ -328,124 +275,92 @@
   left: 0;
   top: 15%;
   bottom: 15%;
-  width: 4px;
-  background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
-  border-radius: 0 4px 4px 0;
-  box-shadow: 0 0 12px #f59e0b;
+  width: 3.5px;
+  background: #f59e0b;
+  border-radius: 0 3px 3px 0;
+  box-shadow: 0 0 10px #f59e0b;
 }
 
 .vt-sb-item-active .vt-sb-item-icon {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.3) 0%, rgba(217, 119, 6, 0.2) 100%);
+  background: rgba(245, 158, 11, 0.25);
   border-color: rgba(245, 158, 11, 0.5);
   color: #fbbf24;
-  box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
 }
 
-.vt-sb-item-active .vt-sb-item-name {
-  color: #ffffff;
-}
-
-.vt-sb-item-active .vt-sb-item-desc {
-  color: #cbd5e1;
-}
-
-/* Variación especial para Caja Chica (Acento Esmeralda / Efectivo) */
 .vt-sb-item-cash.vt-sb-item-active {
   background: linear-gradient(90deg, rgba(16, 185, 129, 0.18) 0%, rgba(16, 185, 129, 0.03) 100%) !important;
   border-color: rgba(16, 185, 129, 0.35) !important;
-  box-shadow: 0 4px 18px rgba(16, 185, 129, 0.15);
 }
 
 .vt-sb-item-cash.vt-sb-item-active::before {
-  background: linear-gradient(180deg, #34d399 0%, #059669 100%);
-  box-shadow: 0 0 12px #10b981;
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
 }
 
 .vt-sb-item-cash.vt-sb-item-active .vt-sb-item-icon {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.3) 0%, rgba(5, 150, 105, 0.2) 100%);
+  background: rgba(16, 185, 129, 0.25);
   border-color: rgba(16, 185, 129, 0.5);
   color: #34d399;
-  box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
 }
 
-/* Badges informativos en los items */
 .vt-sb-badge {
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 800;
-  padding: 2px 7px;
+  padding: 2px 6px;
   border-radius: 999px;
-  letter-spacing: 0.4px;
   white-space: nowrap;
 }
 
 .vt-sb-badge-count {
   background: rgba(255, 255, 255, 0.08);
   color: #cbd5e1;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.vt-sb-badge-dev {
-  background: rgba(139, 92, 246, 0.18);
-  color: #c4b5fd;
-  border: 1px solid rgba(139, 92, 246, 0.35);
 }
 
 .vt-sb-badge-nuevo {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: #10b981;
   color: #ffffff;
-  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
-  font-size: 0.64rem;
-  padding: 2px 6px;
-  text-transform: uppercase;
-  animation: vtPulseGreen 2.5s infinite;
+  font-size: 0.62rem;
+  padding: 2px 5px;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
 }
 
-@keyframes vtPulseGreen {
-  0%, 100% { box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
-  50% { box-shadow: 0 0 14px rgba(16, 185, 129, 0.7); }
-}
-
-/* Footer del Sidebar: Tarjeta de Usuario */
+/* Footer del Sidebar */
 .vt-sb-footer {
-  margin-top: 1.5rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .vt-sb-user-card {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 9px 10px;
+  gap: 8px;
+  padding: 8px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 10px;
-  position: relative;
+  border-radius: 9px;
   overflow: hidden;
 }
 
 .vt-sb-user-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 9px;
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #3b82f6;
   color: #ffffff;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   flex-shrink: 0;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 2px 8px rgba(29, 78, 216, 0.4);
 }
 
 .vt-sb-user-avatar.dev {
-  background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
-  box-shadow: 0 2px 8px rgba(109, 40, 217, 0.4);
+  background: #8b5cf6;
 }
 
 .vt-sb-user-info {
@@ -456,7 +371,7 @@
 }
 
 .vt-sb-user-email {
-  font-size: 0.8rem;
+  font-size: 0.76rem;
   font-weight: 700;
   color: #f1f5f9;
   white-space: nowrap;
@@ -465,10 +380,9 @@
 }
 
 .vt-sb-user-role {
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 700;
   color: #38bdf8;
-  letter-spacing: 0.3px;
 }
 
 .vt-sb-user-role.dev {
@@ -479,14 +393,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   width: 100%;
-  padding: 8px;
+  padding: 7px;
   background: rgba(239, 68, 68, 0.08);
   border: 1px solid rgba(239, 68, 68, 0.2);
   color: #fca5a5;
-  border-radius: 8px;
-  font-size: 0.82rem;
+  border-radius: 7px;
+  font-size: 0.78rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -494,16 +408,11 @@
 
 .vt-sb-logout-btn:hover {
   background: rgba(239, 68, 68, 0.2);
-  border-color: rgba(239, 68, 68, 0.45);
   color: #ffffff;
-  transform: translateY(-1px);
 }
 
-/* ==========================================================================
-   ESTILOS CUANDO ESTÁ COLAPSADO
-   ========================================================================== */
+/* Colapsado */
 .vt-sidebar-collapsed .vt-sb-titles,
-.vt-sidebar-collapsed .vt-sb-status-badge,
 .vt-sidebar-collapsed .vt-sb-group-label,
 .vt-sidebar-collapsed .vt-sb-item-text,
 .vt-sidebar-collapsed .vt-sb-badge,
@@ -512,14 +421,13 @@
   display: none !important;
 }
 
-.vt-sidebar-collapsed .vt-sb-inner {
-  padding: 1.25rem 0.5rem;
+.vt-sidebar-collapsed .vt-sidebar-inner {
+  padding: 0.85rem 0.5rem;
   align-items: center;
 }
 
 .vt-sidebar-collapsed .vt-sb-brand {
   justify-content: center;
-  padding-bottom: 1rem;
 }
 
 .vt-sidebar-collapsed .vt-sb-toggle-btn {
@@ -528,145 +436,60 @@
 
 .vt-sidebar-collapsed .vt-sb-item {
   justify-content: center;
-  padding: 8px;
+  padding: 7px;
 }
 
 .vt-sidebar-collapsed .vt-sb-item-left {
   gap: 0;
 }
 
-.vt-sidebar-collapsed .vt-sb-footer {
-  width: 100%;
-  align-items: center;
-}
-
-.vt-sidebar-collapsed .vt-sb-user-card {
-  padding: 6px;
-  justify-content: center;
-}
-
 /* ==========================================================================
-   ÁREA DE CONTENIDO PRINCIPAL
+   VIEWPORT PRINCIPAL (MARGIN OFFSET PARA NO CHOCAR CON SIDEBAR FIJO)
    ========================================================================== */
 
 .vt-main-viewport {
-  flex: 1;
-  min-width: 0;
+  margin-left: var(--sb-width-expanded);
+  width: calc(100% - var(--sb-width-expanded));
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   background-color: var(--vt-bg, #f1f5fa);
-  color: #061c4d;
-  min-height: 100vh;
+  transition: margin-left 0.25s ease, width 0.25s ease;
   position: relative;
 }
 
-/* Topbar Superior Moderno */
-.vt-topbar {
-  position: sticky;
-  top: 0;
-  z-index: 90;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 1.5rem;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid #e2e8f0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+.vt-main-viewport.collapsed {
+  margin-left: var(--sb-width-collapsed);
+  width: calc(100% - var(--sb-width-collapsed));
 }
 
-.vt-topbar-left {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.vt-hamburger-btn {
-  display: none;
-  background: #ffffff;
-  border: 1px solid #cbd5e1;
-  color: #334155;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.vt-hamburger-btn:hover {
-  background: #f8fafc;
-  border-color: #94a3b8;
-  color: #0f172a;
-}
-
-.vt-topbar-breadcrumbs {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-}
-
-.vt-crumb-parent {
-  color: #64748b;
-  font-weight: 600;
-}
-
-.vt-crumb-separator {
-  color: #cbd5e1;
-}
-
-.vt-crumb-current {
-  color: #061c4d;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.vt-topbar-right {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-/* Backdrop para móviles */
-.vt-sidebar-backdrop {
+/* Botón flotante para abrir menú en móviles */
+.vt-mobile-nav-trigger {
   display: none;
 }
 
-/* ==========================================================================
-   RESPONSIVE DESIGN (Tablets y Celulares)
-   ========================================================================== */
-
+/* Responsive */
 @media (max-width: 900px) {
   .vt-sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
     transform: translateX(-100%);
-    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.6);
   }
 
   .vt-sidebar-mobile-open {
     transform: translateX(0);
   }
 
+  .vt-main-viewport,
+  .vt-main-viewport.collapsed {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+
   .vt-sidebar-backdrop {
     display: block;
     position: fixed;
     inset: 0;
-    background: rgba(4, 9, 20, 0.65);
+    background: rgba(4, 9, 20, 0.6);
     backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    z-index: 99;
-    animation: fadeIn 0.2s ease;
-  }
-
-  .vt-hamburger-btn {
-    display: flex;
+    z-index: 999;
   }
 }
