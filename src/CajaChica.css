@@ -86,6 +86,246 @@
   line-height: 1.5;
 }
 
+/* ==========================================================================
+   SELECTORES DE DIVISIÓN (NIVEL 1 Y NIVEL 2)
+   ========================================================================== */
+
+.cc-division-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 1.25rem 1.4rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.cc-division-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cc-division-label {
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cc-active-indicator {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #059669;
+  background: #ecfdf5;
+  padding: 2px 9px;
+  border-radius: 999px;
+  border: 1px solid #a7f3d0;
+}
+
+/* Nivel 1: Macro Divisiones (Cusco vs Cajamarca) */
+.cc-macro-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.cc-macro-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 1.5px solid #e2e8f0;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+
+.cc-macro-card:hover {
+  border-color: #cbd5e1;
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.cc-macro-card.active {
+  background: linear-gradient(135deg, #091a38 0%, #061c4d 100%);
+  border-color: #f59e0b;
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(6, 28, 77, 0.25), 0 0 15px rgba(245, 158, 11, 0.2);
+}
+
+.cc-macro-card.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+}
+
+.cc-macro-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cc-macro-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #061c4d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.cc-macro-card.active .cc-macro-icon {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: rgba(245, 158, 11, 0.5);
+  color: #fbbf24;
+}
+
+.cc-macro-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.cc-macro-title {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  line-height: 1.25;
+}
+
+.cc-macro-card.active .cc-macro-title {
+  color: #ffffff;
+}
+
+.cc-macro-sub {
+  font-size: 0.72rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.cc-macro-card.active .cc-macro-sub {
+  color: #93c5fd;
+}
+
+.cc-macro-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.3px;
+}
+
+.cc-macro-card:not(.active) .cc-macro-badge {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.cc-macro-card.active .cc-macro-badge {
+  background: rgba(245, 158, 11, 0.25);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+/* Nivel 2: Sub-cajas de Cusco */
+.cc-subcajas-wrap {
+  padding-top: 0.9rem;
+  border-top: 1px dashed #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: fadeIn 0.25s ease;
+}
+
+.cc-subcajas-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cc-subcajas-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cc-subcajas-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cc-sub-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: 10px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cc-sub-btn:hover:not(.active) {
+  border-color: #10b981;
+  color: #059669;
+  background: #ecfdf5;
+  transform: translateY(-1px);
+}
+
+.cc-sub-btn.active {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-color: #047857;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+}
+
+.cc-sub-pill {
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 1px 7px;
+  border-radius: 999px;
+}
+
+.cc-sub-btn:not(.active) .cc-sub-pill {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.cc-sub-btn.active .cc-sub-pill {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
 /* Tarjetas KPI de Caja Chica */
 .cc-kpis {
   display: grid;
