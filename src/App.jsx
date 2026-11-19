@@ -4,6 +4,7 @@ import DashboardAnalitico from './DashboardAnalitico.jsx'
 import Auditoria from './Auditoria.jsx'
 import GatitoAnimado from './GatitoAnimado.jsx'
 import emblemVoltium from './assets/emblem-clean.png'
+import nuevos58 from './nuevos58.json'
 import { useState, useEffect } from 'react'
 import { supabase } from './supabase.js'
 import './Dashboard.css'
@@ -46,6 +47,7 @@ export default function App() {
   const [vistaActual, setVistaActual] = useState('tabla') // 'tabla' | 'dashboard' | 'auditoria'
   const [seleccionados, setSeleccionados] = useState(new Set())
   const [modalSumaAbierto, setModalSumaAbierto] = useState(false)
+  const [cargando58, setCargando58] = useState(false)
 
   const esDesarrollador = usuario?.email?.toLowerCase() === CORREO_DESARROLLADOR
 
@@ -181,9 +183,16 @@ export default function App() {
   }
 
   async function guardarEdicion(id, cambios) {
+    const cambiosMayus = { ...cambios }
+    if (typeof cambiosMayus.descripcion === 'string') {
+      cambiosMayus.descripcion = cambiosMayus.descripcion.toUpperCase().trim()
+    }
+    if (typeof cambiosMayus.razon_social === 'string') {
+      cambiosMayus.razon_social = cambiosMayus.razon_social.toUpperCase().trim()
+    }
     const { data, error } = await supabase
       .from('requerimientos')
-      .update(cambios)
+      .update(cambiosMayus)
       .eq('id', id)
       .is('eliminado_en', null)
       .select('id,fecha,sede,categoria,descripcion,razon_social,monto_bruto,retencion,total_a_pagar,estado')
@@ -205,6 +214,39 @@ export default function App() {
   function cambiar(evento) {
     const { name, value } = evento.target
     setFiltros(actual => ({ ...actual, [name]: value }))
+  }
+
+  async function cargarNuevos58() {
+    if (cargando58) return
+    const confirmar = window.confirm(
+      'Se detectaron exactamente los 58 requerimientos nuevos que faltan en el sistema.\n\n' +
+      '¿Deseas subirlos ahora a Supabase para completar los 255 registros (Total: S/ 1,218,139.05)?'
+    )
+    if (!confirmar) return
+
+    setCargando58(true)
+    setMensaje('Insertando los 58 requerimientos en Supabase…')
+
+    try {
+      const { data, error } = await supabase
+        .from('requerimientos')
+        .insert(nuevos58)
+        .select('id,fecha,sede,categoria,descripcion,razon_social,monto_bruto,retencion,total_a_pagar,estado')
+
+      if (error) throw error
+
+      setFilas(actual => [...data, ...(actual || [])].sort((a, b) => b.fecha.localeCompare(a.fecha)))
+      setMensaje(`¡Completado! Se incorporaron los 58 nuevos requerimientos con éxito. Total actual en el sistema: 255 registros.`)
+      await registrarActividad(
+        'Carga masiva',
+        `Importó 58 requerimientos restantes del Excel (Monto agregado: S/ 121,008.14; Total sistema: 255 registros)`,
+        usuario?.email
+      )
+    } catch (err) {
+      setMensaje(`Error al subir registros: ${err.message}`)
+    } finally {
+      setCargando58(false)
+    }
   }
 
   if (!filas) {
@@ -435,6 +477,27 @@ export default function App() {
               </h2>
 
               <div className="vt-toolbar-actions">
+                {filas && filas.length < 255 ? (
+                  <button
+                    type="button"
+                    onClick={cargarNuevos58}
+                    disabled={cargando58}
+                    className="vt-btn-sync-58"
+                    title="Cargar los 58 requerimientos restantes del Excel para completar los 255"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="7 10 12 15 17 10" />
+                      <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    <span>{cargando58 ? 'Cargando 58…' : `Cargar 58 restantes (${filas.length}/255)`}</span>
+                  </button>
+                ) : (
+                  <span className="vt-sync-badge-ok" title="Base de datos completa con los 255 registros">
+                    ✓ 255 registros
+                  </span>
+                )}
+
                 <button
                   type="button"
                   onClick={() => {

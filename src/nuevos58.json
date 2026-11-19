@@ -1,0 +1,582 @@
+[
+  {
+    "fecha": "2026-11-02",
+    "sede": "Cusco",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA CUSCO",
+    "razon_social": "KARERN COLQUE",
+    "monto_bruto": 1300.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-02",
+    "sede": "Valle Sagrado",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA VALLE SAGRADO",
+    "razon_social": "CESAR YARIN",
+    "monto_bruto": 500.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-02",
+    "sede": "Anta",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA - ANTA",
+    "razon_social": "YOEL QUISPE",
+    "monto_bruto": 500.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-02",
+    "sede": "Cusco",
+    "categoria": "Viáticos y Servicios",
+    "descripcion": "LINEAS MOVILES CLARO - OCTUBRE",
+    "razon_social": "CLARO",
+    "monto_bruto": 978.64,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-05",
+    "sede": "Cusco",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA CUSCO",
+    "razon_social": "KARERN COLQUE",
+    "monto_bruto": 3000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-05",
+    "sede": "Valle Sagrado",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA VALLE SAGRADO",
+    "razon_social": "CESAR YARIN",
+    "monto_bruto": 3000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-05",
+    "sede": "Anta",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA - ANTA",
+    "razon_social": "YOEL QUISPE",
+    "monto_bruto": 1000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-07",
+    "sede": "Cusco",
+    "categoria": "Planilla y Haberes",
+    "descripcion": "ADELANTO DE SUELDO MES DE OCTUBRE",
+    "razon_social": "CARLOS YURI CHEVARRIA VUCETICH",
+    "monto_bruto": 1000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-07",
+    "sede": "Valle Sagrado",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA VALLE SAGRADO- PAGO DE LINEAS MOVILES",
+    "razon_social": "CESAR YARIN",
+    "monto_bruto": 1000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-07",
+    "sede": "Cusco",
+    "categoria": "Mantenimiento y Vehículos",
+    "descripcion": "KIT DE EMBRIAGUE Y RODAJE, CAMBIO DE DISCO EMBRIAGUE ARREGLO SISTEMA COMBUSTIBLE",
+    "razon_social": "QUISPE CUSI RAUL RICHAR",
+    "monto_bruto": 2070.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-09",
+    "sede": "Cusco",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA CUSCO",
+    "razon_social": "KARERN COLQUE",
+    "monto_bruto": 1000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-09",
+    "sede": "Valle Sagrado",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA VALLE SAGRADO",
+    "razon_social": "CESAR YARIN",
+    "monto_bruto": 1000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-09",
+    "sede": "Anta",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA - ANTA",
+    "razon_social": "YOEL QUISPE",
+    "monto_bruto": 500.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-11",
+    "sede": "Cusco",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA CUSCO",
+    "razon_social": "KARERN COLQUE",
+    "monto_bruto": 3000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-11",
+    "sede": "Valle Sagrado",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA VALLE SAGRADO",
+    "razon_social": "CESAR YARIN",
+    "monto_bruto": 3000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-11",
+    "sede": "Anta",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA - ANTA",
+    "razon_social": "YOEL QUISPE",
+    "monto_bruto": 1000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-11",
+    "sede": "Cusco",
+    "categoria": "Mantenimiento y Vehículos",
+    "descripcion": "PAGO DE MANTENIMIENTO LAS CAMIONETAS JAC NUEVAS DE CUSCO",
+    "razon_social": "VARGAS TAPIA JOSE MOISES",
+    "monto_bruto": 1060.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-11",
+    "sede": "Cusco",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA CUSCO",
+    "razon_social": "KARERN COLQUE",
+    "monto_bruto": 1000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-11",
+    "sede": "Valle Sagrado",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA VALLE SAGRADO",
+    "razon_social": "CESAR YARIN",
+    "monto_bruto": 1000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-13",
+    "sede": "Cusco",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA CUSCO",
+    "razon_social": "KARERN COLQUE",
+    "monto_bruto": 3000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-13",
+    "sede": "Valle Sagrado",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA VALLE SAGRADO",
+    "razon_social": "CESAR YARIN",
+    "monto_bruto": 3000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-13",
+    "sede": "Anta",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA - ANTA",
+    "razon_social": "YOEL QUISPE",
+    "monto_bruto": 1000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-13",
+    "sede": "Cusco",
+    "categoria": "Mantenimiento y Vehículos",
+    "descripcion": "KIT DE EMBRAGUE  , CRUCETAS DE CARDAN 2  GOMAS DE CUENTA DE  CARDAN PLACAS  VBL-894 / VBL-915",
+    "razon_social": "CANCHIS CHAMPI IVAN",
+    "monto_bruto": 1010.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-13",
+    "sede": "Cusco",
+    "categoria": "Mantenimiento y Vehículos",
+    "descripcion": "PAGO A CUENTA DE CAMIONETAS VBL-984 / VBL-915",
+    "razon_social": "AYTI TITO WILLIAM DANIEL",
+    "monto_bruto": 1000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-13",
+    "sede": "Cusco",
+    "categoria": "Mantenimiento y Vehículos",
+    "descripcion": "SENSOR DE DOBLE TRACCION . BUJES DE TRAPECIO , ROTULAS, PLACA VAN-934",
+    "razon_social": "QUISPE CUSI RAUL RICHAR",
+    "monto_bruto": 1850.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-13",
+    "sede": "Cusco",
+    "categoria": "Mantenimiento y Vehículos",
+    "descripcion": "GASTOS VARIOS VEHICULAR",
+    "razon_social": "AYTI TITO WILLIAM DANIEL",
+    "monto_bruto": 1148.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-13",
+    "sede": "Cusco",
+    "categoria": "Mantenimiento y Vehículos",
+    "descripcion": "COMPRA DE TURBO PLACA VCI-870",
+    "razon_social": "AYTI TITO WILLIAM DANIEL",
+    "monto_bruto": 2000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-13",
+    "sede": "Limatambo",
+    "categoria": "Mantenimiento y Vehículos",
+    "descripcion": "PAGO DE ALQUILER DE GRUA - PLACA VBL-894 - LIMA TAMBO",
+    "razon_social": "AYTI TITO WILLIAM DANIEL",
+    "monto_bruto": 750.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-13",
+    "sede": "Cotabambas",
+    "categoria": "Mantenimiento y Vehículos",
+    "descripcion": "COMPRA DE MUELLE MADRE  - TAMBOBAMBA PLACA  VCJ- 826",
+    "razon_social": "AYTI TITO WILLIAM DANIEL",
+    "monto_bruto": 783.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-14",
+    "sede": "Cusco",
+    "categoria": "Seguros y AFP",
+    "descripcion": "AFP FEBRERO 2023",
+    "razon_social": "SILVA VERA ANAIS IRENE",
+    "monto_bruto": 236.8,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-14",
+    "sede": "Cusco",
+    "categoria": "Viáticos y Servicios",
+    "descripcion": "CUARTO",
+    "razon_social": "SILVA VERA ANAIS IRENE",
+    "monto_bruto": 115.66,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-14",
+    "sede": "Cusco",
+    "categoria": "Viáticos y Servicios",
+    "descripcion": "VIATICOS",
+    "razon_social": "SILVA VERA ANAIS IRENE",
+    "monto_bruto": 175.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-14",
+    "sede": "Cusco",
+    "categoria": "Planilla y Haberes",
+    "descripcion": "PLANILLA HABERES",
+    "razon_social": "SILVA VERA ANAIS IRENE",
+    "monto_bruto": 1066.67,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-14",
+    "sede": "Cusco",
+    "categoria": "Planilla y Haberes",
+    "descripcion": "BONO POR PRODUCTIVIDAD",
+    "razon_social": "SILVA VERA ANAIS IRENE",
+    "monto_bruto": 640.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-14",
+    "sede": "Cusco",
+    "categoria": "Viáticos y Servicios",
+    "descripcion": "VIATICOS PERSONAL RRHH A CONCILIACION - TRUJILLO",
+    "razon_social": "GARCIA GARCIA ROSA JUDITH",
+    "monto_bruto": 176.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-16",
+    "sede": "Cusco",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA CUSCO",
+    "razon_social": "KARERN COLQUE",
+    "monto_bruto": 2500.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-16",
+    "sede": "Valle Sagrado",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA VALLE SAGRADO",
+    "razon_social": "CESAR YARIN",
+    "monto_bruto": 2000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-16",
+    "sede": "Anta",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA - ANTA",
+    "razon_social": "YOEL QUISPE",
+    "monto_bruto": 1500.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-17",
+    "sede": "Valle Sagrado",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA VALLE SAGRADO",
+    "razon_social": "CESAR YARIN",
+    "monto_bruto": 2000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-17",
+    "sede": "Anta",
+    "categoria": "Mantenimiento y Vehículos",
+    "descripcion": "PAGO A CUENTA DE REEPUESTOS",
+    "razon_social": "YOEL QUISPE",
+    "monto_bruto": 5000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-18",
+    "sede": "Cusco",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA CUSCO",
+    "razon_social": "KARERN COLQUE",
+    "monto_bruto": 3500.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-18",
+    "sede": "Cusco",
+    "categoria": "Mantenimiento y Vehículos",
+    "descripcion": "MAMNTT CAMBIO DE BOMBA DE AGUA DE RADIADOR PLCA VBL-915",
+    "razon_social": "CANCHIS CHAMPI IVAN",
+    "monto_bruto": 1150.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-18",
+    "sede": "Cusco",
+    "categoria": "Planilla y Haberes",
+    "descripcion": "PAGO DE HABERES Y BONO OCTUBRE CUENTAS BBVA",
+    "razon_social": "KELLY",
+    "monto_bruto": 9606.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-18",
+    "sede": "Cusco",
+    "categoria": "Planilla y Haberes",
+    "descripcion": "PAGO DE HABERES Y BONO OCTUBRE CUENTA BCP",
+    "razon_social": "EUGENIO CHIRINOS LLICAHUA",
+    "monto_bruto": 2150.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-18",
+    "sede": "Cusco",
+    "categoria": "Planilla y Haberes",
+    "descripcion": "PAGO DE HABERES Y BONO OCTUBRE CUENTA BCP",
+    "razon_social": "LEONED PACOCHUCO USUCACHI",
+    "monto_bruto": 2300.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-20",
+    "sede": "Cusco",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA CUSCO",
+    "razon_social": "KARERN COLQUE",
+    "monto_bruto": 3000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-20",
+    "sede": "Valle Sagrado",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA VALLE SAGRADO",
+    "razon_social": "CESAR YARIN",
+    "monto_bruto": 3000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-20",
+    "sede": "Anta",
+    "categoria": "Caja Chica",
+    "descripcion": "CAJA CHICA - ANTA",
+    "razon_social": "YOEL QUISPE",
+    "monto_bruto": 1000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-20",
+    "sede": "Cusco",
+    "categoria": "Planilla y Haberes",
+    "descripcion": "REINTEGRO -  HABERES SETIEMBRE 2026 - FORMULA NO JALO",
+    "razon_social": "LUIS ISIDRO OLIVERA GUTIERREZ",
+    "monto_bruto": 150.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-20",
+    "sede": "Cusco",
+    "categoria": "Planilla y Haberes",
+    "descripcion": "REINTEGRO -  HABERES SETIEMBRE 2026 - FORMULA NO JALO",
+    "razon_social": "JOSE TORRES ZARATE",
+    "monto_bruto": 610.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-20",
+    "sede": "Cusco",
+    "categoria": "Planilla y Haberes",
+    "descripcion": "REINTEGRO -  HABERES OCTUBRE 2026 - FORMULA NO JALO",
+    "razon_social": "JHERSON HUAMANI LLERENA",
+    "monto_bruto": 238.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-20",
+    "sede": "Cusco",
+    "categoria": "Planilla y Haberes",
+    "descripcion": "REINTEGRO -  HABERES OCTUBRE 2026 - FORMULA NO JALO",
+    "razon_social": "LUIS ISIDRO OLIVERA GUTIERREZ",
+    "monto_bruto": 250.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-20",
+    "sede": "Cusco",
+    "categoria": "Viáticos y Servicios",
+    "descripcion": "FACTURAS DON TITTO - SETIEMBRE Y OCTUBRE 2006 - PAGO A CUENTA",
+    "razon_social": "SOLEDAD PUMA",
+    "monto_bruto": 20000.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-20",
+    "sede": "Limatambo",
+    "categoria": "Combustible",
+    "descripcion": "GRIFO AL CREDITO LIMATAMBO Y ANTA - GRIFO SANTA INES - OCTUBRE 2026",
+    "razon_social": "GRIFO SANTA INES",
+    "monto_bruto": 7560.99,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-20",
+    "sede": "Cotabambas",
+    "categoria": "Combustible",
+    "descripcion": "GRIFO AL CREDITO TAMBOBAMBA - GRIFO PALCARO - OCTUBRE 2026",
+    "razon_social": "GRIFO PALCARO",
+    "monto_bruto": 2286.88,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-20",
+    "sede": "Cotabambas",
+    "categoria": "Combustible",
+    "descripcion": "GRIFO AL CREDITO GE COTABAMBAS - OCTUBRE 2026",
+    "razon_social": "ESTACION DE SERVICIOS COTABAMBAS S.A.C",
+    "monto_bruto": 1286.5,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-20",
+    "sede": "Coyllurqui",
+    "categoria": "Combustible",
+    "descripcion": "GRIFO - GE COYLLURQUI - E.S COYLLURQUI - ANTA - OCTUBRE",
+    "razon_social": "RODRIGUEZ HUAYHUA ANTONIA",
+    "monto_bruto": 3960.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  },
+  {
+    "fecha": "2026-11-20",
+    "sede": "Cusco",
+    "categoria": "Mantenimiento y Vehículos",
+    "descripcion": "2 MATAPERROS PLACAS X6N+838/ X6N-829 JAC",
+    "razon_social": null,
+    "monto_bruto": 1100.0,
+    "retencion": 0.0,
+    "estado": "Pagado"
+  }
+]

@@ -204,11 +204,11 @@ export default function NuevoRequerimiento({
                         name="nueva_sede"
                         placeholder="Escribe el nombre de la nueva sede"
                         value={nuevaSede}
-                        onChange={e => setNuevaSede(e.target.value)}
+                        onChange={e => setNuevaSede(e.target.value.toUpperCase())}
                         required
                         disabled={guardando}
                         autoFocus
-                        style={{ marginTop: '6px' }}
+                        style={{ marginTop: '6px', textTransform: 'uppercase' }}
                       />
                     )}
                   </div>
@@ -235,11 +235,11 @@ export default function NuevoRequerimiento({
                         name="nueva_categoria"
                         placeholder="Escribe el nombre de la nueva categoría"
                         value={nuevaCat}
-                        onChange={e => setNuevaCat(e.target.value)}
+                        onChange={e => setNuevaCat(e.target.value.toUpperCase())}
                         required
                         disabled={guardando}
                         autoFocus
-                        style={{ marginTop: '6px' }}
+                        style={{ marginTop: '6px', textTransform: 'uppercase' }}
                       />
                     )}
                   </div>
@@ -250,8 +250,10 @@ export default function NuevoRequerimiento({
                       id="req-razon"
                       name="razon_social"
                       placeholder="Nombre del proveedor o empresa"
-                      defaultValue={edicion?.razon_social || ''}
+                      defaultValue={edicion?.razon_social ? edicion.razon_social.toUpperCase() : ''}
+                      onBlur={e => { e.target.value = e.target.value.toUpperCase() }}
                       disabled={guardando}
+                      style={{ textTransform: 'uppercase' }}
                     />
                   </div>
 
@@ -262,9 +264,11 @@ export default function NuevoRequerimiento({
                       name="descripcion"
                       rows="2"
                       placeholder="Detalle del requerimiento..."
-                      defaultValue={edicion ? edicion.descripcion : ''}
+                      defaultValue={edicion ? edicion.descripcion.toUpperCase() : ''}
+                      onBlur={e => { e.target.value = e.target.value.toUpperCase() }}
                       required
                       disabled={guardando}
+                      style={{ textTransform: 'uppercase' }}
                     />
                   </div>
 
