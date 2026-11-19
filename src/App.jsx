@@ -1069,6 +1069,17 @@ export default function App() {
           onCerrar={() => setFilaAEditar(null)}
         />
       )}
+
+      {/* Footer Global Corporativo con Crédito de Autor */}
+      <footer className="vt-global-footer">
+        <div className="vt-footer-inner">
+          <span className="vt-footer-copy">© 2026 Consorcio Voltium · Portal Corporativo Killary</span>
+          <div className="vt-footer-credit">
+            <span className="vt-credit-icon">⚡</span>
+            <span>Desarrollado por <strong className="vt-author-highlight">Diego A. Tumba</strong></span>
+          </div>
+        </div>
+      </footer>
       </div>
     </div>
   )

@@ -69,6 +69,61 @@
   overflow-x: hidden;
 }
 
+/* ==========================================================================
+   Footer Global Corporativo con Firma de Autor
+   ========================================================================== */
+.vt-global-footer {
+  margin-top: auto;
+  padding: 1.25rem 1.5rem;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.vt-footer-inner {
+  max-width: 1350px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.84rem;
+  color: #64748b;
+}
+
+.vt-footer-copy {
+  font-weight: 600;
+  color: #475569;
+}
+
+.vt-footer-credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 15px;
+  background: linear-gradient(135deg, rgba(6, 28, 77, 0.03) 0%, rgba(245, 158, 11, 0.06) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 999px;
+  font-size: 0.82rem;
+  color: #334155;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.vt-credit-icon {
+  font-size: 0.9rem;
+  filter: drop-shadow(0 0 4px #f59e0b);
+}
+
+.vt-author-highlight {
+  font-weight: 800;
+  background: linear-gradient(135deg, #061c4d 0%, #1d4ed8 45%, #d97706 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.3px;
+}
+
 /* Page Wrapper */
 .vt-dashboard {
   min-height: 100vh;

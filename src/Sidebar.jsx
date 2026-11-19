@@ -187,6 +187,18 @@ export default function Sidebar({
               </svg>
               {!colapsado && <span>Cerrar sesión</span>}
             </button>
+
+            {/* Firma de Autor / Desarrollador */}
+            {!colapsado ? (
+              <div className="vt-sb-author-badge">
+                <span className="vt-sb-author-label">Desarrollado por</span>
+                <span className="vt-sb-author-name">Diego A. Tumba</span>
+              </div>
+            ) : (
+              <div className="vt-sb-author-compact" title="Desarrollado por Diego A. Tumba">
+                <span className="vt-sb-author-initials">DT</span>
+              </div>
+            )}
           </div>
         </div>
       </aside>

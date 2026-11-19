@@ -193,7 +193,10 @@ export default function Login({ onSubmit, cargando, mensaje }) {
 
         {/* Pie de página exterior */}
         <footer className="vl-footer">
-          <p>© {anioActual} Consorcio Voltium · Todos los derechos reservados</p>
+          <p>© {anioActual} Consorcio Voltium · Portal Corporativo Killary</p>
+          <p style={{ marginTop: '5px', fontSize: '0.82rem', color: '#94a3b8' }}>
+            Desarrollado por <strong style={{ fontWeight: 800, background: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 60%, #fef08a 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '0.3px' }}>Diego A. Tumba</strong>
+          </p>
         </footer>
       </div>
     </div>
