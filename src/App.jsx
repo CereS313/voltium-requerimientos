@@ -320,7 +320,6 @@ export default function App() {
         menuMovilAbierto={menuMovilAbierto}
         setMenuMovilAbierto={setMenuMovilAbierto}
         usuario={usuario}
-        onCerrarSesion={salir}
         esDesarrollador={esDesarrollador}
         conteoRequerimientos={filas?.length || 255}
       />
@@ -332,25 +331,6 @@ export default function App() {
             {/* Header Módulo Caja Chica */}
             <header className="vt-navbar" style={{ background: 'linear-gradient(135deg, #051d14 0%, #061c4d 100%)', borderBottom: '2.5px solid #10b981' }}>
               <div className="vt-nav-brand">
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (window.innerWidth <= 900) {
-                      setMenuMovilAbierto(prev => !prev)
-                    } else {
-                      setColapsado(prev => !prev)
-                    }
-                  }}
-                  className="vt-hamburger-btn"
-                  title={colapsado ? 'Expandir menú lateral' : 'Contraer menú lateral'}
-                  style={{ marginRight: '6px' }}
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                    <line x1="3" y1="12" x2="21" y2="12" />
-                    <line x1="3" y1="6" x2="21" y2="6" />
-                    <line x1="3" y1="18" x2="21" y2="18" />
-                  </svg>
-                </button>
                 <div className="vt-nav-logo" style={{ borderColor: 'rgba(16, 185, 129, 0.5)' }}>
                   <img src={emblemVoltium} alt="Consorcio Voltium" className="vt-nav-logo-img" />
                 </div>
@@ -399,25 +379,6 @@ export default function App() {
             {/* Barra de Navegación Superior ORIGINAL de Requerimientos */}
             <header className="vt-navbar">
               <div className="vt-nav-brand">
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (window.innerWidth <= 900) {
-                      setMenuMovilAbierto(prev => !prev)
-                    } else {
-                      setColapsado(prev => !prev)
-                    }
-                  }}
-                  className="vt-hamburger-btn"
-                  title={colapsado ? 'Expandir menú lateral' : 'Contraer menú lateral'}
-                  style={{ marginRight: '6px' }}
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                    <line x1="3" y1="12" x2="21" y2="12" />
-                    <line x1="3" y1="6" x2="21" y2="6" />
-                    <line x1="3" y1="18" x2="21" y2="18" />
-                  </svg>
-                </button>
                 <div className="vt-nav-logo">
                   <img src={emblemVoltium} alt="Consorcio Voltium" className="vt-nav-logo-img" />
                 </div>
