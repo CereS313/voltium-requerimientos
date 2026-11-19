@@ -41,7 +41,7 @@
   margin: 0;
   font-size: 1.35rem;
   font-weight: 800;
-  color: #0f172a;
+  color: #061c4d;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -55,15 +55,15 @@
   letter-spacing: 0.08em;
   padding: 3px 10px;
   border-radius: 9999px;
-  background: #eff6ff;
-  color: #2563eb;
-  border: 1px solid #bfdbfe;
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
 }
 
 .da-subtitle {
   margin: 0;
   font-size: 0.84rem;
-  color: #64748b;
+  color: #5a6e8c;
 }
 
 .da-filters {
@@ -79,7 +79,7 @@
   border: 1px solid #cbd5e1;
   border-radius: 8px;
   background-color: #ffffff !important;
-  color: #1e293b !important;
+  color: #061c4d !important;
   color-scheme: light !important;
   font-size: 0.86rem;
   font-weight: 600;
@@ -91,8 +91,8 @@
 }
 
 .da-filter-select:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
 }
 
 /* ==========================================================================

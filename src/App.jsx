@@ -3,6 +3,7 @@ import Login from './Login.jsx'
 import DashboardAnalitico from './DashboardAnalitico.jsx'
 import Auditoria from './Auditoria.jsx'
 import GatitoAnimado from './GatitoAnimado.jsx'
+import emblemVoltium from './assets/emblem-clean.png'
 import { useState, useEffect } from 'react'
 import { supabase } from './supabase.js'
 import './Dashboard.css'
@@ -41,9 +42,10 @@ export default function App() {
   const [filtros, setFiltros] = useState(filtrosIniciales)
   const [mensaje, setMensaje] = useState('')
   const [cargando, setCargando] = useState(false)
-  const [actualizandoEstado, setActualizandoEstado] = useState(false)
   const [filaAEditar, setFilaAEditar] = useState(null)
   const [vistaActual, setVistaActual] = useState('tabla') // 'tabla' | 'dashboard' | 'auditoria'
+  const [seleccionados, setSeleccionados] = useState(new Set())
+  const [modalSumaAbierto, setModalSumaAbierto] = useState(false)
 
   const esDesarrollador = usuario?.email?.toLowerCase() === CORREO_DESARROLLADOR
 
@@ -146,40 +148,6 @@ export default function App() {
     setMensaje('')
   }
 
-  async function cambiarEstado(fila, estado) {
-    if (estado === fila.estado || actualizandoEstado) return
-    setActualizandoEstado(true)
-    setMensaje('Guardando estado...')
-
-    try {
-      const { data, error } = await supabase
-        .from('requerimientos')
-        .update({ estado })
-        .eq('id', fila.id)
-        .eq('estado', fila.estado)
-        .select('id,estado')
-        .maybeSingle()
-
-      if (error) throw error
-      if (!data) {
-        throw new Error('No se aplicó el cambio. Recarga el panel para ver el estado actual.')
-      }
-
-      setFilas(actual => actual.map(item =>
-        item.id === data.id ? { ...item, estado: data.estado } : item,
-      ))
-      setMensaje(`Estado actualizado a ${data.estado}.`)
-      registrarActividad(
-        'Cambio de estado',
-        `Cambió estado de #${fila.id} («${fila.descripcion}») de «${fila.estado}» a «${data.estado}»`,
-      )
-    } catch (error) {
-      setMensaje(`No se pudo cambiar el estado: ${error.message}`)
-    } finally {
-      setActualizandoEstado(false)
-    }
-  }
-
   async function eliminarRequerimiento(fila) {
     const confirmar = window.confirm(
       `¿Eliminar «${fila.descripcion}» del presupuesto?`,
@@ -200,6 +168,11 @@ export default function App() {
     }
 
     setFilas(actual => actual.filter(item => item.id !== fila.id))
+    setSeleccionados(prev => {
+      const nuevo = new Set(prev)
+      nuevo.delete(fila.id)
+      return nuevo
+    })
     setMensaje('Registro retirado del presupuesto.')
     registrarActividad(
       'Eliminación',
@@ -258,28 +231,51 @@ export default function App() {
   const sedesDisponibles = [...new Set(filas.map(f => f.sede).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }))
   const categoriasDisponibles = [...new Set(filas.map(f => f.categoria).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }))
 
+  function alternarSeleccion(id) {
+    setSeleccionados(prev => {
+      const nuevo = new Set(prev)
+      if (nuevo.has(id)) nuevo.delete(id)
+      else nuevo.add(id)
+      return nuevo
+    })
+  }
+
+  function alternarTodos() {
+    const todosVisiblesSeleccionados = visibles.length > 0 && visibles.every(f => seleccionados.has(f.id))
+    if (todosVisiblesSeleccionados) {
+      setSeleccionados(prev => {
+        const nuevo = new Set(prev)
+        visibles.forEach(f => nuevo.delete(f.id))
+        return nuevo
+      })
+    } else {
+      setSeleccionados(prev => {
+        const nuevo = new Set(prev)
+        visibles.forEach(f => nuevo.add(f.id))
+        return nuevo
+      })
+    }
+  }
+
+  const itemsSeleccionados = filas.filter(f => seleccionados.has(f.id))
+  const totalSumaCentimos = itemsSeleccionados.reduce(
+    (suma, f) => suma + Math.round(Number(f.total_a_pagar) * 100), 0
+  )
+
   return (
     <div className="vt-dashboard">
       {/* Barra de Navegación Superior */}
       <header className="vt-navbar">
         <div className="vt-nav-brand">
           <div className="vt-nav-logo">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M13 2L3 14H12L11 22L21 10H12L13 2Z"
-                fill="#38bdf8"
-                stroke="#ffffff"
-                strokeWidth="1.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <img src={emblemVoltium} alt="Consorcio Voltium" className="vt-nav-logo-img" />
           </div>
           <div className="vt-nav-titles">
             <h1 className="vt-nav-title">
-              Voltium <span>Presupuesto</span>
+              <span className="vt-nav-corp">CONSORCIO</span>
+              <span className="vt-nav-name">VOLTIUM</span>
             </h1>
-            <p className="vt-nav-subtitle">Control y Gestión de Requerimientos</p>
+            <p className="vt-nav-subtitle">Portal Corporativo Killary · Requerimientos</p>
           </div>
         </div>
 
@@ -438,19 +434,39 @@ export default function App() {
                 <span>Listado de Requerimientos</span>
               </h2>
 
-              <NuevoRequerimiento
-                sedes={sedesDisponibles}
-                categorias={categoriasDisponibles}
-                alGuardar={nuevo => {
-                  setFilas(actual => [nuevo, ...actual].sort((a, b) => b.fecha.localeCompare(a.fecha)))
-                  setFiltros(filtrosIniciales)
-                  setMensaje('Requerimiento registrado con éxito.')
-                  registrarActividad(
-                    'Creación',
-                    `Registró requerimiento #${nuevo.id}: «${nuevo.descripcion}» (Sede: ${nuevo.sede}, Total: ${soles.format(nuevo.total_a_pagar)})`,
-                  )
-                }}
-              />
+              <div className="vt-toolbar-actions">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (seleccionados.size === 0) {
+                      setMensaje('Marca la casilla de al menos un requerimiento para calcular la suma.')
+                      return
+                    }
+                    setModalSumaAbierto(true)
+                  }}
+                  className={`vt-btn-sumar ${seleccionados.size > 0 ? 'vt-btn-sumar-active' : ''}`}
+                  title="Sumar total a pagar de los requerimientos seleccionados"
+                >
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 4h16v3l-7 5 7 5v3H4" />
+                  </svg>
+                  <span>Sumar {seleccionados.size > 0 ? `(${seleccionados.size})` : ''}</span>
+                </button>
+
+                <NuevoRequerimiento
+                  sedes={sedesDisponibles}
+                  categorias={categoriasDisponibles}
+                  alGuardar={nuevo => {
+                    setFilas(actual => [nuevo, ...actual].sort((a, b) => b.fecha.localeCompare(a.fecha)))
+                    setFiltros(filtrosIniciales)
+                    setMensaje('Requerimiento registrado con éxito.')
+                    registrarActividad(
+                      'Creación',
+                      `Registró requerimiento #${nuevo.id}: «${nuevo.descripcion}» (Sede: ${nuevo.sede}, Total: ${soles.format(nuevo.total_a_pagar)})`,
+                    )
+                  }}
+                />
+              </div>
             </div>
 
             {/* Mensajes de Estado */}
@@ -539,18 +555,41 @@ export default function App() {
             <table className="vt-table">
               <thead>
                 <tr>
+                  <th style={{ width: '46px', textAlign: 'center' }}>
+                    <input
+                      type="checkbox"
+                      checked={visibles.length > 0 && visibles.every(f => seleccionados.has(f.id))}
+                      onChange={alternarTodos}
+                      className="vt-checkbox-item"
+                      title="Seleccionar todos los visibles"
+                      aria-label="Seleccionar todos los visibles"
+                    />
+                  </th>
                   <th style={{ width: '100px' }}>Fecha</th>
                   <th style={{ width: '110px' }}>Sede</th>
                   <th style={{ width: '120px' }}>Categoría</th>
                   <th>Descripción</th>
-                  <th style={{ width: '130px', textAlign: 'right' }}>Total a pagar</th>
+                  <th style={{ width: '135px', textAlign: 'right' }}>Total a pagar</th>
                   <th style={{ width: '135px' }}>Estado</th>
-                  <th style={{ width: '160px', textAlign: 'center' }}>Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 {visibles.map(fila => (
-                  <tr key={fila.id}>
+                  <tr
+                    key={fila.id}
+                    onClick={() => setFilaAEditar(fila)}
+                    className={`vt-row-clickable ${seleccionados.has(fila.id) ? 'vt-row-selected' : ''}`}
+                    title="Haz clic para modificar este requerimiento"
+                  >
+                    <td style={{ textAlign: 'center' }} onClick={e => e.stopPropagation()}>
+                      <input
+                        type="checkbox"
+                        checked={seleccionados.has(fila.id)}
+                        onChange={() => alternarSeleccion(fila.id)}
+                        className="vt-checkbox-item"
+                        aria-label={`Seleccionar ${fila.descripcion}`}
+                      />
+                    </td>
                     <td>
                       <span className="vt-date-badge">
                         {fila.fecha.split('-').reverse().join('/')}
@@ -562,52 +601,21 @@ export default function App() {
                     <td>
                       <span className="vt-cat-pill">{fila.categoria}</span>
                     </td>
-                    <td className="vt-desc-cell">{fila.descripcion}</td>
+                    <td className="vt-desc-cell">
+                      <div className="vt-desc-text">{fila.descripcion}</div>
+                      {fila.razon_social && (
+                        <small className="vt-desc-sub">{fila.razon_social}</small>
+                      )}
+                    </td>
                     <td style={{ textAlign: 'right' }}>
                       <span className="vt-monto-text">
                         {soles.format(fila.total_a_pagar)}
                       </span>
                     </td>
                     <td>
-                      <select
-                        aria-label={`Estado de ${fila.descripcion}`}
-                        value={fila.estado}
-                        disabled={actualizandoEstado}
-                        onChange={evento => cambiarEstado(fila, evento.target.value)}
-                        className={`vt-status-select vt-status-${fila.estado.toLowerCase()}`}
-                      >
-                        <option value="Pendiente">● Pendiente</option>
-                        <option value="Programado">● Programado</option>
-                        <option value="Pagado">● Pagado</option>
-                      </select>
-                    </td>
-                    <td style={{ textAlign: 'center' }}>
-                      <div className="vt-actions-cell">
-                        <button
-                          type="button"
-                          onClick={() => setFilaAEditar(fila)}
-                          className="vt-btn-action vt-btn-edit"
-                          title="Editar requerimiento"
-                        >
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
-                          </svg>
-                          <span>Editar</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => eliminarRequerimiento(fila)}
-                          className="vt-btn-action vt-btn-delete"
-                          title="Eliminar requerimiento"
-                        >
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M3 6h18" />
-                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                          </svg>
-                          <span>Eliminar</span>
-                        </button>
-                      </div>
+                      <span className={`vt-pill-status vt-status-${fila.estado.toLowerCase()}`}>
+                        ● {fila.estado}
+                      </span>
                     </td>
                   </tr>
                 ))}
@@ -618,21 +626,27 @@ export default function App() {
           {/* Vista Móvil (Tarjetas Responsivas para Celulares) */}
           <div className="vt-mobile-cards">
             {visibles.map(fila => (
-              <div key={fila.id} className="vt-card-item">
-                {/* Fila 1: Sede y Estado */}
+              <div
+                key={fila.id}
+                onClick={() => setFilaAEditar(fila)}
+                className={`vt-card-item vt-card-clickable ${seleccionados.has(fila.id) ? 'vt-card-selected' : ''}`}
+                title="Toca para modificar este requerimiento"
+              >
+                {/* Fila 1: Checkbox, Sede y Estado */}
                 <div className="vt-card-item-top">
-                  <span className="vt-sede-badge">{fila.sede}</span>
-                  <select
-                    aria-label={`Estado de ${fila.descripcion}`}
-                    value={fila.estado}
-                    disabled={actualizandoEstado}
-                    onChange={evento => cambiarEstado(fila, evento.target.value)}
-                    className={`vt-status-select vt-status-${fila.estado.toLowerCase()}`}
-                  >
-                    <option value="Pendiente">● Pendiente</option>
-                    <option value="Programado">● Programado</option>
-                    <option value="Pagado">● Pagado</option>
-                  </select>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={e => e.stopPropagation()}>
+                    <input
+                      type="checkbox"
+                      checked={seleccionados.has(fila.id)}
+                      onChange={() => alternarSeleccion(fila.id)}
+                      className="vt-checkbox-item"
+                      aria-label={`Seleccionar ${fila.descripcion}`}
+                    />
+                    <span className="vt-sede-badge">{fila.sede}</span>
+                  </div>
+                  <span className={`vt-pill-status vt-status-${fila.estado.toLowerCase()}`}>
+                    ● {fila.estado}
+                  </span>
                 </div>
 
                 {/* Fila 2: Fecha y Categoría */}
@@ -645,43 +659,21 @@ export default function App() {
 
                 {/* Fila 3: Descripción */}
                 <div className="vt-card-item-desc">
-                  {fila.descripcion}
+                  <div>{fila.descripcion}</div>
+                  {fila.razon_social && (
+                    <small className="vt-desc-sub">{fila.razon_social}</small>
+                  )}
                 </div>
 
-                {/* Fila 4: Total a pagar y Botones Editar / Eliminar */}
+                {/* Fila 4: Total a pagar y sugerencia de toque */}
                 <div className="vt-card-item-bottom">
                   <div className="vt-card-total-box">
                     <span className="vt-card-total-label">Total a pagar</span>
                     <span className="vt-monto-text">{soles.format(fila.total_a_pagar)}</span>
                   </div>
-
-                  <div className="vt-actions-cell">
-                    <button
-                      type="button"
-                      onClick={() => setFilaAEditar(fila)}
-                      className="vt-btn-action vt-btn-edit"
-                      title="Editar requerimiento"
-                    >
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
-                      </svg>
-                      <span>Editar</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => eliminarRequerimiento(fila)}
-                      className="vt-btn-action vt-btn-delete"
-                      title="Eliminar requerimiento"
-                    >
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                        <path d="M3 6h18" />
-                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                      </svg>
-                      <span>Eliminar</span>
-                    </button>
-                  </div>
+                  <span className="vt-click-hint">
+                    Toca para editar →
+                  </span>
                 </div>
               </div>
             ))}
@@ -699,10 +691,198 @@ export default function App() {
               <small style={{ color: '#94a3b8' }}>Prueba ajustando los filtros de búsqueda o registra un nuevo requerimiento.</small>
             </div>
           )}
+
+          {/* Barra Flotante de Selección Rápida */}
+          {seleccionados.size > 0 && (
+            <div className="vt-floating-selection-bar" role="toolbar" aria-label="Acciones de ítems seleccionados">
+              <div className="vt-floating-selection-info">
+                <span className="vt-floating-badge">{seleccionados.size}</span>
+                <span>
+                  {seleccionados.size === 1 ? '1 ítem' : `${seleccionados.size} ítems`}
+                </span>
+                <span className="vt-floating-sep">|</span>
+                <strong className="vt-floating-total">
+                  {soles.format(totalSumaCentimos / 100)}
+                </strong>
+              </div>
+
+              <div className="vt-floating-selection-buttons">
+                <button
+                  type="button"
+                  onClick={() => setModalSumaAbierto(true)}
+                  className="vt-btn-floating-sumar"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 4h16v3l-7 5 7 5v3H4" />
+                  </svg>
+                  <span>Ver detalle</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSeleccionados(new Set())}
+                  className="vt-btn-floating-clear"
+                  title="Deseleccionar todos"
+                >
+                  Limpiar
+                </button>
+              </div>
+            </div>
+          )}
         </main>
       )}
 
-      {/* Modal de Edición (Disponible en cualquier vista) */}
+      {/* Ventana Flotante / Modal de Suma */}
+      {modalSumaAbierto && (
+        <div className="vt-modal-overlay" onClick={() => setModalSumaAbierto(false)} role="dialog" aria-modal="true">
+          <div className="vt-modal-card vt-modal-suma-card" onClick={e => e.stopPropagation()}>
+            <div className="vt-modal-header">
+              <div className="vt-modal-title-wrap">
+                <div className="vt-icon-circle-amber">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 4h16v3l-7 5 7 5v3H4" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 className="vt-modal-title">Suma de Total a Pagar</h2>
+                  <p className="vt-modal-subtitle">
+                    {itemsSeleccionados.length} {itemsSeleccionados.length === 1 ? 'requerimiento seleccionado' : 'requerimientos seleccionados'}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setModalSumaAbierto(false)}
+                className="vt-btn-close"
+                aria-label="Cerrar ventana"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="vt-modal-body">
+              {/* Tabla de ítems sumados */}
+              <div className="vt-suma-table-wrap">
+                <table className="vt-suma-table">
+                  <thead>
+                    <tr>
+                      <th style={{ width: '36px' }}>#</th>
+                      <th style={{ width: '95px' }}>Fecha</th>
+                      <th style={{ width: '110px' }}>Sede</th>
+                      <th style={{ width: '110px' }}>Categoría</th>
+                      <th>Descripción</th>
+                      <th style={{ width: '130px', textAlign: 'right' }}>Total a pagar</th>
+                      <th style={{ width: '40px', textAlign: 'center' }}></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {itemsSeleccionados.map((item, idx) => (
+                      <tr key={item.id}>
+                        <td style={{ color: '#94a3b8', fontSize: '0.8rem', fontWeight: 600 }}>
+                          {idx + 1}
+                        </td>
+                        <td>
+                          <span className="vt-date-badge">
+                            {item.fecha.split('-').reverse().join('/')}
+                          </span>
+                        </td>
+                        <td>
+                          <strong style={{ color: '#0f172a' }}>{item.sede}</strong>
+                        </td>
+                        <td>
+                          <span className="vt-cat-pill">{item.categoria}</span>
+                        </td>
+                        <td className="vt-suma-desc-cell">
+                          <span className="vt-suma-desc-text">{item.descripcion}</span>
+                          {item.razon_social && (
+                            <span className="vt-suma-desc-sub">{item.razon_social}</span>
+                          )}
+                        </td>
+                        <td style={{ textAlign: 'right' }}>
+                          <strong className="vt-monto-text">{soles.format(item.total_a_pagar)}</strong>
+                        </td>
+                        <td style={{ textAlign: 'center' }}>
+                          <button
+                            type="button"
+                            onClick={() => alternarSeleccion(item.id)}
+                            className="vt-btn-remove-item"
+                            title="Quitar de la suma"
+                          >
+                            ×
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Caja Resaltada con la Suma Total */}
+              <div className="vt-suma-highlight-box">
+                <div className="vt-suma-highlight-info">
+                  <span className="vt-suma-highlight-label">Total Sumado a Pagar</span>
+                  <span className="vt-suma-highlight-sub">
+                    Suma exacta de los {itemsSeleccionados.length} requerimientos
+                  </span>
+                </div>
+                <div className="vt-suma-highlight-value">
+                  {soles.format(totalSumaCentimos / 100)}
+                </div>
+              </div>
+            </div>
+
+            <div className="vt-modal-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <button
+                type="button"
+                onClick={() => {
+                  const texto = [
+                    `CONSORCIO VOLTIUM - DETALLE DE SUMA`,
+                    `Fecha de reporte: ${new Date().toLocaleDateString('es-PE')}`,
+                    `---------------------------------------------`,
+                    ...itemsSeleccionados.map((it, i) => `${i + 1}. [${it.sede} | ${it.categoria}] ${it.descripcion}: ${soles.format(it.total_a_pagar)}`),
+                    `---------------------------------------------`,
+                    `TOTAL A PAGAR (${itemsSeleccionados.length} ítems): ${soles.format(totalSumaCentimos / 100)}`
+                  ].join('\n')
+                  navigator.clipboard.writeText(texto)
+                  setMensaje('Detalle de suma copiado al portapapeles.')
+                }}
+                className="vt-btn-secondary"
+                title="Copiar lista y total al portapapeles"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                </svg>
+                <span>Copiar detalle</span>
+              </button>
+
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSeleccionados(new Set())
+                    setModalSumaAbierto(false)
+                  }}
+                  className="vt-btn-secondary"
+                >
+                  Limpiar selección
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setModalSumaAbierto(false)}
+                  className="vt-btn-primary"
+                >
+                  Cerrar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Edición (Disponible al hacer clic en cualquier requerimiento) */}
       {filaAEditar && (
         <NuevoRequerimiento
           key={filaAEditar.id}
@@ -710,6 +890,10 @@ export default function App() {
           sedes={sedesDisponibles}
           categorias={categoriasDisponibles}
           alGuardarEdicion={guardarEdicion}
+          alEliminar={fila => {
+            eliminarRequerimiento(fila)
+            setFilaAEditar(null)
+          }}
           onCerrar={() => setFilaAEditar(null)}
         />
       )}

@@ -11,6 +11,7 @@ export default function NuevoRequerimiento({
   alGuardar,
   edicion = null,
   alGuardarEdicion,
+  alEliminar = null,
   onCerrar,
   sedes = [],
   categorias = [],
@@ -255,7 +256,7 @@ export default function NuevoRequerimiento({
                     <textarea
                       id="req-desc"
                       name="descripcion"
-                      rows="3"
+                      rows="2"
                       placeholder="Detalle del requerimiento..."
                       defaultValue={edicion ? edicion.descripcion : ''}
                       required
@@ -294,6 +295,23 @@ export default function NuevoRequerimiento({
                     />
                   </div>
 
+                  {esModoEdicion && (
+                    <div className="vt-form-field">
+                      <label htmlFor="req-estado">Estado del requerimiento *</label>
+                      <select
+                        id="req-estado"
+                        name="estado"
+                        defaultValue={edicion?.estado || 'Pendiente'}
+                        disabled={guardando}
+                        className="vt-modal-status-select"
+                      >
+                        <option value="Pendiente">● Pendiente</option>
+                        <option value="Programado">● Programado</option>
+                        <option value="Pagado">● Pagado</option>
+                      </select>
+                    </div>
+                  )}
+
                   <div className="vt-form-full">
                     <div className="vt-preview-box">
                       <span>Total estimado a pagar:</span>
@@ -303,13 +321,37 @@ export default function NuevoRequerimiento({
                 </div>
               </div>
 
-              <div className="vt-modal-footer">
-                <button type="button" onClick={cerrarModal} disabled={guardando} className="vt-btn-secondary">
-                  Cancelar
-                </button>
-                <button type="submit" disabled={guardando} className="vt-btn-primary">
-                  {guardando ? 'Guardando…' : esModoEdicion ? 'Guardar cambios' : 'Guardar requerimiento'}
-                </button>
+              <div className="vt-modal-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                {esModoEdicion && alEliminar ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (window.confirm(`¿Estás seguro de eliminar «${edicion.descripcion}» del presupuesto?`)) {
+                        alEliminar(edicion)
+                        cerrarModal()
+                      }
+                    }}
+                    disabled={guardando}
+                    className="vt-btn-delete-modal"
+                    title="Eliminar requerimiento"
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M3 6h18" />
+                      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                    </svg>
+                    <span>Eliminar requerimiento</span>
+                  </button>
+                ) : <div />}
+
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button type="button" onClick={cerrarModal} disabled={guardando} className="vt-btn-secondary">
+                    Cancelar
+                  </button>
+                  <button type="submit" disabled={guardando} className="vt-btn-primary">
+                    {guardando ? 'Guardando…' : esModoEdicion ? 'Guardar cambios' : 'Guardar requerimiento'}
+                  </button>
+                </div>
               </div>
             </form>
           </div>
