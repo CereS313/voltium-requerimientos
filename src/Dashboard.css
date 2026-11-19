@@ -32,11 +32,10 @@
   --vt-shadow-lg: 0 10px 15px -3px rgba(6, 28, 77, 0.08), 0 4px 6px -4px rgba(6, 28, 77, 0.05);
 }
 
-/* Force light color scheme on dashboard and modals regardless of OS dark mode */
+/* Force light color scheme on main dashboard and modals */
 .vt-dashboard,
 .vt-modal-overlay,
-.vt-modal-card,
-.da-container {
+.vt-modal-card {
   color-scheme: light !important;
 }
 
