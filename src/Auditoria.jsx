@@ -2,10 +2,26 @@ import { useState, useEffect } from 'react'
 import { supabase } from './supabase.js'
 import './Auditoria.css'
 
-const formateadorFecha = new Intl.DateTimeFormat('es-PE', {
-  dateStyle: 'medium',
-  timeStyle: 'short',
-})
+function formatearFecha(fechaRaw) {
+  if (!fechaRaw) return '—'
+  try {
+    // Reemplaza espacio por T para asegurar compatibilidad total en Safari y móviles
+    const str = String(fechaRaw).trim().replace(' ', 'T')
+    const d = new Date(str)
+    if (isNaN(d.getTime())) return String(fechaRaw)
+    return d.toLocaleString('es-PE', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true,
+    })
+  } catch {
+    return String(fechaRaw)
+  }
+}
 
 export default function Auditoria() {
   const [logs, setLogs] = useState([])
@@ -63,14 +79,15 @@ export default function Auditoria() {
   const usuariosUnicos = [...new Set(logs.map(l => l.usuario_email).filter(Boolean))].sort()
   const accionesUnicas = [...new Set(logs.map(l => l.accion).filter(Boolean))].sort()
 
-  // Filtrado de eventos
+  // Filtrado de eventos con protección contra valores nulos
   const filtrados = logs.filter(log => {
     const coincideUsuario = !filtroUsuario || log.usuario_email === filtroUsuario
     const coincideAccion = !filtroAccion || log.accion === filtroAccion
-    const coincideBusqueda = !busqueda ||
-      log.detalle?.toLowerCase().includes(busqueda.toLowerCase()) ||
-      log.usuario_email?.toLowerCase().includes(busqueda.toLowerCase()) ||
-      log.accion?.toLowerCase().includes(busqueda.toLowerCase())
+    const busq = busqueda.trim().toLowerCase()
+    const coincideBusqueda = !busq ||
+      String(log.detalle || '').toLowerCase().includes(busq) ||
+      String(log.usuario_email || '').toLowerCase().includes(busq) ||
+      String(log.accion || '').toLowerCase().includes(busq)
     return coincideUsuario && coincideAccion && coincideBusqueda
   })
 
@@ -329,15 +346,29 @@ export default function Auditoria() {
         </div>
       )}
 
-      {/* Tabla de Resultados */}
+      {/* Tabla de Resultados y Vista Móvil */}
       <section className="ad-table-card">
+        <div className="ad-card-top-bar">
+          <div className="ad-card-top-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+            </svg>
+            <span>Historial de Actividades</span>
+            <span className="ad-count-pill">{filtrados.length} eventos</span>
+          </div>
+        </div>
+
+        {/* Vista Tabla Desktop */}
         <div className="ad-table-wrap">
           <table className="ad-table">
             <thead>
               <tr>
-                <th style={{ width: '160px' }}>Fecha y Hora</th>
+                <th style={{ width: '175px' }}>Fecha y Hora</th>
                 <th style={{ width: '220px' }}>Usuario</th>
-                <th style={{ width: '150px' }}>Acción</th>
+                <th style={{ width: '160px' }}>Acción</th>
                 <th>Detalle de la Operación</th>
               </tr>
             </thead>
@@ -357,33 +388,64 @@ export default function Auditoria() {
                   </td>
                 </tr>
               ) : (
-                filtrados.map(item => (
-                  <tr key={item.id}>
+                filtrados.map((item, idx) => (
+                  <tr key={item.id || idx}>
                     <td>
                       <span className="ad-time">
-                        {formateadorFecha.format(new Date(item.creado_en))}
+                        {formatearFecha(item.creado_en || item.created_at)}
                       </span>
                     </td>
                     <td>
                       <span className="ad-user-chip">
                         <span className={`ad-user-dot ${item.usuario_email === 'grounnd131@gmail.com' ? 'dev' : ''}`} />
-                        <span>{item.usuario_email}</span>
+                        <span>{item.usuario_email || 'Anónimo'}</span>
                       </span>
                     </td>
                     <td>
                       <span className={`ad-badge ${obtenerClaseBadge(item.accion)}`}>
                         {obtenerIconoAccion(item.accion)}
-                        <span>{item.accion}</span>
+                        <span>{item.accion || 'Operación'}</span>
                       </span>
                     </td>
                     <td>
-                      <span className="ad-detail">{item.detalle}</span>
+                      <span className="ad-detail">{item.detalle || '—'}</span>
                     </td>
                   </tr>
                 ))
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Vista Móvil / Tarjetas Responsivas */}
+        <div className="ad-mobile-cards">
+          {filtrados.length === 0 ? (
+            <div className="ad-empty">
+              <strong>No se encontraron registros de auditoría</strong>
+              <small>Prueba ajustando los filtros.</small>
+            </div>
+          ) : (
+            filtrados.map((item, idx) => (
+              <div key={item.id || idx} className="ad-mobile-card-item">
+                <div className="ad-mobile-card-header">
+                  <span className={`ad-badge ${obtenerClaseBadge(item.accion)}`}>
+                    {obtenerIconoAccion(item.accion)}
+                    <span>{item.accion || 'Operación'}</span>
+                  </span>
+                  <span className="ad-time">
+                    {formatearFecha(item.creado_en || item.created_at)}
+                  </span>
+                </div>
+                <div className="ad-mobile-card-user">
+                  <span className={`ad-user-dot ${item.usuario_email === 'grounnd131@gmail.com' ? 'dev' : ''}`} />
+                  <strong>{item.usuario_email || 'Anónimo'}</strong>
+                </div>
+                <div className="ad-mobile-card-detail">
+                  {item.detalle || '—'}
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </section>
     </div>
