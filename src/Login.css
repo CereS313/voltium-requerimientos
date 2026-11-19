@@ -1,5 +1,6 @@
 /* ==========================================================================
-   Voltium Login - Modern Dark Glassmorphic Design
+   Consorcio Voltium Login - Corporate Navy & Electric Gold Experience
+   Fondo con degradado fluido Azul y Amarillo + Tarjeta con alto contraste
    ========================================================================== */
 
 .vl-page {
@@ -10,76 +11,82 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  background-color: #090d16;
+  background-color: #040e24;
+  /* Degradado fluido y envolvente de Azul Marino, Azul Real y Destellos Dorados Voltium */
   background-image: 
-    radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.3) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(109, 40, 217, 0.25) 0px, transparent 50%),
-    radial-gradient(at 50% 100%, rgba(14, 165, 233, 0.2) 0px, transparent 50%);
+    radial-gradient(circle at 85% 12%, rgba(245, 158, 11, 0.5) 0%, rgba(217, 119, 6, 0.2) 28%, transparent 55%),
+    radial-gradient(circle at 12% 88%, rgba(251, 191, 36, 0.45) 0%, rgba(245, 158, 11, 0.18) 32%, transparent 55%),
+    radial-gradient(circle at 50% 25%, rgba(37, 99, 235, 0.45) 0%, transparent 60%),
+    linear-gradient(135deg, #030a1a 0%, #061c4d 30%, #0d3278 65%, #1d4ed8 90%, #b45309 100%);
   overflow: hidden;
   padding: 1.5rem;
   box-sizing: border-box;
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  color: #f1f5f9;
+  color: #0f172a;
 }
 
-/* Ambient Animated Glowing Orbs */
+/* Ambient Animated Glowing Orbs (Azul Eléctrico y Amarillo Voltium) */
 .vl-bg-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(100px);
+  filter: blur(90px);
   pointer-events: none;
-  opacity: 0.45;
   will-change: transform;
 }
 
+/* Orbe 1: Azul Real Intenso */
 .vl-orb-1 {
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.85) 0%, rgba(6, 28, 77, 0.9) 55%, transparent 75%);
+  top: -100px;
+  left: -80px;
+  opacity: 0.8;
+  animation: vl-float-1 16s ease-in-out infinite alternate;
+}
+
+/* Orbe 2: Amarillo Dorado Eléctrico */
+.vl-orb-2 {
   width: 480px;
   height: 480px;
-  background: radial-gradient(circle, #38bdf8 0%, #2563eb 60%, transparent 80%);
-  top: -120px;
-  left: -120px;
-  animation: vl-float-1 18s ease-in-out infinite alternate;
+  background: radial-gradient(circle, rgba(253, 224, 71, 0.9) 0%, rgba(245, 158, 11, 0.8) 40%, rgba(180, 83, 9, 0.4) 65%, transparent 80%);
+  bottom: -90px;
+  right: -90px;
+  opacity: 0.75;
+  animation: vl-float-2 14s ease-in-out infinite alternate;
 }
 
-.vl-orb-2 {
-  width: 420px;
-  height: 420px;
-  background: radial-gradient(circle, #8b5cf6 0%, #6d28d9 60%, transparent 80%);
-  bottom: -100px;
-  right: -100px;
-  animation: vl-float-2 15s ease-in-out infinite alternate;
-}
-
+/* Orbe 3: Aura Central Cálida / Eléctrica */
 .vl-orb-3 {
-  width: 320px;
-  height: 320px;
-  background: radial-gradient(circle, #06b6d4 0%, #0284c7 60%, transparent 80%);
-  top: 50%;
-  left: 60%;
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.5) 0%, rgba(29, 78, 216, 0.4) 50%, transparent 75%);
+  top: 45%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  opacity: 0.2;
+  opacity: 0.55;
 }
 
 @keyframes vl-float-1 {
   0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(60px, 40px) scale(1.08); }
-  100% { transform: translate(-30px, 70px) scale(0.95); }
+  50% { transform: translate(50px, 40px) scale(1.08); }
+  100% { transform: translate(-30px, 60px) scale(0.95); }
 }
 
 @keyframes vl-float-2 {
   0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-50px, -40px) scale(1.1); }
-  100% { transform: translate(30px, -60px) scale(0.92); }
+  50% { transform: translate(-60px, -40px) scale(1.1); }
+  100% { transform: translate(30px, -50px) scale(0.92); }
 }
 
 /* Subtle Tech Grid Pattern Overlay */
 .vl-grid-pattern {
   position: absolute;
   inset: 0;
-  background-size: 40px 40px;
+  background-size: 38px 38px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   pointer-events: none;
 }
 
@@ -91,7 +98,7 @@
   z-index: 10;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.4rem;
 }
 
 /* Brand Header */
@@ -104,9 +111,9 @@
 
 .vl-logo-wrapper {
   position: relative;
-  width: 68px;
-  height: 68px;
-  margin-bottom: 1rem;
+  width: 82px;
+  height: 82px;
+  margin-bottom: 0.85rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -114,120 +121,166 @@
 
 .vl-logo-glow {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, #00f2fe, #4facfe, #892cdc);
-  filter: blur(16px);
-  opacity: 0.6;
-  border-radius: 20px;
-  animation: vl-pulse-glow 4s ease-in-out infinite alternate;
+  inset: -6px;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.9) 0%, rgba(37, 99, 235, 0.7) 50%, transparent 75%);
+  filter: blur(18px);
+  opacity: 0.85;
+  border-radius: 26px;
+  animation: vl-pulse-glow 3.5s ease-in-out infinite alternate;
 }
 
 @keyframes vl-pulse-glow {
-  0% { opacity: 0.45; filter: blur(14px); }
-  100% { opacity: 0.8; filter: blur(22px); }
+  0% { opacity: 0.65; filter: blur(14px); }
+  100% { opacity: 1; filter: blur(24px); }
 }
 
 .vl-logo-box {
   position: relative;
-  width: 64px;
-  height: 64px;
-  border-radius: 18px;
-  background: linear-gradient(145deg, #1e293b, #0f172a);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  width: 76px;
+  height: 76px;
+  border-radius: 22px;
+  background: linear-gradient(145deg, #061c4d, #020919);
+  border: 2px solid #fbbf24;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 12px 28px -5px rgba(0, 0, 0, 0.7),
+    0 0 20px rgba(245, 158, 11, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.vl-logo-img {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.7));
 }
 
 .vl-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 12px;
-  background: rgba(56, 189, 248, 0.1);
-  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 5px 14px;
+  background: rgba(251, 191, 36, 0.18);
+  border: 1.5px solid rgba(251, 191, 36, 0.45);
+  backdrop-filter: blur(10px);
   border-radius: 9999px;
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #38bdf8;
+  color: #fde047;
   margin-bottom: 0.65rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .vl-badge-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background-color: #38bdf8;
-  box-shadow: 0 0 8px #38bdf8;
+  background-color: #fbbf24;
+  box-shadow: 0 0 10px #fbbf24, 0 0 4px #ffffff;
 }
 
 .vl-title {
-  font-size: 1.95rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 0;
-  color: #ffffff;
-  background: linear-gradient(135deg, #ffffff 40%, #cbd5e1 75%, #94a3b8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  line-height: 1.1;
 }
 
-.vl-title span {
-  background: linear-gradient(135deg, #38bdf8, #818cf8);
+.vl-title-corp {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: #fed7aa;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.vl-title-main {
+  font-size: 2.3rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), 0 0 30px rgba(37, 99, 235, 0.4);
+}
+
+.vl-title-app {
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #fef08a 0%, #fbbf24 50%, #f59e0b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  margin-top: 3px;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
 }
 
 .vl-subtitle {
-  font-size: 0.9rem;
-  color: #94a3b8;
-  margin: 0.4rem 0 0;
+  font-size: 0.88rem;
+  color: #e2e8f0;
+  margin: 0.45rem 0 0;
   font-weight: 400;
   line-height: 1.4;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
 }
 
-/* Card Container */
+/* ==========================================================================
+   CUADRO DE LOGIN - Cristal Blanco de Alto Contraste
+   Genera contraste perfecto contra el fondo azul/amarillo y resalta los colores
+   ========================================================================== */
 .vl-card {
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 24px;
-  padding: 2.25rem;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  border-radius: 26px;
+  padding: 2.25rem 2.25rem;
   box-shadow: 
-    0 20px 40px -15px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(255, 255, 255, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  transition: border-color 0.3s ease;
+    0 25px 60px -15px rgba(2, 10, 30, 0.65),
+    0 0 0 1px rgba(251, 191, 36, 0.3),
+    0 0 40px rgba(245, 158, 11, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  transition: all 0.3s ease;
+}
+
+.vl-card:hover {
+  box-shadow: 
+    0 30px 70px -15px rgba(2, 10, 30, 0.75),
+    0 0 0 1.5px rgba(251, 191, 36, 0.5),
+    0 0 50px rgba(245, 158, 11, 0.25);
 }
 
 .vl-card-header {
-  margin-bottom: 1.6rem;
+  margin-bottom: 1.5rem;
   text-align: left;
 }
 
 .vl-card-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #f8fafc;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #061c4d; /* Azul Marino Voltium */
   margin: 0 0 0.3rem 0;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .vl-card-desc {
-  font-size: 0.84rem;
-  color: #64748b;
+  font-size: 0.86rem;
+  color: #526075;
   margin: 0;
+  line-height: 1.4;
 }
 
 /* Form Groups & Inputs */
 .vl-form {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.15rem;
   text-align: left;
 }
 
@@ -239,8 +292,8 @@
 
 .vl-label {
   font-size: 0.82rem;
-  font-weight: 600;
-  color: #cbd5e1;
+  font-weight: 700;
+  color: #0c2356; /* Azul Marino Corporativo */
   letter-spacing: 0.01em;
   display: flex;
   justify-content: space-between;
@@ -256,7 +309,7 @@
 .vl-input-icon {
   position: absolute;
   left: 14px;
-  color: #64748b;
+  color: #8392a5;
   pointer-events: none;
   display: flex;
   align-items: center;
@@ -267,12 +320,13 @@
 .vl-input {
   width: 100%;
   height: 48px;
-  background: rgba(30, 41, 59, 0.6);
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: #f8fafc;
+  border: 1.5px solid #d1d5db;
   border-radius: 12px;
   padding: 0 14px 0 44px;
-  color: #f8fafc;
+  color: #061c4d;
   font-size: 0.95rem;
+  font-weight: 500;
   font-family: inherit;
   box-sizing: border-box;
   outline: none;
@@ -280,22 +334,23 @@
 }
 
 .vl-input::placeholder {
-  color: #475569;
+  color: #9ca3af;
 }
 
 .vl-input:hover:not(:disabled) {
-  border-color: rgba(148, 163, 184, 0.4);
-  background: rgba(30, 41, 59, 0.85);
+  border-color: #94a3b8;
+  background: #ffffff;
 }
 
 .vl-input:focus {
-  background: rgba(30, 41, 59, 0.95);
-  border-color: #38bdf8;
-  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2), 0 0 16px rgba(56, 189, 248, 0.15);
+  background: #ffffff;
+  border-color: #f59e0b; /* Amarillo/Dorado Voltium */
+  box-shadow: 0 0 0 3.5px rgba(245, 158, 11, 0.25), 0 0 15px rgba(245, 158, 11, 0.15);
+  color: #061c4d;
 }
 
 .vl-input-wrap:focus-within .vl-input-icon {
-  color: #38bdf8;
+  color: #d97706;
 }
 
 /* Password eye toggle */
@@ -304,7 +359,7 @@
   right: 12px;
   background: none;
   border: none;
-  color: #64748b;
+  color: #8392a5;
   cursor: pointer;
   padding: 6px;
   display: flex;
@@ -315,8 +370,8 @@
 }
 
 .vl-eye-btn:hover {
-  color: #cbd5e1;
-  background: rgba(255, 255, 255, 0.06);
+  color: #d97706;
+  background: rgba(245, 158, 11, 0.12);
 }
 
 /* Remember me toggle */
@@ -324,7 +379,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: -0.2rem;
+  margin-top: -0.1rem;
 }
 
 .vl-checkbox-label {
@@ -333,23 +388,24 @@
   gap: 8px;
   cursor: pointer;
   user-select: none;
-  font-size: 0.82rem;
-  color: #94a3b8;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #526075;
   transition: color 0.2s ease;
 }
 
 .vl-checkbox-label:hover {
-  color: #cbd5e1;
+  color: #061c4d;
 }
 
 .vl-checkbox {
   appearance: none;
   -webkit-appearance: none;
-  width: 17px;
-  height: 17px;
-  border: 1px solid rgba(148, 163, 184, 0.35);
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #cbd5e1;
   border-radius: 5px;
-  background: rgba(30, 41, 59, 0.7);
+  background: #f1f5f9;
   cursor: pointer;
   outline: none;
   display: grid;
@@ -358,21 +414,21 @@
 }
 
 .vl-checkbox:checked {
-  background: linear-gradient(135deg, #0ea5e9, #6366f1);
-  border-color: #6366f1;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  border-color: #f59e0b;
 }
 
 .vl-checkbox:checked::before {
   content: "";
   width: 9px;
   height: 5px;
-  border-left: 2px solid #ffffff;
-  border-bottom: 2px solid #ffffff;
+  border-left: 2px solid #061c4d;
+  border-bottom: 2px solid #061c4d;
   transform: rotate(-45deg) translate(1px, -1px);
 }
 
 .vl-checkbox:focus-visible {
-  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.35);
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.4);
 }
 
 /* Error / Status Alert */
@@ -381,10 +437,10 @@
   align-items: flex-start;
   gap: 10px;
   padding: 0.85rem 1rem;
-  background: rgba(239, 68, 68, 0.12);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: #fef2f2;
+  border: 1px solid #fecaca;
   border-radius: 12px;
-  color: #fca5a5;
+  color: #b91c1c;
   font-size: 0.84rem;
   line-height: 1.4;
   animation: vl-fade-in 0.3s ease-out;
@@ -393,7 +449,7 @@
 .vl-alert-icon {
   flex-shrink: 0;
   margin-top: 1px;
-  color: #ef4444;
+  color: #dc2626;
 }
 
 @keyframes vl-fade-in {
@@ -401,27 +457,28 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Submit Action Button */
+/* Submit Action Button - Voltium Power */
 .vl-btn-submit {
   position: relative;
   width: 100%;
-  height: 48px;
-  background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%);
+  height: 50px;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #e7a712 100%);
   border: none;
   border-radius: 12px;
-  color: #ffffff;
-  font-size: 0.95rem;
-  font-weight: 700;
+  color: #061c4d; /* Azul Marino de alto contraste */
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
   font-family: inherit;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.45);
+  box-shadow: 0 10px 25px -4px rgba(245, 158, 11, 0.55), 0 0 0 1px rgba(217, 119, 6, 0.3);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
-  margin-top: 0.4rem;
+  margin-top: 0.35rem;
 }
 
 .vl-btn-submit::after {
@@ -431,14 +488,14 @@
   left: -100%;
   width: 60%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
   transform: skewX(-20deg);
   transition: left 0.75s ease;
 }
 
 .vl-btn-submit:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.55);
+  box-shadow: 0 15px 35px -5px rgba(245, 158, 11, 0.75);
 }
 
 .vl-btn-submit:hover:not(:disabled)::after {
@@ -458,6 +515,7 @@
 /* Loading Spinner */
 .vl-spinner {
   animation: vl-spin 1s linear infinite;
+  stroke: #061c4d;
 }
 
 @keyframes vl-spin {
@@ -467,14 +525,15 @@
 
 /* Card Footer */
 .vl-card-footer {
-  margin-top: 1.5rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 1.4rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid #e5e7eb;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
   font-size: 0.75rem;
+  font-weight: 500;
   color: #64748b;
 }
 
@@ -490,16 +549,17 @@
 .vl-footer {
   text-align: center;
   font-size: 0.78rem;
-  color: #475569;
+  color: #e2e8f0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
 }
 
 /* Responsive tweaks */
 @media (max-width: 480px) {
   .vl-card {
-    padding: 1.75rem 1.25rem;
-    border-radius: 20px;
+    padding: 1.85rem 1.35rem;
+    border-radius: 22px;
   }
-  .vl-title {
-    font-size: 1.65rem;
+  .vl-title-main {
+    font-size: 1.95rem;
   }
 }

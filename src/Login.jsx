@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './Login.css'
+import emblemVoltium from './assets/emblem-clean.png'
 
 const anioActual = new Date().getFullYear()
 
@@ -31,34 +32,19 @@ export default function Login({ onSubmit, cargando, mensaje }) {
           <div className="vl-logo-wrapper">
             <div className="vl-logo-glow" />
             <div className="vl-logo-box">
-              {/* Ícono de Rayo / Energía Voltium */}
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="vl-bolt-grad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#38bdf8" />
-                    <stop offset="0.5" stopColor="#818cf8" />
-                    <stop offset="1" stopColor="#c084fc" />
-                  </linearGradient>
-                </defs>
-                <path
-                  d="M13 2L3 14H12L11 22L21 10H12L13 2Z"
-                  fill="url(#vl-bolt-grad)"
-                  stroke="#ffffff"
-                  strokeWidth="0.75"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <img src={emblemVoltium} alt="Consorcio Voltium" className="vl-logo-img" />
             </div>
           </div>
 
           <div className="vl-badge">
             <span className="vl-badge-dot" />
-            Portal Corporativo
+            Portal Corporativo Killary 
           </div>
 
           <h1 className="vl-title">
-            Voltium <span>Requerimientos</span>
+            <span className="vl-title-corp">CONSORCIO</span>
+            <span className="vl-title-main">VOLTIUM</span>
+            <span className="vl-title-app">Requerimientos</span>
           </h1>
           <p className="vl-subtitle">
             Gestión presupuestal, registro y seguimiento de gastos por sede
@@ -92,7 +78,7 @@ export default function Login({ onSubmit, cargando, mensaje }) {
                   value={correo}
                   onChange={e => setCorreo(e.target.value)}
                   autoComplete="username"
-                  placeholder="usuario@voltium.pe"
+                  placeholder="usuario@gmail.com"
                   required
                   disabled={cargando}
                   className="vl-input"
@@ -207,7 +193,7 @@ export default function Login({ onSubmit, cargando, mensaje }) {
 
         {/* Pie de página exterior */}
         <footer className="vl-footer">
-          <p>© {anioActual} Voltium Systems · Todos los derechos reservados</p>
+          <p>© {anioActual} Consorcio Voltium · Todos los derechos reservados</p>
         </footer>
       </div>
     </div>
