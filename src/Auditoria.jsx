@@ -5,19 +5,18 @@ import './Auditoria.css'
 function formatearFecha(fechaRaw) {
   if (!fechaRaw) return '—'
   try {
-    // Reemplaza espacio por T para asegurar compatibilidad total en Safari y móviles
     const str = String(fechaRaw).trim().replace(' ', 'T')
     const d = new Date(str)
     if (isNaN(d.getTime())) return String(fechaRaw)
-    return d.toLocaleString('es-PE', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: true,
-    })
+    const pad = n => String(n).padStart(2, '0')
+    const dia = pad(d.getDate())
+    const mes = pad(d.getMonth() + 1)
+    const anio = d.getFullYear()
+    let horas = d.getHours()
+    const minutos = pad(d.getMinutes())
+    const ampm = horas >= 12 ? 'p. m.' : 'a. m.'
+    horas = horas % 12 || 12
+    return `${dia}/${mes}/${anio}, ${pad(horas)}:${minutos} ${ampm}`
   } catch {
     return String(fechaRaw)
   }
@@ -388,30 +387,46 @@ export default function Auditoria() {
                   </td>
                 </tr>
               ) : (
-                filtrados.map((item, idx) => (
-                  <tr key={item.id || idx}>
-                    <td>
-                      <span className="ad-time">
-                        {formatearFecha(item.creado_en || item.created_at)}
-                      </span>
-                    </td>
-                    <td>
-                      <span className="ad-user-chip">
-                        <span className={`ad-user-dot ${item.usuario_email === 'grounnd131@gmail.com' ? 'dev' : ''}`} />
-                        <span>{item.usuario_email || 'Anónimo'}</span>
-                      </span>
-                    </td>
-                    <td>
-                      <span className={`ad-badge ${obtenerClaseBadge(item.accion)}`}>
-                        {obtenerIconoAccion(item.accion)}
-                        <span>{item.accion || 'Operación'}</span>
-                      </span>
-                    </td>
-                    <td>
-                      <span className="ad-detail">{item.detalle || '—'}</span>
-                    </td>
-                  </tr>
-                ))
+                filtrados.map((item, idx) => {
+                  try {
+                    const fechaTexto = formatearFecha(item.creado_en || item.created_at || item.fecha)
+                    const emailTexto = String(item.usuario_email || 'Anónimo')
+                    const accionTexto = String(item.accion || 'Operación')
+                    const detalleTexto = String(item.detalle || '—')
+                    const esDev = emailTexto === 'grounnd131@gmail.com'
+
+                    return (
+                      <tr key={item.id || `aud-${idx}`}>
+                        <td>
+                          <span className="ad-time">{fechaTexto}</span>
+                        </td>
+                        <td>
+                          <span className="ad-user-chip">
+                            <span className={`ad-user-dot ${esDev ? 'dev' : ''}`} />
+                            <span>{emailTexto}</span>
+                          </span>
+                        </td>
+                        <td>
+                          <span className={`ad-badge ${obtenerClaseBadge(accionTexto)}`}>
+                            {obtenerIconoAccion(accionTexto)}
+                            <span>{accionTexto}</span>
+                          </span>
+                        </td>
+                        <td>
+                          <span className="ad-detail">{detalleTexto}</span>
+                        </td>
+                      </tr>
+                    )
+                  } catch {
+                    return (
+                      <tr key={`aud-err-${idx}`}>
+                        <td colSpan="4" style={{ padding: '8px', color: '#94a3b8', fontStyle: 'italic' }}>
+                          Registro de auditoría #{idx + 1}
+                        </td>
+                      </tr>
+                    )
+                  }
+                })
               )}
             </tbody>
           </table>
@@ -425,26 +440,34 @@ export default function Auditoria() {
               <small>Prueba ajustando los filtros.</small>
             </div>
           ) : (
-            filtrados.map((item, idx) => (
-              <div key={item.id || idx} className="ad-mobile-card-item">
-                <div className="ad-mobile-card-header">
-                  <span className={`ad-badge ${obtenerClaseBadge(item.accion)}`}>
-                    {obtenerIconoAccion(item.accion)}
-                    <span>{item.accion || 'Operación'}</span>
-                  </span>
-                  <span className="ad-time">
-                    {formatearFecha(item.creado_en || item.created_at)}
-                  </span>
-                </div>
-                <div className="ad-mobile-card-user">
-                  <span className={`ad-user-dot ${item.usuario_email === 'grounnd131@gmail.com' ? 'dev' : ''}`} />
-                  <strong>{item.usuario_email || 'Anónimo'}</strong>
-                </div>
-                <div className="ad-mobile-card-detail">
-                  {item.detalle || '—'}
-                </div>
-              </div>
-            ))
+            filtrados.map((item, idx) => {
+              try {
+                const fechaTexto = formatearFecha(item.creado_en || item.created_at || item.fecha)
+                const emailTexto = String(item.usuario_email || 'Anónimo')
+                const accionTexto = String(item.accion || 'Operación')
+                const detalleTexto = String(item.detalle || '—')
+                const esDev = emailTexto === 'grounnd131@gmail.com'
+
+                return (
+                  <div key={item.id || `card-${idx}`} className="ad-mobile-card-item">
+                    <div className="ad-mobile-card-header">
+                      <span className={`ad-badge ${obtenerClaseBadge(accionTexto)}`}>
+                        {obtenerIconoAccion(accionTexto)}
+                        <span>{accionTexto}</span>
+                      </span>
+                      <span className="ad-time">{fechaTexto}</span>
+                    </div>
+                    <div className="ad-mobile-card-user">
+                      <span className={`ad-user-dot ${esDev ? 'dev' : ''}`} />
+                      <strong>{emailTexto}</strong>
+                    </div>
+                    <div className="ad-mobile-card-detail">{detalleTexto}</div>
+                  </div>
+                )
+              } catch {
+                return null
+              }
+            })
           )}
         </div>
       </section>
