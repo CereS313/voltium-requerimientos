@@ -45,35 +45,35 @@ export default function CajaChica() {
   const configuraciones = {
     cusco: {
       titulo: 'Caja Chica Cusco (Sede Central)',
-      subtitulo: 'Rendiciones generales, base de operaciones y administración central (Karen Colque / Diego Tumba)',
+      subtitulo: 'Rendiciones generales, base de operaciones y administración central (Encargada: Karen Colque)',
       saldo: 1431.80,
       ingresos: 102905.00,
       egresos: 101473.20,
       movimientos: 1315,
       items: ultimosMovimientosCusco,
-      responsable: 'Karen Colque / Diego Tumba',
+      responsable: 'Karen Colque',
       sedeText: 'Cusco Central',
     },
     anta: {
       titulo: 'Caja Chica Anta (Sub-sede)',
-      subtitulo: 'Gastos operativos de la oficina de Anta, combustibles locales y suministros (Yoel Quispe / William Ayti)',
+      subtitulo: 'Gastos operativos de la oficina de Anta, combustibles locales y suministros (Encargado: Yoel Quispe)',
       saldo: 1000.00,
       ingresos: 1000.00,
       egresos: 0.00,
       movimientos: 48,
       items: ultimosMovimientosAnta,
-      responsable: 'Yoel Quispe / William Ayti',
+      responsable: 'Yoel Quispe',
       sedeText: 'Anta',
     },
     valle_sagrado: {
       titulo: 'Caja Chica Valle Sagrado (Sub-sede Urubamba)',
-      subtitulo: 'Operaciones Valle Sagrado, Urubamba, Calca y Lares (César Yarín / Alberto Tumba)',
+      subtitulo: 'Operaciones Valle Sagrado, Urubamba, Calca y Lares (Encargado: Cesar Yarin)',
       saldo: 3000.00,
       ingresos: 3000.00,
       egresos: 0.00,
       movimientos: 62,
       items: ultimosMovimientosValleSagrado,
-      responsable: 'César Yarín / Alberto Tumba',
+      responsable: 'Cesar Yarin',
       sedeText: 'Valle Sagrado',
     },
   }
@@ -215,7 +215,7 @@ export default function CajaChica() {
                   <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
                 </svg>
                 <span>Caja Chica Cusco</span>
-                <span className="cc-sub-pill">Central</span>
+                <span className="cc-sub-pill">Karen Colque</span>
               </button>
 
               {/* Sub-caja 2: Anta */}
@@ -229,7 +229,7 @@ export default function CajaChica() {
                   <circle cx="12" cy="10" r="3" />
                 </svg>
                 <span>Caja Chica Anta</span>
-                <span className="cc-sub-pill">S/ 1,000</span>
+                <span className="cc-sub-pill">Yoel Quispe</span>
               </button>
 
               {/* Sub-caja 3: Valle Sagrado */}
@@ -245,7 +245,7 @@ export default function CajaChica() {
                   <path d="M16 21v-3a2 2 0 0 1 2-2h3" />
                 </svg>
                 <span>Caja Chica Valle Sagrado</span>
-                <span className="cc-sub-pill">S/ 3,000</span>
+                <span className="cc-sub-pill">Cesar Yarin</span>
               </button>
             </div>
           </div>
