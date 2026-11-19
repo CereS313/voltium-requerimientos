@@ -2,8 +2,9 @@
 import Login from './Login.jsx'
 import DashboardAnalitico from './DashboardAnalitico.jsx'
 import Auditoria from './Auditoria.jsx'
+import CajaChica from './CajaChica.jsx'
+import Sidebar from './Sidebar.jsx'
 import GatitoAnimado from './GatitoAnimado.jsx'
-import emblemVoltium from './assets/emblem-clean.png'
 import nuevos58 from './nuevos58.json'
 import { useState, useEffect } from 'react'
 import { supabase } from './supabase.js'
@@ -44,7 +45,9 @@ export default function App() {
   const [mensaje, setMensaje] = useState('')
   const [cargando, setCargando] = useState(false)
   const [filaAEditar, setFilaAEditar] = useState(null)
-  const [vistaActual, setVistaActual] = useState('tabla') // 'tabla' | 'dashboard' | 'auditoria'
+  const [vistaActual, setVistaActual] = useState('tabla') // 'tabla' | 'dashboard' | 'auditoria' | 'cajachica'
+  const [colapsado, setColapsado] = useState(false)
+  const [menuMovilAbierto, setMenuMovilAbierto] = useState(false)
   const [seleccionados, setSeleccionados] = useState(new Set())
   const [modalSumaAbierto, setModalSumaAbierto] = useState(false)
   const [cargando58, setCargando58] = useState(false)
@@ -305,108 +308,66 @@ export default function App() {
   )
 
   return (
-    <div className="vt-dashboard">
-      {/* Barra de Navegación Superior */}
-      <header className="vt-navbar">
-        <div className="vt-nav-brand">
-          <div className="vt-nav-logo">
-            <img src={emblemVoltium} alt="Consorcio Voltium" className="vt-nav-logo-img" />
-          </div>
-          <div className="vt-nav-titles">
-            <h1 className="vt-nav-title">
-              <span className="vt-nav-corp">CONSORCIO</span>
-              <span className="vt-nav-name">VOLTIUM</span>
-            </h1>
-            <p className="vt-nav-subtitle">Portal Corporativo Killary · Requerimientos</p>
-          </div>
-        </div>
+    <div className="vt-shell">
+      {/* Menú Lateral Sofisticado "Command Center" */}
+      <Sidebar
+        vistaActual={vistaActual}
+        setVistaActual={setVistaActual}
+        esDesarrollador={esDesarrollador}
+        colapsado={colapsado}
+        setColapsado={setColapsado}
+        menuMovilAbierto={menuMovilAbierto}
+        setMenuMovilAbierto={setMenuMovilAbierto}
+        usuario={usuario}
+        onCerrarSesion={salir}
+        conteoRequerimientos={filas?.length || 255}
+      />
 
-        {/* Selector de Pestañas / Páginas */}
-        <div className="vt-tab-group" role="tablist" aria-label="Vistas del sistema">
-          <button
-            type="button"
-            role="tab"
-            aria-selected={vistaActual === 'tabla'}
-            onClick={() => setVistaActual('tabla')}
-            className={`vt-tab-btn ${vistaActual === 'tabla' ? 'vt-tab-active' : ''}`}
-          >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect width="18" height="18" x="3" y="3" rx="2" />
-              <path d="M3 9h18" />
-              <path d="M9 21V9" />
-            </svg>
-            <span>Requerimientos</span>
-          </button>
-
-          <button
-            type="button"
-            role="tab"
-            aria-selected={vistaActual === 'dashboard'}
-            onClick={() => setVistaActual('dashboard')}
-            className={`vt-tab-btn ${vistaActual === 'dashboard' ? 'vt-tab-active' : ''}`}
-          >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M3 3v18h18" />
-              <path d="m19 9-5 5-4-4-3 3" />
-            </svg>
-            <span>Dashboard</span>
-          </button>
-
-          {esDesarrollador && (
+      {/* Área de Visualización y Contenido Principal */}
+      <div className="vt-main-viewport">
+        {/* Topbar Superior */}
+        <header className="vt-topbar">
+          <div className="vt-topbar-left">
             <button
               type="button"
-              role="tab"
-              aria-selected={vistaActual === 'auditoria'}
-              onClick={() => setVistaActual('auditoria')}
-              className={`vt-tab-btn ${vistaActual === 'auditoria' ? 'vt-tab-active' : ''}`}
-              title="Bitácora exclusiva del Desarrollador"
+              onClick={() => setMenuMovilAbierto(true)}
+              className="vt-hamburger-btn"
+              title="Abrir menú lateral"
             >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="18" x2="21" y2="18" />
               </svg>
-              <span>Auditoría</span>
             </button>
-          )}
-        </div>
 
-        <div className="vt-nav-actions">
-          {/* Indicador elegante de usuario autenticado */}
-          {usuario?.email && (
-            <div className="vt-user-profile" title={`Sesión activa: ${usuario.email}`}>
-              <div className={`vt-user-avatar ${esDesarrollador ? 'dev' : ''}`}>
-                {usuario.email.charAt(0).toUpperCase()}
-                <span className="vt-user-status-dot" />
-              </div>
-              <div className="vt-user-info">
-                <span className="vt-user-email">{usuario.email}</span>
-                <span className={`vt-user-role ${esDesarrollador ? 'dev' : ''}`}>
-                  {esDesarrollador ? 'Desarrollador' : 'Colaborador'}
-                </span>
-              </div>
+            <div className="vt-topbar-breadcrumbs">
+              <span className="vt-crumb-parent">Consorcio Voltium</span>
+              <span className="vt-crumb-separator">/</span>
+              <span className="vt-crumb-current">
+                {vistaActual === 'tabla' && '📋 Requerimientos'}
+                {vistaActual === 'dashboard' && '📊 Dashboard Financiero'}
+                {vistaActual === 'auditoria' && '🛡️ Bitácora de Auditoría'}
+                {vistaActual === 'cajachica' && '💰 Caja Chica'}
+              </span>
             </div>
-          )}
+          </div>
 
-          {/* Gatito durmiendo animado e interactivo */}
-          <GatitoAnimado />
+          <div className="vt-topbar-right">
+            {/* Gatito durmiendo animado e interactivo */}
+            <GatitoAnimado />
+          </div>
+        </header>
 
-          <button onClick={salir} className="vt-btn-logout" title="Cerrar sesión">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-              <polyline points="16 17 21 12 16 7" />
-              <line x1="21" y1="12" x2="9" y2="12" />
-            </svg>
-            <span>Cerrar sesión</span>
-          </button>
-        </div>
-      </header>
-
-      {/* Renderizado Condicional: Dashboard vs Auditoría vs Pestaña Tabla */}
-      {vistaActual === 'dashboard' ? (
-        <DashboardAnalitico filas={filas} soles={soles} />
-      ) : vistaActual === 'auditoria' && esDesarrollador ? (
-        <Auditoria />
-      ) : (
-        <main className="vt-main">
+        {/* Renderizado Condicional: Dashboard vs Auditoría vs Caja Chica vs Pestaña Tabla */}
+        {vistaActual === 'dashboard' ? (
+          <DashboardAnalitico filas={filas} soles={soles} />
+        ) : vistaActual === 'auditoria' && esDesarrollador ? (
+          <Auditoria />
+        ) : vistaActual === 'cajachica' ? (
+          <CajaChica />
+        ) : (
+          <main className="vt-main">
           {/* Tarjetas de Resumen KPI */}
           <section className="vt-kpis">
             <div className="vt-kpi-card">
@@ -960,6 +921,7 @@ export default function App() {
           onCerrar={() => setFilaAEditar(null)}
         />
       )}
+      </div>
     </div>
   )
 }
