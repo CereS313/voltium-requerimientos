@@ -558,19 +558,67 @@
   width: calc(100% - var(--sb-width-collapsed));
 }
 
-/* Botón flotante para abrir menú en móviles */
-.vt-mobile-nav-trigger {
+/* ==========================================================================
+   BOTONES Y CONTROLES MÓVILES (TOTALMENTE OCULTOS EN DESKTOP)
+   ========================================================================== */
+
+/* Botón cerrar dentro del sidebar: oculto en desktop */
+.vt-sb-mobile-close-btn {
   display: none;
 }
 
-/* Responsive */
+/* Botón en navbar para celulares: oculto en desktop */
+.vt-mobile-nav-toggle {
+  display: none !important;
+}
+
+/* Botón flotante para celulares: oculto en desktop */
+.vt-mobile-fab-menu {
+  display: none !important;
+}
+
+/* Responsive Móviles / Tablets */
 @media (max-width: 900px) {
+  /* Sidebar Drawer para Móviles */
   .vt-sidebar {
     transform: translateX(-100%);
+    width: 290px !important;
+    max-width: 86vw !important;
+    z-index: 9999 !important;
+    box-shadow: 10px 0 35px rgba(0, 0, 0, 0.65);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
   .vt-sidebar-mobile-open {
-    transform: translateX(0);
+    transform: translateX(0) !important;
+  }
+
+  /* El botón cerrar 'X' se muestra en móviles */
+  .vt-sb-mobile-close-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    color: #e2e8f0;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+
+  .vt-sb-mobile-close-btn:hover,
+  .vt-sb-mobile-close-btn:active {
+    background: rgba(239, 68, 68, 0.25);
+    border-color: rgba(239, 68, 68, 0.5);
+    color: #fca5a5;
+  }
+
+  /* En móviles se oculta el chevron toggle ya que se usa el botón cerrar X */
+  .vt-sb-toggle-btn {
+    display: none !important;
   }
 
   .vt-main-viewport,
@@ -579,12 +627,74 @@
     width: 100% !important;
   }
 
+  /* Backdrop oscuro con blur */
   .vt-sidebar-backdrop {
     display: block;
     position: fixed;
     inset: 0;
-    background: rgba(4, 9, 20, 0.6);
-    backdrop-filter: blur(4px);
-    z-index: 999;
+    background: rgba(3, 8, 20, 0.72);
+    backdrop-filter: blur(5px);
+    z-index: 9998 !important;
+    animation: fadeIn 0.2s ease;
+  }
+
+  /* Botón estilizado en el Navbar para Celulares */
+  .vt-mobile-nav-toggle {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.09);
+    border: 1.5px solid rgba(245, 158, 11, 0.35);
+    color: #ffffff;
+    padding: 6px 11px;
+    border-radius: 9px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    cursor: pointer;
+    flex-shrink: 0;
+    user-select: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    transition: all 0.2s ease;
+  }
+
+  .vt-mobile-nav-toggle:active {
+    background: rgba(245, 158, 11, 0.25);
+    border-color: #f59e0b;
+    color: #fbbf24;
+    transform: scale(0.96);
+  }
+
+  .vt-mobile-nav-toggle-text {
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+
+  /* Botón Flotante (FAB) para acceso al menú mientras se hace scroll en celular */
+  .vt-mobile-fab-menu {
+    display: inline-flex !important;
+    position: fixed;
+    bottom: 22px;
+    left: 20px;
+    z-index: 900;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #091a38 0%, #061c4d 100%);
+    border: 1.5px solid #f59e0b;
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 800;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 14px rgba(245, 158, 11, 0.35);
+    cursor: pointer;
+    letter-spacing: 0.4px;
+    user-select: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .vt-mobile-fab-menu:active {
+    transform: scale(0.94);
   }
 }

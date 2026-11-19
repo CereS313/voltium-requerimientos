@@ -331,6 +331,20 @@ export default function App() {
             {/* Header Módulo Caja Chica */}
             <header className="vt-navbar" style={{ background: 'linear-gradient(135deg, #051d14 0%, #061c4d 100%)', borderBottom: '2.5px solid #10b981' }}>
               <div className="vt-nav-brand">
+                <button
+                  type="button"
+                  onClick={() => setMenuMovilAbierto(true)}
+                  className="vt-mobile-nav-toggle"
+                  title="Abrir menú de módulos"
+                  aria-label="Abrir menú de módulos"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
+                  </svg>
+                  <span className="vt-mobile-nav-toggle-text">Menú</span>
+                </button>
                 <div className="vt-nav-logo" style={{ borderColor: 'rgba(16, 185, 129, 0.5)' }}>
                   <img src={emblemVoltium} alt="Consorcio Voltium" className="vt-nav-logo-img" />
                 </div>
@@ -379,6 +393,20 @@ export default function App() {
             {/* Barra de Navegación Superior ORIGINAL de Requerimientos */}
             <header className="vt-navbar">
               <div className="vt-nav-brand">
+                <button
+                  type="button"
+                  onClick={() => setMenuMovilAbierto(true)}
+                  className="vt-mobile-nav-toggle"
+                  title="Abrir menú de módulos"
+                  aria-label="Abrir menú de módulos"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
+                  </svg>
+                  <span className="vt-mobile-nav-toggle-text">Menú</span>
+                </button>
                 <div className="vt-nav-logo">
                   <img src={emblemVoltium} alt="Consorcio Voltium" className="vt-nav-logo-img" />
                 </div>
@@ -1042,6 +1070,22 @@ export default function App() {
         </div>
       </footer>
       </div>
+
+      {/* Botón flotante móvil para acceso rápido al menú de módulos */}
+      <button
+        type="button"
+        onClick={() => setMenuMovilAbierto(true)}
+        className="vt-mobile-fab-menu"
+        title="Abrir menú de módulos"
+        aria-label="Abrir menú de módulos"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+        <span>Módulos</span>
+      </button>
     </div>
   )
 }

@@ -19,6 +19,9 @@ export default function Sidebar({
     }
   }
 
+  // En móvil abierto siempre mostramos el menú expandido completo
+  const colapsadoEfectivo = colapsado && !menuMovilAbierto
+
   return (
     <>
       {/* Backdrop oscuro para móviles */}
@@ -32,7 +35,7 @@ export default function Sidebar({
 
       {/* Sidebar Lateral Fijo */}
       <aside
-        className={`vt-sidebar ${colapsado ? 'vt-sidebar-collapsed' : ''} ${
+        className={`vt-sidebar ${colapsadoEfectivo ? 'vt-sidebar-collapsed' : ''} ${
           menuMovilAbierto ? 'vt-sidebar-mobile-open' : ''
         }`}
         aria-label="Navegación principal del sistema"
@@ -43,13 +46,13 @@ export default function Sidebar({
             <div
               className="vt-sb-brand-main"
               onClick={() => {
-                if (colapsado) {
+                if (colapsadoEfectivo) {
                   setColapsado(false)
                 } else {
                   cambiarModulo('requerimientos')
                 }
               }}
-              title={colapsado ? 'Clic para expandir menú lateral' : 'Consorcio Voltium'}
+              title={colapsadoEfectivo ? 'Clic para expandir menú lateral' : 'Consorcio Voltium'}
             >
               <div className="vt-sb-logo-wrap">
                 <img
@@ -58,7 +61,7 @@ export default function Sidebar({
                   className="vt-sb-logo-img"
                 />
               </div>
-              {!colapsado && (
+              {!colapsadoEfectivo && (
                 <div className="vt-sb-titles">
                   <span className="vt-sb-title-corp">CONSORCIO</span>
                   <span className="vt-sb-title-name">VOLTIUM</span>
@@ -67,7 +70,7 @@ export default function Sidebar({
               )}
             </div>
 
-            {/* Botón para colapsar / expandir */}
+            {/* Botón para colapsar / expandir (solo en desktop) */}
             <button
               type="button"
               className="vt-sb-toggle-btn"
@@ -91,12 +94,26 @@ export default function Sidebar({
                 )}
               </svg>
             </button>
+
+            {/* Botón cerrar para móviles */}
+            <button
+              type="button"
+              className="vt-sb-mobile-close-btn"
+              onClick={() => setMenuMovilAbierto(false)}
+              title="Cerrar menú lateral"
+              aria-label="Cerrar menú lateral"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
           </div>
 
           {/* Menú de Módulos Principales */}
           <nav className="vt-sb-nav">
             <div className="vt-sb-group">
-              {!colapsado && (
+              {!colapsadoEfectivo && (
                 <span className="vt-sb-group-label">Módulos del Sistema</span>
               )}
 
@@ -105,7 +122,7 @@ export default function Sidebar({
                 type="button"
                 onClick={() => cambiarModulo('requerimientos')}
                 className={`vt-sb-item ${moduloActual === 'requerimientos' ? 'vt-sb-item-active' : ''}`}
-                title={colapsado ? 'Requerimientos (Dashboard y Auditoría)' : undefined}
+                title={colapsadoEfectivo ? 'Requerimientos (Dashboard y Auditoría)' : undefined}
               >
                 <div className="vt-sb-item-left">
                   <div className="vt-sb-item-icon">
@@ -115,14 +132,14 @@ export default function Sidebar({
                       <path d="M9 21V9" />
                     </svg>
                   </div>
-                  {!colapsado && (
+                  {!colapsadoEfectivo && (
                     <div className="vt-sb-item-text">
                       <span className="vt-sb-item-name">Requerimientos</span>
                       <span className="vt-sb-item-desc">Gestión, Dashboard & Auditoría</span>
                     </div>
                   )}
                 </div>
-                {!colapsado && conteoRequerimientos > 0 && (
+                {!colapsadoEfectivo && conteoRequerimientos > 0 && (
                   <span className="vt-sb-badge vt-sb-badge-count">{conteoRequerimientos}</span>
                 )}
               </button>
@@ -132,7 +149,7 @@ export default function Sidebar({
                 type="button"
                 onClick={() => cambiarModulo('cajachica')}
                 className={`vt-sb-item vt-sb-item-cash ${moduloActual === 'cajachica' ? 'vt-sb-item-active' : ''}`}
-                title={colapsado ? 'Caja Chica' : undefined}
+                title={colapsadoEfectivo ? 'Caja Chica' : undefined}
               >
                 <div className="vt-sb-item-left">
                   <div className="vt-sb-item-icon">
@@ -141,14 +158,14 @@ export default function Sidebar({
                       <line x1="2" y1="10" x2="22" y2="10" />
                     </svg>
                   </div>
-                  {!colapsado && (
+                  {!colapsadoEfectivo && (
                     <div className="vt-sb-item-text">
                       <span className="vt-sb-item-name">Caja Chica</span>
                       <span className="vt-sb-item-desc">Arqueo y rendiciones</span>
                     </div>
                   )}
                 </div>
-                {!colapsado && (
+                {!colapsadoEfectivo && (
                   <span className="vt-sb-badge vt-sb-badge-nuevo">NUEVO</span>
                 )}
               </button>
@@ -162,7 +179,7 @@ export default function Sidebar({
                 <div className={`vt-sb-user-avatar ${esDesarrollador ? 'dev' : ''}`}>
                   {usuario.email.charAt(0).toUpperCase()}
                 </div>
-                {!colapsado && (
+                {!colapsadoEfectivo && (
                   <div className="vt-sb-user-info">
                     <span className="vt-sb-user-email">{usuario.email}</span>
                     <span className={`vt-sb-user-role ${esDesarrollador ? 'dev' : ''}`}>
@@ -174,7 +191,7 @@ export default function Sidebar({
             )}
 
             {/* Firma de Autor / Desarrollador */}
-            {!colapsado ? (
+            {!colapsadoEfectivo ? (
               <div className="vt-sb-author-badge">
                 <span className="vt-sb-author-label">Desarrollado por</span>
                 <span className="vt-sb-author-name">Diego A. Tumba</span>

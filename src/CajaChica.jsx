@@ -96,23 +96,27 @@ export default function CajaChica() {
       {/* Cabecera Principal */}
       <header className="cc-header">
         <div className="cc-header-info">
-          <h2 className="cc-title">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#10b981' }}>
-              <rect width="20" height="14" x="2" y="5" rx="2" />
-              <line x1="2" y1="10" x2="22" y2="10" />
-            </svg>
-            <span>
+          <div className="cc-title-row">
+            <div className="cc-title-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <rect width="20" height="14" x="2" y="5" rx="2" />
+                <line x1="2" y1="10" x2="22" y2="10" />
+              </svg>
+            </div>
+            <h2 className="cc-title">
               {macroDivision === 'cajamarca'
                 ? 'Caja Chica Cajamarca'
                 : activa.titulo}
-            </span>
+            </h2>
+          </div>
+          <div className="cc-badges-row">
             <span className="cc-badge-live">
               {macroDivision === 'cajamarca' ? 'En Configuración' : 'Arqueo Activo'}
             </span>
             <span className="cc-badge-corp">
               {macroDivision === 'cajamarca' ? 'División Norte' : activa.sedeText}
             </span>
-          </h2>
+          </div>
           <p className="cc-desc">
             {macroDivision === 'cajamarca'
               ? 'Módulo de tesorería y rendición de gastos para las operaciones de la sede Cajamarca.'
@@ -210,11 +214,13 @@ export default function CajaChica() {
                 onClick={() => setSubCajaCusco('cusco')}
                 className={`cc-sub-btn ${subCajaCusco === 'cusco' ? 'active' : ''}`}
               >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                  <circle cx="12" cy="12" r="3" />
-                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-                </svg>
-                <span>Caja Chica Cusco</span>
+                <div className="cc-sub-btn-left">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                  </svg>
+                  <span>Caja Chica Cusco</span>
+                </div>
                 <span className="cc-sub-pill">Karen Colque</span>
               </button>
 
@@ -224,11 +230,13 @@ export default function CajaChica() {
                 onClick={() => setSubCajaCusco('anta')}
                 className={`cc-sub-btn ${subCajaCusco === 'anta' ? 'active' : ''}`}
               >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
-                <span>Caja Chica Anta</span>
+                <div className="cc-sub-btn-left">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                  <span>Caja Chica Anta</span>
+                </div>
                 <span className="cc-sub-pill">Yoel Quispe</span>
               </button>
 
@@ -238,13 +246,15 @@ export default function CajaChica() {
                 onClick={() => setSubCajaCusco('valle_sagrado')}
                 className={`cc-sub-btn ${subCajaCusco === 'valle_sagrado' ? 'active' : ''}`}
               >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                  <path d="M8 3v3a2 2 0 0 1-2 2H3" />
-                  <path d="M21 8h-3a2 2 0 0 1-2-2V3" />
-                  <path d="M3 16h3a2 2 0 0 1 2 2v3" />
-                  <path d="M16 21v-3a2 2 0 0 1 2-2h3" />
-                </svg>
-                <span>Caja Chica Valle Sagrado</span>
+                <div className="cc-sub-btn-left">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                    <path d="M8 3v3a2 2 0 0 1-2 2H3" />
+                    <path d="M21 8h-3a2 2 0 0 1-2-2V3" />
+                    <path d="M3 16h3a2 2 0 0 1 2 2v3" />
+                    <path d="M16 21v-3a2 2 0 0 1 2-2h3" />
+                  </svg>
+                  <span>Caja Chica Valle Sagrado</span>
+                </div>
                 <span className="cc-sub-pill">Cesar Yarin</span>
               </button>
             </div>
@@ -352,19 +362,20 @@ export default function CajaChica() {
               </div>
               <input
                 type="text"
+                className="cc-search-input"
                 placeholder="Buscar por beneficiario, placa o detalle..."
                 value={filtroTexto}
                 onChange={e => setFiltroTexto(e.target.value)}
-                style={{
-                  height: '34px',
-                  padding: '0 12px',
-                  border: '1px solid #cbd5e1',
-                  borderRadius: '8px',
-                  fontSize: '0.84rem',
-                  outline: 'none',
-                  width: '280px',
-                }}
               />
+            </div>
+
+            {/* Aviso táctil para móviles */}
+            <div className="cc-mobile-table-hint">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                <polyline points="13 17 18 12 13 7" />
+                <polyline points="6 17 11 12 6 7" />
+              </svg>
+              <span>Desliza la tabla hacia los lados para ver comprobantes, importes y saldos</span>
             </div>
 
             <div className="cc-table-wrap">
