@@ -24,10 +24,498 @@ const ultimosMovimientosAnta = [
 ]
 
 const ultimosMovimientosValleSagrado = [
-  { item: 1301, fecha: '2026-11-19', beneficiario: 'SERVICENTRO SAN CRISTOBAL', doc: 'FACTURA (F006-49410)', detalle: 'COMBUSTIBLE PARA PRUEBA CAMIONETA URUBAMBA', asiento: 'COMBUSTIBLE', ingreso: 0, egreso: 150, saldo: 2850.00, placa: 'VBL-915' },
-  { item: 428, fecha: '2026-08-13', beneficiario: 'JAIME CCALA', doc: 'YAPE', detalle: 'ENVIO DE ENCOMIENDA A URUBAMBA', asiento: 'ENCOMIENDA/FLETE', ingreso: 0, egreso: 7, saldo: 2843.00, placa: '' },
-  { item: 35, fecha: '2026-07-01', beneficiario: 'ALBERTO TUMBA', doc: 'YAPE', detalle: 'INSTALACION Y PLAN INTERNET OFICINA VALLE SAGRADO', asiento: 'SERVICIOS BASICOS', ingreso: 0, egreso: 169, saldo: 2674.00, placa: '' },
-  { item: 4, fecha: '2026-07-01', beneficiario: 'ALBERTO TUMBA', doc: 'YAPE', detalle: 'ALQUILER OFICINA VALLE SAGRADO', asiento: 'ALQUILER DE LOCAL', ingreso: 0, egreso: 600, saldo: 2074.00, placa: '' },
+  {
+    item: 694,
+    fecha: "2026-11-20",
+    beneficiario: "INVERSIONES YAHUARMAQUI SAC",
+    doc: "FACTURA (FA01-00030348)",
+    detalle: "COMBUSTIBLE PAUCARTAMBO",
+    asiento: "COMBUSTIBLE",
+    ingreso: 0,
+    egreso: 310,
+    saldo: -579.22,
+    placa: ""
+  },
+  {
+    item: 693,
+    fecha: "2026-11-20",
+    beneficiario: "CESAR YARIN",
+    doc: "EFECTIVO",
+    detalle: "ENVIO MATERIALES CORTE DE EMERGENCIA A PAUCARTAMBO",
+    asiento: "GASTOS ADMINISTRATIVOS",
+    ingreso: 0,
+    egreso: 8,
+    saldo: -269.22,
+    placa: ""
+  },
+  {
+    item: 692,
+    fecha: "2026-11-20",
+    beneficiario: "MARCELINA CALLAÑAUPA",
+    doc: "YAPE (1063786)",
+    detalle: "LAVADO DE CAMIONETA",
+    asiento: "GASTOS ADMINISTRATIVOS",
+    ingreso: 0,
+    egreso: 20,
+    saldo: -261.22,
+    placa: ""
+  },
+  {
+    item: 691,
+    fecha: "2026-11-20",
+    beneficiario: "ESTACION GALLITO DE LAS ROCAS EIRL",
+    doc: "FACTURA (F001-00005908)",
+    detalle: "COMBUSTIBLE MANU",
+    asiento: "COMBUSTIBLE",
+    ingreso: 0,
+    egreso: 300,
+    saldo: -241.22,
+    placa: "VAN-934"
+  },
+  {
+    item: 690,
+    fecha: "2026-11-20",
+    beneficiario: "ESTACION DE SERVICIOS DURAMAX",
+    doc: "FACTURA (F001-6561)",
+    detalle: "COMBUSTIBLE LARES",
+    asiento: "COMBUSTIBLE",
+    ingreso: 0,
+    egreso: 300,
+    saldo: 58.78,
+    placa: "X6G-747"
+  },
+  {
+    item: 689,
+    fecha: "2026-11-20",
+    beneficiario: "SERVICIOS MULTIPLES CARMELITAS SAC",
+    doc: "FACTURA (F001-00007828)",
+    detalle: "COMBUSTIBLE PAUCARTAMBO",
+    asiento: "COMBUSTIBLE",
+    ingreso: 0,
+    egreso: 445,
+    saldo: 358.78,
+    placa: "BMJ-828"
+  },
+  {
+    item: 688,
+    fecha: "2026-11-19",
+    beneficiario: "GRUPO TURISTICO PERU SAC",
+    doc: "FACTURA (FX01-00000398)",
+    detalle: "VIATICOS REUNION CASA ING JUAN AYTI",
+    asiento: "VIATICOS",
+    ingreso: 0,
+    egreso: 94,
+    saldo: 803.78,
+    placa: ""
+  },
+  {
+    item: 687,
+    fecha: "2026-11-19",
+    beneficiario: "INVERSIONES SAN JOSE URCO SCRL",
+    doc: "FACTURA (FP01-00004056)",
+    detalle: "COMBUSTIBLE CALCA",
+    asiento: "COMBUSTIBLE",
+    ingreso: 0,
+    egreso: 319.99,
+    saldo: 897.78,
+    placa: "X6L-818"
+  },
+  {
+    item: 686,
+    fecha: "2026-11-19",
+    beneficiario: "YUL A MEZA Q",
+    doc: "YAPE (1893906)",
+    detalle: "PAGO IDA Y VUELTA EN JACCAS",
+    asiento: "GASTOS ADMINISTRATIVOS",
+    ingreso: 0,
+    egreso: 20,
+    saldo: 1217.77,
+    placa: ""
+  },
+  {
+    item: 685,
+    fecha: "2026-11-19",
+    beneficiario: "LOAIZA PEÑA RUT NOEMI",
+    doc: "FACTURA (F001-00000491)",
+    detalle: "COMPRA DE MALLA DE ASIENTO PARA MOTO",
+    asiento: "GASTOS ADMINISTRATIVOS",
+    ingreso: 0,
+    egreso: 28,
+    saldo: 1237.77,
+    placa: "0610-VX"
+  },
+  {
+    item: 684,
+    fecha: "2026-11-18",
+    beneficiario: "CESAR YARIN",
+    doc: "EFECTIVO",
+    detalle: "REJODO DE PLANOS A0 Y PASAJES IDA Y VUELTA",
+    asiento: "GASTOS ADMINISTRATIVOS",
+    ingreso: 0,
+    egreso: 13,
+    saldo: 1265.77,
+    placa: ""
+  },
+  {
+    item: 683,
+    fecha: "2026-11-18",
+    beneficiario: "DIEGO TUMBA",
+    doc: "YAPE",
+    detalle: "ENVIO A URUBAMBA Y TAXIS IDA Y VUELTA",
+    asiento: "SUMINISTROS DE TRABAJO/EPPS",
+    ingreso: 0,
+    egreso: 49,
+    saldo: 1278.77,
+    placa: ""
+  },
+  {
+    item: 682,
+    fecha: "2026-11-18",
+    beneficiario: "MULTISERVICIOS VE MONKEY KING",
+    doc: "BOLETA (1489)",
+    detalle: "PLOTEOS A1 ALIMENTADORES VALLE SAGRADO",
+    asiento: "GASTOS ADMINISTRATIVOS",
+    ingreso: 0,
+    egreso: 91,
+    saldo: 1327.77,
+    placa: ""
+  },
+  {
+    item: 681,
+    fecha: "2026-11-18",
+    beneficiario: "CLARO",
+    doc: "YAPE (1096287)",
+    detalle: "PAGO INTERNET OFICINA URUBAMBA",
+    asiento: "GASTOS ADMINISTRATIVOS",
+    ingreso: 0,
+    egreso: 75.96,
+    saldo: 1418.77,
+    placa: ""
+  },
+  {
+    item: 680,
+    fecha: "2026-11-18",
+    beneficiario: "JIMMY TURPO",
+    doc: "YAPE (1076017)",
+    detalle: "DESAYUNO CUSCO",
+    asiento: "GASTOS ADMINISTRATIVOS",
+    ingreso: 0,
+    egreso: 20,
+    saldo: 1494.73,
+    placa: ""
+  },
+  {
+    item: 679,
+    fecha: "2026-11-18",
+    beneficiario: "HOSPEDAJE TERRA NUNA",
+    doc: "BOLETA (92)",
+    detalle: "ESTADIA CALCA / CAMIONETA SALIDA DE SALVACION",
+    asiento: "ALQUILER DE LOCAL",
+    ingreso: 0,
+    egreso: 40,
+    saldo: 1514.73,
+    placa: ""
+  },
+  {
+    item: 678,
+    fecha: "2026-11-18",
+    beneficiario: "ESTACION DURAMAX",
+    doc: "FACTURA (F001-6553)",
+    detalle: "COMBUSTIBLE LARES TRASLAPE CAMIONETA",
+    asiento: "COMBUSTIBLE",
+    ingreso: 0,
+    egreso: 200,
+    saldo: 1554.73,
+    placa: "BMJ-709"
+  },
+  {
+    item: 677,
+    fecha: "2026-11-18",
+    beneficiario: "JIMMY TURPO",
+    doc: "YAPE (6899650)",
+    detalle: "CENA TRAER CAMIONETA DE SALVACION",
+    asiento: "VIATICOS",
+    ingreso: 0,
+    egreso: 15,
+    saldo: 1754.73,
+    placa: ""
+  },
+  {
+    item: 676,
+    fecha: "2026-11-17",
+    beneficiario: "INGRESO A CAJA",
+    doc: "TRANSFERENCIA",
+    detalle: "REPOSICIÓN DE CAJA CHICA (CESAR YARIN)",
+    asiento: "INGRESO",
+    ingreso: 2000,
+    egreso: 0,
+    saldo: 1769.73,
+    placa: ""
+  },
+  {
+    item: 674,
+    fecha: "2026-11-17",
+    beneficiario: "ELECTRO SUR ESTE SAA",
+    doc: "FACTURA (496417)",
+    detalle: "PAGO DE LUZ OFICINA URUBAMBA",
+    asiento: "GASTOS ADMINISTRATIVOS",
+    ingreso: 0,
+    egreso: 68.8,
+    saldo: 19.73,
+    placa: ""
+  },
+  {
+    item: 671,
+    fecha: "2026-11-17",
+    beneficiario: "ALBERTO TUMBA",
+    doc: "YAPE (3626950)",
+    detalle: "PAGO STARLINK OCTUBRE",
+    asiento: "SUMINISTROS DE TRABAJO/EPPS",
+    ingreso: 0,
+    egreso: 400,
+    saldo: 88.63,
+    placa: ""
+  },
+  {
+    item: 670,
+    fecha: "2026-11-17",
+    beneficiario: "ESTACION GALLITO DE LAS ROCAS EIRL",
+    doc: "FACTURA (F001-00005891)",
+    detalle: "COMBUSTBLE CAMIONETA SALVACION TRASLAPE",
+    asiento: "COMBUSTIBLE",
+    ingreso: 0,
+    egreso: 320,
+    saldo: 488.63,
+    placa: "VAN-934"
+  },
+  {
+    item: 669,
+    fecha: "2026-11-17",
+    beneficiario: "ABRASA POLLERIA",
+    doc: "FACTURA (F001-000414)",
+    detalle: "ALMUERZO CON EL ING RAUL",
+    asiento: "VIATICOS",
+    ingreso: 0,
+    egreso: 100,
+    saldo: 808.63,
+    placa: ""
+  },
+  {
+    item: 668,
+    fecha: "2026-11-17",
+    beneficiario: "ESTACION GALLITO DE LAS ROCAS EIRL",
+    doc: "FACTURA (F001-00005890)",
+    detalle: "COMBUSTIBLE SALIDA DE CAMIONETA SALVACION",
+    asiento: "COMBUSTIBLE",
+    ingreso: 0,
+    egreso: 300,
+    saldo: 908.63,
+    placa: "BMJ-709"
+  },
+  {
+    item: 667,
+    fecha: "2026-11-17",
+    beneficiario: "MARCO HILLPA",
+    doc: "YAPE (492713)",
+    detalle: "PASAJES URUBAMBA",
+    asiento: "VIATICOS",
+    ingreso: 0,
+    egreso: 20,
+    saldo: 1208.63,
+    placa: ""
+  },
+  {
+    item: 666,
+    fecha: "2026-11-17",
+    beneficiario: "JOSE P ESPIRILLA S",
+    doc: "YAPE (1091389)",
+    detalle: "SOLDADURA CAMIONETA PAUCARTAMBO PORTA EXTINTOR ROTO",
+    asiento: "GASTOS ADMINISTRATIVOS",
+    ingreso: 0,
+    egreso: 20,
+    saldo: 1228.63,
+    placa: ""
+  },
+  {
+    item: 665,
+    fecha: "2026-11-17",
+    beneficiario: "INVERSIONES SAN JOSE DE URCO SRL",
+    doc: "FACTURA (FP01-00004008)",
+    detalle: "COMBUSTIBLE CALCA",
+    asiento: "COMBUSTIBLE",
+    ingreso: 0,
+    egreso: 340.04,
+    saldo: 1248.63,
+    placa: "X6L-818"
+  },
+  {
+    item: 664,
+    fecha: "2026-11-17",
+    beneficiario: "INVERSIONES ALFABAS SRL",
+    doc: "FACTURA (E001-618)",
+    detalle: "COMBUSTIBLE LARES",
+    asiento: "COMBUSTIBLE",
+    ingreso: 0,
+    egreso: 510.06,
+    saldo: 1588.67,
+    placa: "X6G-747"
+  },
+  {
+    item: 663,
+    fecha: "2026-11-17",
+    beneficiario: "INVERSIONES YAHUARMAQUI SAC",
+    doc: "FACTURA (FA01-00030247)",
+    detalle: "COMBUSTIBLE URUBAMBA",
+    asiento: "COMBUSTIBLE",
+    ingreso: 0,
+    egreso: 435,
+    saldo: 2098.73,
+    placa: "X5S-815"
+  },
+  {
+    item: 662,
+    fecha: "2026-11-16",
+    beneficiario: "CESAR YARIN",
+    doc: "EFECTIVO",
+    detalle: "ENVIO A PAUCARTAMBO DE 3 FOTOCELULAS/ 04 PARES DE GUANTES/ CINTAS",
+    asiento: "GASTOS ADMINISTRATIVOS",
+    ingreso: 0,
+    egreso: 9.5,
+    saldo: 2533.73,
+    placa: ""
+  },
+  {
+    item: 661,
+    fecha: "2026-11-16",
+    beneficiario: "CESAR YARIN",
+    doc: "TRANSFERENCIA",
+    detalle: "INGRESO A CAJA CHICA (REPOSICIÓN)",
+    asiento: "INGRESO",
+    ingreso: 2000,
+    egreso: 0,
+    saldo: 2543.23,
+    placa: ""
+  },
+  {
+    item: 660,
+    fecha: "2026-11-16",
+    beneficiario: "SERVICENTRO EMPRESARIAL ALEJANDROS SRL",
+    doc: "FACTURA (F001-00004518)",
+    detalle: "COMBUSTIBLE PAUCARTAMBO",
+    asiento: "COMBUSTIBLE",
+    ingreso: 0,
+    egreso: 380,
+    saldo: 543.23,
+    placa: "BMJ-828"
+  },
+  {
+    item: 659,
+    fecha: "2026-11-16",
+    beneficiario: "VENTA DE MATERIALES CARLITOS",
+    doc: "FACTURA (672)",
+    detalle: "COMPRA DE 10 PARES DE GUANTES",
+    asiento: "SUMINISTROS DE TRABAJO/EPPS",
+    ingreso: 0,
+    egreso: 80,
+    saldo: 923.23,
+    placa: ""
+  },
+  {
+    item: 658,
+    fecha: "2026-11-15",
+    beneficiario: "RAMCES OPERADOR LOGISTICO SAC",
+    doc: "FACTURA (FF02-6330)",
+    detalle: "COMBUSTIBLE PAUCARTAMBO",
+    asiento: "COMBUSTIBLE",
+    ingreso: 0,
+    egreso: 370,
+    saldo: 1003.23,
+    placa: "BMJ-828"
+  },
+  {
+    item: 657,
+    fecha: "2026-11-15",
+    beneficiario: "SERVICENTRO PETRO INKA",
+    doc: "FACTURA (F002-00017859)",
+    detalle: "COMBUSTIBLE URUBAMBA",
+    asiento: "COMBUSTIBLE",
+    ingreso: 0,
+    egreso: 300,
+    saldo: 1373.23,
+    placa: "X5S-815"
+  },
+  {
+    item: 656,
+    fecha: "2026-11-15",
+    beneficiario: "YUPANQUI HUAMAN LUZ CLARITA",
+    doc: "FACTURA (E001-124)",
+    detalle: "COMPRA DE CABLE Y FUNDA PUERTA CAMIONETA NO ABRE",
+    asiento: "GASTOS ADMINISTRATIVOS",
+    ingreso: 0,
+    egreso: 140,
+    saldo: 1673.23,
+    placa: "X5S-815"
+  },
+  {
+    item: 650,
+    fecha: "2026-11-14",
+    beneficiario: "INVERSIONES ALFABAS SRL",
+    doc: "FACTURA (E001-617)",
+    detalle: "COMBUSTIBLE LARES - OTOCANI HUALLA",
+    asiento: "COMBUSTIBLE",
+    ingreso: 0,
+    egreso: 400,
+    saldo: 2882.23,
+    placa: "X6G-747"
+  },
+  {
+    item: 647,
+    fecha: "2026-11-13",
+    beneficiario: "CESAR YARIN",
+    doc: "TRANSFERENCIA",
+    detalle: "INGRESO A CAJA CHICA (REPOSICIÓN)",
+    asiento: "INGRESO",
+    ingreso: 3000,
+    egreso: 0,
+    saldo: 3352.38,
+    placa: ""
+  },
+  {
+    item: 646,
+    fecha: "2026-11-13",
+    beneficiario: "INVERSIONES SAN JOSE URCO SCRL",
+    doc: "FACTURA (FP01-00003922)",
+    detalle: "COMBUSTIBLE CALCA",
+    asiento: "COMBUSTIBLE",
+    ingreso: 0,
+    egreso: 350,
+    saldo: 352.38,
+    placa: "X6L-818"
+  },
+  {
+    item: 644,
+    fecha: "2026-11-13",
+    beneficiario: "INVERCOMANU SCRL",
+    doc: "FACTURA (FB01-00001314)",
+    detalle: "COMBUSTIBLE SALVACION",
+    asiento: "COMBUSTIBLE",
+    ingreso: 0,
+    egreso: 370,
+    saldo: 832.38,
+    placa: "BMJ-709"
+  },
+  {
+    item: 642,
+    fecha: "2026-11-12",
+    beneficiario: "CESAR YARIN",
+    doc: "TRANSFERENCIA",
+    detalle: "INGRESO A CAJA CHICA (REPOSICIÓN)",
+    asiento: "INGRESO",
+    ingreso: 1000,
+    egreso: 0,
+    saldo: 1202.43,
+    placa: ""
+  }
 ]
 
 export default function CajaChica() {
@@ -66,12 +554,12 @@ export default function CajaChica() {
       sedeText: 'Anta',
     },
     valle_sagrado: {
-      titulo: 'Caja Chica Valle Sagrado (Sub-sede Urubamba)',
-      subtitulo: 'Operaciones Valle Sagrado, Urubamba, Calca y Lares (Encargado: Cesar Yarin)',
-      saldo: 3000.00,
-      ingresos: 3000.00,
-      egresos: 0.00,
-      movimientos: 62,
+      titulo: 'Caja Chica Valle Sagrado',
+      subtitulo: 'Operaciones Urubamba, Calca, Lares, Paucartambo, Salvación y Machupicchu (Encargado: Cesar Yarin)',
+      saldo: -711.22,
+      ingresos: 124429.00,
+      egresos: 125140.22,
+      movimientos: 699,
       items: ultimosMovimientosValleSagrado,
       responsable: 'Cesar Yarin',
       sedeText: 'Valle Sagrado',
@@ -290,13 +778,17 @@ export default function CajaChica() {
         <>
           {/* Tarjetas KPI de Estado Financiero de la Caja Seleccionada */}
           <section className="cc-kpis">
-            <div className="cc-kpi-card cc-kpi-saldo">
+            <div className={`cc-kpi-card cc-kpi-saldo ${activa.saldo < 0 ? 'cc-kpi-saldo-negativo' : ''}`}>
               <div>
-                <span className="cc-kpi-label">Saldo Disponible en Caja</span>
-                <span className="cc-kpi-val cc-kpi-val-green">{formatearSoles(activa.saldo)}</span>
+                <span className="cc-kpi-label">
+                  {activa.saldo < 0 ? 'Saldo en Contra (Reintegro Pendiente)' : 'Saldo Disponible en Caja'}
+                </span>
+                <span className={`cc-kpi-val ${activa.saldo < 0 ? 'cc-kpi-val-red' : 'cc-kpi-val-green'}`}>
+                  {formatearSoles(activa.saldo)}
+                </span>
                 <span className="cc-kpi-sub">{activa.titulo}</span>
               </div>
-              <div className="cc-kpi-icon cc-icon-emerald">
+              <div className={`cc-kpi-icon ${activa.saldo < 0 ? 'cc-icon-red' : 'cc-icon-emerald'}`}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
                   <rect width="20" height="14" x="2" y="5" rx="2" />
                   <line x1="2" y1="10" x2="22" y2="10" />
