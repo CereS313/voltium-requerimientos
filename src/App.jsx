@@ -386,7 +386,11 @@ export default function App() {
               </div>
             </header>
 
-            <CajaChica />
+            <CajaChica
+              usuario={usuario}
+              esDesarrollador={esDesarrollador}
+              registrarActividad={registrarActividad}
+            />
           </>
         ) : (
           <>
